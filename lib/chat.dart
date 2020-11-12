@@ -27,12 +27,14 @@ import 'package:positioned_tap_detector/positioned_tap_detector.dart';
 
 class WidgetChat extends StatefulWidget {
   String url;
+  String urlLogo;
+  String urlSound;
   Color baseColor;
   Color textColor;
   Color iconsColor;
   Color audioColor;
 
-  WidgetChat({this.baseColor, @required this.url, this.textColor, this.iconsColor, this.audioColor});
+  WidgetChat({this.baseColor, @required this.url, @required this.urlLogo, this.textColor, this.iconsColor, this.audioColor, this.urlSound});
 
   @override
   _WidgetChatState createState() => _WidgetChatState();
@@ -56,14 +58,20 @@ class _WidgetChatState extends State<WidgetChat> {
 
   bool historico = false;
 
+  var notificationSound = AudioPlayer();
+
   @override
   void initState() {
     super.initState();
     if (widget.baseColor != null) baseColor = widget.baseColor;
     if (widget.url != null) globalurl = widget.url;
+    if (widget.urlLogo != null) urlLogo = widget.urlLogo;
+    if (widget.urlSound != null) urlSound = widget.urlSound;
     if (widget.textColor != null) textColor = widget.textColor;
     if (widget.iconsColor != null) iconsColor = widget.iconsColor;
     if (widget.audioColor != null) audioColor = widget.audioColor;
+
+    notificationSound.setUrl(urlSound);
 
     meteor = MeteorClient.connect(
       url: "wss://${globalurl.replaceAll("https://", '')}/websocket",
@@ -198,6 +206,11 @@ class _WidgetChatState extends State<WidgetChat> {
           return StreamBuilder(
             stream: blocRooms.stream,
             builder: (context, snapshot) {
+              if (rooms != snapshot.data) {
+                notificationSound.seek(Duration.zero, index: 0);
+                notificationSound.pause();
+                notificationSound.play();
+              }
               rooms = snapshot.data;
               if (snapshot.hasData) {
                 if (waitingRooms == 0) {
@@ -210,7 +223,10 @@ class _WidgetChatState extends State<WidgetChat> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    if (!expandedChat) MiniChats(rooms),
+                    if (!expandedChat)
+                      MiniChats(rooms, () {
+                        setState(() {});
+                      }),
                     Card(
                       elevation: 5,
                       margin: EdgeInsets.symmetric(horizontal: 4),
@@ -230,7 +246,9 @@ class _WidgetChatState extends State<WidgetChat> {
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Expanded(
-                                                child: MiniChats(rooms),
+                                                child: MiniChats(rooms, () {
+                                                  setState(() {});
+                                                }),
                                               ),
                                               _buttons(),
                                             ],
@@ -712,6 +730,7 @@ class _WidgetChatState extends State<WidgetChat> {
                     ),
                     onPressed: () {
                       setState(() {
+                        fistChat = true;
                         chatActive = !chatActive;
                       });
                     },

@@ -8,8 +8,9 @@ import 'package:flutter/material.dart';
 
 class MiniChats extends StatefulWidget {
   List<Update> rooms;
+  Function funcaoT;
 
-  MiniChats(this.rooms);
+  MiniChats(this.rooms, this.funcaoT);
 
   @override
   _MiniChatsState createState() => _MiniChatsState();
@@ -99,6 +100,7 @@ class _MiniChatsState extends State<MiniChats> {
       onTap: () {
         setState(() {
           selectedRoom = index;
+          widget.funcaoT();
         });
         blocMensagens.add(null);
         loadRooms();
@@ -230,12 +232,34 @@ class _MiniChatsState extends State<MiniChats> {
 }
 
 loadRooms() async {
+  List<Update> preRooms;
   if (rocketUser != null) {
-    liveRooms = await RocketChatApi.getLiveRooms(rocketUser.data.userId, rocketUser.data.authToken);
-    waitingRooms = 0;
-    liveRooms.forEach((element) {
-      if (element.t == 'l') waitingRooms++;
-    });
-    blocRooms.add(liveRooms);
+    preRooms = await RocketChatApi.getLiveRooms(rocketUser.data.userId, rocketUser.data.authToken);
+    if (liveRooms == null ? true : checkLM(liveRooms, preRooms)) {
+      print("entrei");
+      liveRooms = preRooms;
+      waitingRooms = 0;
+      liveRooms.forEach((element) {
+        if (element.t == 'l') waitingRooms++;
+      });
+      blocRooms.add(liveRooms);
+    } else if (fistChat) {
+      blocRooms.add(preRooms);
+      fistChat = false;
+    }
+  }
+}
+
+checkLM(List<Update> nowLive, List<Update> newLive) {
+  if (nowLive.length != newLive.length) {
+    return true;
+  } else {
+    for (int k = 0; k < newLive.length; k++) {
+      if ((nowLive[k].lastMessage.ts.date != newLive[k].lastMessage.ts.date) && newLive[k].lastMessage.u.username.contains("guest")) {
+        nowLive = newLive;
+        return true;
+      }
+    }
+    return false;
   }
 }

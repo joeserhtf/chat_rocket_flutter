@@ -5,8 +5,9 @@ import 'package:dart_meteor_web/dart_meteor_web.dart';
 import 'package:flutter/material.dart';
 
 //Variavel Api
-String globalurl = "https://carajas.rocket.chat";
-String urlLogo = "https://carajas.rocket.chat/images/logo/logo.svg";
+String globalurl = "";
+String urlLogo = "";
+String urlSound = "";
 String globalRoomId;
 
 //Usuario logado
@@ -42,6 +43,7 @@ bool chatActive = false;
 bool expandedChat = false;
 bool agentOnline = true;
 bool showLoginForm = false;
+bool fistChat = true;
 int selectedRoom = 0;
 int waitingRooms = 0;
 

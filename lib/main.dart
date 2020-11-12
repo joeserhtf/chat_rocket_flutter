@@ -13,6 +13,8 @@ class MyApp extends StatelessWidget {
         backgroundColor: Colors.grey,
         floatingActionButton: WidgetChat(
           url: "https://carajas.rocket.chat",
+          urlLogo: "https://carajas.rocket.chat/images/logo/logo.svg",
+          urlSound: "https://carjas-s3-travel.s3.amazonaws.com/sac/assets/new_mensage.mp3",
         ),
       ),
     );
