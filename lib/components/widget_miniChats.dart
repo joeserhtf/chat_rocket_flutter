@@ -236,7 +236,6 @@ loadRooms() async {
   if (rocketUser != null) {
     preRooms = await RocketChatApi.getLiveRooms(rocketUser.data.userId, rocketUser.data.authToken);
     if (liveRooms == null ? true : checkLM(liveRooms, preRooms)) {
-      print("entrei");
       liveRooms = preRooms;
       waitingRooms = 0;
       liveRooms.forEach((element) {
