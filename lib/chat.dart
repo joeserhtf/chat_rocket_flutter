@@ -33,8 +33,17 @@ class WidgetChat extends StatefulWidget {
   Color textColor;
   Color iconsColor;
   Color audioColor;
+  Color iconButtonColor;
 
-  WidgetChat({this.baseColor, @required this.url, @required this.urlLogo, this.textColor, this.iconsColor, this.audioColor, this.urlSound});
+  WidgetChat(
+      {this.baseColor,
+      @required this.url,
+      @required this.urlLogo,
+      this.textColor,
+      this.iconsColor,
+      this.audioColor,
+      this.urlSound,
+      this.iconButtonColor});
 
   @override
   _WidgetChatState createState() => _WidgetChatState();
@@ -70,6 +79,7 @@ class _WidgetChatState extends State<WidgetChat> {
     if (widget.textColor != null) textColor = widget.textColor;
     if (widget.iconsColor != null) iconsColor = widget.iconsColor;
     if (widget.audioColor != null) audioColor = widget.audioColor;
+    if (widget.iconButtonColor != null) iconButtonColor = widget.iconButtonColor;
 
     notificationSound.setUrl(urlSound);
 
@@ -133,8 +143,11 @@ class _WidgetChatState extends State<WidgetChat> {
     return Align(
       alignment: Alignment.bottomRight,
       child: FloatingActionButton(
-        backgroundColor: buttonColor,
-        child: Icon(Icons.refresh),
+        backgroundColor: baseColor,
+        child: Icon(
+          Icons.refresh,
+          color: iconButtonColor,
+        ),
         onPressed: () {
           meteor.reconnect();
         },
@@ -146,8 +159,11 @@ class _WidgetChatState extends State<WidgetChat> {
     return Align(
       alignment: Alignment.bottomRight,
       child: FloatingActionButton(
-        backgroundColor: buttonColor,
-        child: Icon(MdiIcons.loginVariant),
+        backgroundColor: baseColor,
+        child: Icon(
+          MdiIcons.loginVariant,
+          color: iconButtonColor,
+        ),
         onPressed: () {
           setState(() {
             showLoginForm = true;
@@ -182,13 +198,16 @@ class _WidgetChatState extends State<WidgetChat> {
                     shape: BadgeShape.circle,
                     animationType: BadgeAnimationType.scale,
                     child: FloatingActionButton(
-                      backgroundColor: buttonColor,
+                      backgroundColor: baseColor,
                       onPressed: () async {
                         setState(() {
                           chatActive = !chatActive;
                         });
                       },
-                      child: Icon(MdiIcons.chat),
+                      child: Icon(
+                        MdiIcons.chat,
+                        color: iconButtonColor,
+                      ),
                     ),
                   ),
                 );
@@ -291,9 +310,12 @@ class _WidgetChatState extends State<WidgetChat> {
         animationType: BadgeAnimationType.scale,
         child: FloatingActionButton(
           tooltip: 'Nenhum Chat Ativo',
-          backgroundColor: buttonColor,
+          backgroundColor: baseColor,
           onPressed: () {},
-          child: Icon(MdiIcons.chat),
+          child: Icon(
+            MdiIcons.chat,
+            color: iconButtonColor,
+          ),
         ),
       ),
     );
@@ -1129,6 +1151,7 @@ class _WidgetChatState extends State<WidgetChat> {
                   return SeekBar(
                     duration: duration,
                     position: position,
+                    stateColor: audioColor,
                     onChangeEnd: (newPosition) {
                       player.seek(newPosition);
                       player.pause();
@@ -1162,7 +1185,7 @@ class _WidgetChatState extends State<WidgetChat> {
             iconSize: 15,
             elevation: 14,
             style: TextStyle(
-              color: iconsColor,
+              color: iconButtonColor,
               fontWeight: FontWeight.bold,
             ),
             onChanged: (Users value) {
@@ -1173,7 +1196,14 @@ class _WidgetChatState extends State<WidgetChat> {
             items: snapshot.data.map<DropdownMenuItem<Users>>((Users value) {
               return DropdownMenuItem<Users>(
                 value: value,
-                child: Center(child: Text(allWordsCapitilize(value.name))),
+                child: Center(
+                  child: Text(
+                    allWordsCapitilize(value.name),
+                    style: TextStyle(
+                      color: textColor,
+                    ),
+                  ),
+                ),
               );
             }).toList(),
           ),
@@ -1210,7 +1240,7 @@ class _WidgetChatState extends State<WidgetChat> {
             iconSize: 15,
             elevation: 14,
             style: TextStyle(
-              color: expandedChat ? Colors.white : iconsColor,
+              color: iconButtonColor,
               fontWeight: FontWeight.bold,
             ),
             onChanged: (Departments value) {
@@ -1222,7 +1252,14 @@ class _WidgetChatState extends State<WidgetChat> {
               if (value.enabled)
                 return DropdownMenuItem<Departments>(
                   value: value,
-                  child: Center(child: Text(allWordsCapitilize(value.name))),
+                  child: Center(
+                    child: Text(
+                      allWordsCapitilize(value.name),
+                      style: TextStyle(
+                        color: textColor,
+                      ),
+                    ),
+                  ),
                 );
               return null;
             }).toList(),
@@ -1515,7 +1552,7 @@ class _WidgetChatState extends State<WidgetChat> {
                             height: 24,
                           ),
                           RaisedButton(
-                            color: buttonColor,
+                            color: baseColor,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8),
                               child: Text(

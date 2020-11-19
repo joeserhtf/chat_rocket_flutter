@@ -22,7 +22,7 @@ class _MiniChatsState extends State<MiniChats> {
 
   @override
   Widget build(BuildContext context) {
-    print('Rebuild mini');
+    //print('Rebuild mini');
     return Container(
       width: expandedChat ? null : widthChatBox,
       child: Stack(

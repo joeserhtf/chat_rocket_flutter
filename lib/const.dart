@@ -34,6 +34,7 @@ Color textColor = Color(0xff203152).withOpacity(0.7);
 Color iconsColor = Color(0xff203152).withOpacity(0.7);
 Color buttonColor = Colors.blue[700].withOpacity(0.7);
 Color audioColor = Colors.blue[700].withOpacity(0.75);
+Color iconButtonColor = Colors.white;
 
 //Color primaryColor = Color(0xff203152).withOpacity(0.7);
 Color greyColor = Color(0xffaeaeae);
