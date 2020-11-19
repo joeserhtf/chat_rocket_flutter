@@ -22,15 +22,20 @@ mediaQuery(BuildContext context, double value) {
   return result;
 }
 
-textInputForm(context, String label, String hint,
-    {bool obscureText = false,
-    TextEditingController controller,
-    bool obscure = false,
-    FocusNode focus,
-    TextInputAction action,
-    Function done,
-    Function next,
-    bool auto = false}) {
+textInputForm(
+  context,
+  String label,
+  String hint, {
+  bool obscureText = false,
+  TextEditingController controller,
+  bool obscure = false,
+  FocusNode focus,
+  TextInputAction action,
+  Function done,
+  Function next,
+  bool auto = false,
+  Color colorInput = Colors.blue,
+}) {
   return TextFormField(
     controller: controller,
     focusNode: focus,
@@ -40,6 +45,7 @@ textInputForm(context, String label, String hint,
     decoration: InputDecoration(
       labelText: label,
       hintText: hint,
+      focusColor: colorInput,
     ),
     onEditingComplete: done,
     onFieldSubmitted: next,

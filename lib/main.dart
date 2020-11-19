@@ -11,6 +11,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.grey,
+        body: Center(
+          child: RaisedButton(
+            child: Text("Enviaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
+            onPressed: () {
+              ChatActions.sendMessage('Hey you');
+            },
+          ),
+        ),
         floatingActionButton: WidgetChat(
           url: "https://carajas.rocket.chat",
           urlLogo: "https://carajas.rocket.chat/images/logo/logo.svg",

@@ -2,6 +2,7 @@ import 'dart:async';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_rocket_flutter/classes/class_agents.dart';
@@ -201,6 +202,7 @@ class _WidgetChatState extends State<WidgetChat> {
                       backgroundColor: baseColor,
                       onPressed: () async {
                         setState(() {
+                          fistChat = true;
                           chatActive = !chatActive;
                         });
                       },
@@ -1530,6 +1532,7 @@ class _WidgetChatState extends State<WidgetChat> {
                             auto: true,
                             focus: _userFocus,
                             action: TextInputAction.go,
+                            colorInput: baseColor,
                             next: (term) {
                               fieldFocusChange(context, _userFocus, _passwordFocus);
                             },
@@ -1542,6 +1545,7 @@ class _WidgetChatState extends State<WidgetChat> {
                               controller: _passworChatController,
                               obscure: true,
                               focus: _passwordFocus,
+                              colorInput: baseColor,
                               action: TextInputAction.done, done: () {
                             if (_formValidator.currentState.validate()) {
                               _formValidator.currentState.save();
@@ -1582,5 +1586,25 @@ class _WidgetChatState extends State<WidgetChat> {
         ),
       ),
     );
+  }
+}
+
+class ChatActions {
+  static Future<void> sendMessage(String text) async {
+    if (chatActive) {
+      await RocketChatApi.sendMessage(rooms[selectedRoom].sId ?? '', text);
+    }
+  }
+
+  static sendFile(Uint8List file, String fileName, String fileType) {
+    if (chatActive) {
+      RocketChatApi.uploadFile(file, rooms[selectedRoom].sId ?? '', fileName, fileType);
+    }
+  }
+
+  static void sendAudio(Uint8List audio) {
+    if (chatActive) {
+      RocketChatApi.uploadAudio(audio, rooms[selectedRoom].sId ?? '', 'Audio record.mp3');
+    }
   }
 }
