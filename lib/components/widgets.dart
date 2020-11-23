@@ -68,10 +68,11 @@ fieldFocusChange(BuildContext context, FocusNode currentFocus, FocusNode nextFoc
 
 copyText(String text, {Color corText = Colors.black}) {
   TextEditingController _text = TextEditingController(text: text);
-  return TextFormField(
+  return TextField(
       controller: _text,
       readOnly: true,
       enableInteractiveSelection: false,
+      maxLines: null,
       decoration: InputDecoration(
         border: InputBorder.none,
         focusedBorder: InputBorder.none,
