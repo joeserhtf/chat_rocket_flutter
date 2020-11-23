@@ -1,3 +1,4 @@
+import 'package:chat_rocket_flutter/const.dart';
 import 'package:flutter/material.dart';
 
 String allWordsCapitilize(String str) {
@@ -63,4 +64,25 @@ textInputForm(
 fieldFocusChange(BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
   currentFocus.unfocus();
   FocusScope.of(context).requestFocus(nextFocus);
+}
+
+copyText(String text, {Color corText = Colors.black}) {
+  TextEditingController _text = TextEditingController(text: text);
+  return TextFormField(
+      controller: _text,
+      readOnly: true,
+      enableInteractiveSelection: false,
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        focusedBorder: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        errorBorder: InputBorder.none,
+        disabledBorder: InputBorder.none,
+        isCollapsed: true,
+        isDense: true,
+        focusColor: baseColor,
+      ),
+      style: TextStyle(
+        color: corText,
+      ));
 }

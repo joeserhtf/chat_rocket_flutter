@@ -833,10 +833,7 @@ class _WidgetChatState extends State<WidgetChat> {
                                   ),
                                   url: "$globalurl${mensage.attachments[0].titleLink}?download",
                                 )
-                      : Text(
-                          mensagem,
-                          style: TextStyle(color: textColor),
-                        ),
+                      : copyText(mensagem, corText: textColor),
                   padding: EdgeInsets.all(10),
                   width: sizeChatMensagens,
                   decoration: BoxDecoration(color: greyColor2, borderRadius: BorderRadius.circular(8.0)),
@@ -937,12 +934,7 @@ class _WidgetChatState extends State<WidgetChat> {
                                   url: "${mensagem.replaceAll("]", '')}",
                                   //onError: _onErrorCallback
                                 )
-                      : Text(
-                          mensagem,
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
+                      : copyText(mensagem, corText: Colors.white),
                   padding: EdgeInsets.all(10),
                   width: sizeChatMensagens,
                   decoration: BoxDecoration(
@@ -1336,10 +1328,7 @@ class _WidgetChatState extends State<WidgetChat> {
                                   ),
                                   url: "$globalurl${mensage.attachments[0].titleLink}?download",
                                 )
-                      : Text(
-                          mensagem,
-                          style: TextStyle(color: textColor),
-                        ),
+                      : copyText(mensagem, corText: textColor),
                   padding: EdgeInsets.all(10),
                   width: /*sizeChatMensagens*/ 200,
                   decoration: BoxDecoration(color: greyColor2, borderRadius: BorderRadius.circular(8.0)),
@@ -1440,12 +1429,7 @@ class _WidgetChatState extends State<WidgetChat> {
                                   url: "${mensagem.replaceAll("]", '')}",
                                   //onError: _onErrorCallback
                                 )
-                      : Text(
-                          mensagem,
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
+                      : copyText(mensagem, corText: textColor),
                   padding: EdgeInsets.all(10),
                   width: /*sizeChatMensagens*/ 200,
                   decoration: BoxDecoration(
