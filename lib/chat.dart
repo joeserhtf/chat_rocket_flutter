@@ -124,9 +124,9 @@ class _WidgetChatState extends State<WidgetChat> {
                   } else {
                     if (rocketUser.data != null) {
                       subscriptionHandler = meteor.subscribe('stream-notify-user', ["${rocketUser.data.userId}/rooms-changed", false]);
-                      subscriptionHandler = meteor.subscribe('stream-room-messages', ["__my_messages__", false]);
                     }
                   }
+                  subscriptionHandler = meteor.subscribe('stream-room-messages', ["__my_messages__", false]);
                   return chatActive ? _chat() : _minimizedChat();
                 }
                 return showLoginForm ? _formLogin() : _loginButton();
@@ -1590,5 +1590,9 @@ class ChatActions {
     if (chatActive) {
       RocketChatApi.uploadAudio(audio, rooms[selectedRoom].sId ?? '', 'Audio record.mp3');
     }
+  }
+
+  static void reAtiveChat(Uint8List audio) {
+    fistChat = true;
   }
 }
