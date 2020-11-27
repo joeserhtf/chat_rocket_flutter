@@ -254,7 +254,7 @@ checkLM(List<Update> nowLive, List<Update> newLive) {
     return true;
   } else {
     for (int k = 0; k < newLive.length; k++) {
-      if ((nowLive[k].lastMessage.ts.date != newLive[k].lastMessage.ts.date) && newLive[k].lastMessage.u.username.contains("guest")) {
+      if ((nowLive[k].lastMessage.sId != newLive[k].lastMessage.sId) && newLive[k].lastMessage.u.username.contains("guest")) {
         nowLive = newLive;
         return true;
       }

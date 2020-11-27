@@ -24,6 +24,7 @@ import 'package:intl/intl.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:link/link.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:positioned_tap_detector/positioned_tap_detector.dart';
 
 class WidgetChat extends StatefulWidget {
@@ -227,13 +228,28 @@ class _WidgetChatState extends State<WidgetChat> {
           return StreamBuilder(
             stream: blocRooms.stream,
             builder: (context, snapshot) {
-              if (rooms != snapshot.data) {
-                notificationSound.seek(Duration.zero, index: 0);
-                notificationSound.pause();
-                notificationSound.play();
+              print(rooms != snapshot.data);
+              if (playNotifier && snapshot.hasData) {
+                for (int n = 0; n < rooms.length; n++) {
+                  if (snapshot.data.length == rooms.length) {
+                    if ((rooms[n].lastMessage.sId != snapshot.data[n].lastMessage.sId) &&
+                        rooms[n].lastMessage.alias != rooms[n].servedBy.username) {
+                      notificationSound.seek(Duration.zero, index: 0);
+                      notificationSound.pause();
+                      notificationSound.play();
+                      break;
+                    }
+                  } else if (snapshot.data.length > rooms.length) {
+                    notificationSound.seek(Duration.zero, index: 0);
+                    notificationSound.pause();
+                    notificationSound.play();
+                    break;
+                  }
+                }
               }
               rooms = snapshot.data;
               if (snapshot.hasData) {
+                playNotifier = true;
                 if (waitingRooms == 0) {
                   return _noRoomButton();
                 }
@@ -246,7 +262,9 @@ class _WidgetChatState extends State<WidgetChat> {
                   children: [
                     if (!expandedChat)
                       MiniChats(rooms, () {
-                        setState(() {});
+                        setState(() {
+                          playNotifier = false;
+                        });
                       }),
                     Card(
                       elevation: 5,
@@ -755,6 +773,7 @@ class _WidgetChatState extends State<WidgetChat> {
                     onPressed: () {
                       setState(() {
                         fistChat = true;
+                        playNotifier = false;
                         chatActive = !chatActive;
                       });
                     },
@@ -797,46 +816,57 @@ class _WidgetChatState extends State<WidgetChat> {
             ),
             Row(
               children: <Widget>[
-                Container(
-                  child: (mensage.attachments != null ? mensage.attachments.isNotEmpty : false)
-                      ? mensage.file.type.contains("image")
-                          ? Stack(
-                              children: [
-                                CachedNetworkImage(
-                                  imageUrl: "$globalurl${mensage.attachments[0].titleLink}",
-                                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                      CircularProgressIndicator(value: downloadProgress.progress),
-                                  errorWidget: (context, url, error) => Icon(Icons.error),
-                                ),
-                                Positioned(
-                                  top: 8,
-                                  right: 8,
-                                  child: Link(
-                                    child: Icon(
-                                      MdiIcons.cloudDownloadOutline,
-                                      color: iconsColor,
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: sizeChatMensagens,
+                  ),
+                  child: Container(
+                    child: (mensage.attachments != null ? mensage.attachments.isNotEmpty : false)
+                        ? mensage.file.type.contains("image")
+                            ? Stack(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      _showImageZoom("$globalurl${mensage.attachments[0].titleLink}");
+                                    },
+                                    child: CachedNetworkImage(
+                                      imageUrl: "$globalurl${mensage.attachments[0].titleLink}",
+                                      progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                          CircularProgressIndicator(value: downloadProgress.progress),
+                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                                      width: 200,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 8,
+                                    right: 8,
+                                    child: Link(
+                                      child: Icon(
+                                        MdiIcons.cloudDownloadOutline,
+                                        color: iconsColor,
+                                      ),
+                                      url: "$globalurl${mensage.attachments[0].titleLink}?download",
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : mensage.file.type.contains("audio")
+                                ? _playAudio(index, "$globalurl${mensage.attachments[0].titleLink}")
+                                : Link(
+                                    child: Text(
+                                      mensage.attachments[0].title,
+                                      style: TextStyle(
+                                        color: Colors.blueAccent,
+                                        decoration: TextDecoration.underline,
+                                      ),
                                     ),
                                     url: "$globalurl${mensage.attachments[0].titleLink}?download",
-                                  ),
-                                ),
-                              ],
-                            )
-                          : mensage.file.type.contains("audio")
-                              ? _playAudio(index, "$globalurl${mensage.attachments[0].titleLink}")
-                              : Link(
-                                  child: Text(
-                                    mensage.attachments[0].title,
-                                    style: TextStyle(
-                                      color: Colors.blueAccent,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                  url: "$globalurl${mensage.attachments[0].titleLink}?download",
-                                )
-                      : copyText(mensagem, corText: textColor),
-                  padding: EdgeInsets.all(10),
-                  width: sizeChatMensagens,
-                  decoration: BoxDecoration(color: greyColor2, borderRadius: BorderRadius.circular(8.0)),
+                                  )
+                        : copyText(mensagem, corText: textColor),
+                    padding: EdgeInsets.all(10),
+                    //width: sizeChatMensagens,
+                    decoration: BoxDecoration(color: greyColor2, borderRadius: BorderRadius.circular(8.0)),
+                  ),
                 )
               ],
               mainAxisAlignment: MainAxisAlignment.end,
@@ -893,55 +923,66 @@ class _WidgetChatState extends State<WidgetChat> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                Container(
-                  child: mensage.urls != null && !mensagem.contains("Log:")
-                      ? (mensage.urls[mensage.urls.length - 1].headers == null
-                              ? false
-                              : mensage.urls[mensage.urls.length - 1].headers.contentType.contains("image"))
-                          ? Stack(
-                              children: [
-                                CachedNetworkImage(
-                                  imageUrl: "${mensagem.replaceAll("]", '')}",
-                                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                      CircularProgressIndicator(value: downloadProgress.progress),
-                                  errorWidget: (context, url, error) => Icon(Icons.error),
-                                ),
-                                Positioned(
-                                  top: 8,
-                                  right: 8,
-                                  child: Link(
-                                    child: Icon(
-                                      MdiIcons.cloudDownloadOutline,
-                                      color: iconsColor,
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: sizeChatMensagens,
+                  ),
+                  child: Container(
+                    child: mensage.urls != null && !mensagem.contains("Log:")
+                        ? (mensage.urls[mensage.urls.length - 1].headers == null
+                                ? false
+                                : mensage.urls[mensage.urls.length - 1].headers.contentType.contains("image"))
+                            ? Stack(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      _showImageZoom("${mensagem.replaceAll("]", '')}");
+                                    },
+                                    child: CachedNetworkImage(
+                                      imageUrl: "${mensagem.replaceAll("]", '')}",
+                                      progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                          CircularProgressIndicator(value: downloadProgress.progress),
+                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                                      width: 200,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 8,
+                                    right: 8,
+                                    child: Link(
+                                      child: Icon(
+                                        MdiIcons.cloudDownloadOutline,
+                                        color: iconsColor,
+                                      ),
+                                      url: "${mensagem.replaceAll("]", '')}",
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : (mensage.urls[mensage.urls.length - 1].headers == null
+                                    ? false
+                                    : mensage.urls[mensage.urls.length - 1].headers.contentType.contains("audio"))
+                                ? _playAudio(index, "${mensagem.replaceAll("]", '')}")
+                                : Link(
+                                    child: Text(
+                                      mensagem.replaceAll("\n", "").replaceAll("]", ""),
+                                      style: TextStyle(
+                                        color: Colors.blueAccent,
+                                        decoration: TextDecoration.underline,
+                                      ),
                                     ),
                                     url: "${mensagem.replaceAll("]", '')}",
-                                  ),
-                                ),
-                              ],
-                            )
-                          : (mensage.urls[mensage.urls.length - 1].headers == null
-                                  ? false
-                                  : mensage.urls[mensage.urls.length - 1].headers.contentType.contains("audio"))
-                              ? _playAudio(index, "${mensagem.replaceAll("]", '')}")
-                              : Link(
-                                  child: Text(
-                                    mensagem.replaceAll("\n", "").replaceAll("]", ""),
-                                    style: TextStyle(
-                                      color: Colors.blueAccent,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                  url: "${mensagem.replaceAll("]", '')}",
-                                  //onError: _onErrorCallback
-                                )
-                      : copyText(mensagem, corText: Colors.white),
-                  padding: EdgeInsets.all(10),
-                  width: sizeChatMensagens,
-                  decoration: BoxDecoration(
-                    color: baseColor,
-                    borderRadius: BorderRadius.circular(8.0),
+                                    //onError: _onErrorCallback
+                                  )
+                        : copyText(mensagem, corText: Colors.white),
+                    padding: EdgeInsets.all(10),
+                    //width: sizeChatMensagens,
+                    decoration: BoxDecoration(
+                      color: baseColor,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    margin: EdgeInsets.only(left: 8.0),
                   ),
-                  margin: EdgeInsets.only(left: 8.0),
                 )
               ],
             ),
@@ -1297,11 +1338,17 @@ class _WidgetChatState extends State<WidgetChat> {
                       ? mensage.file.type.contains("image")
                           ? Stack(
                               children: [
-                                CachedNetworkImage(
-                                  imageUrl: "$globalurl${mensage.attachments[0].titleLink}",
-                                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                      CircularProgressIndicator(value: downloadProgress.progress),
-                                  errorWidget: (context, url, error) => Icon(Icons.error),
+                                GestureDetector(
+                                  onTap: () {
+                                    _showImageZoom("$globalurl${mensage.attachments[0].titleLink}");
+                                  },
+                                  child: CachedNetworkImage(
+                                    imageUrl: "$globalurl${mensage.attachments[0].titleLink}",
+                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                        CircularProgressIndicator(value: downloadProgress.progress),
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                    width: 200,
+                                  ),
                                 ),
                                 Positioned(
                                   top: 8,
@@ -1360,32 +1407,37 @@ class _WidgetChatState extends State<WidgetChat> {
                   width: expandedChat ? 45 : 30.0,
                   height: expandedChat ? 45 : 30.0,
                   margin: EdgeInsets.only(left: 8),
-                  child: CachedNetworkImage(
-                    placeholder: (context, url) => Container(
-                      child: CircularProgressIndicator(),
-                      padding: EdgeInsets.all(10.0),
-                    ),
-                    errorWidget: (context, url, error) => Container(
-                      width: 30,
-                      height: 30,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(16),
-                        ),
-                        color: Color((multiplicadorCor(rooms[selectedRoom].sId, rooms[selectedRoom].departmentId) * 0xFFFFFF).toInt())
-                            .withOpacity(1.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      _showImageZoom("");
+                    },
+                    child: CachedNetworkImage(
+                      placeholder: (context, url) => Container(
+                        child: CircularProgressIndicator(),
+                        padding: EdgeInsets.all(10.0),
                       ),
-                      child: Text(
-                        '${(name == null || name == '') ? '' : name.substring(0, 1)}',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      errorWidget: (context, url, error) => Container(
+                        width: 30,
+                        height: 30,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(16),
+                          ),
+                          color: Color((multiplicadorCor(rooms[selectedRoom].sId, rooms[selectedRoom].departmentId) * 0xFFFFFF).toInt())
+                              .withOpacity(1.0),
+                        ),
+                        child: Text(
+                          '${(name == null || name == '') ? '' : name.substring(0, 1)}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
+                      imageUrl: "",
+                      fit: BoxFit.cover,
                     ),
-                    imageUrl: "",
-                    fit: BoxFit.cover,
                   ),
                 ),
                 Container(
@@ -1395,11 +1447,17 @@ class _WidgetChatState extends State<WidgetChat> {
                               : mensage.urls[mensage.urls.length - 1].headers.contentType.contains("image"))
                           ? Stack(
                               children: [
-                                CachedNetworkImage(
-                                  imageUrl: "${mensagem.replaceAll("]", '')}",
-                                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                      CircularProgressIndicator(value: downloadProgress.progress),
-                                  errorWidget: (context, url, error) => Icon(Icons.error),
+                                GestureDetector(
+                                  onTap: () {
+                                    _showImageZoom("${mensagem.replaceAll("]", '')}");
+                                  },
+                                  child: CachedNetworkImage(
+                                    imageUrl: "${mensagem.replaceAll("]", '')}",
+                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                        CircularProgressIndicator(value: downloadProgress.progress),
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                    width: 200,
+                                  ),
                                 ),
                                 Positioned(
                                   top: 8,
@@ -1571,6 +1629,42 @@ class _WidgetChatState extends State<WidgetChat> {
       ),
     );
   }
+
+  void _showImageZoom(String s) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          content: Container(
+            width: MediaQuery.of(context).size.width - 16,
+            height: MediaQuery.of(context).size.height - 16,
+            child: Stack(
+              children: [
+                PhotoView(
+                  imageProvider: NetworkImage(s),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Icons.close,
+                      ),
+                      color: iconsColor,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
 
 class ChatActions {
@@ -1592,7 +1686,11 @@ class ChatActions {
     }
   }
 
-  static void reAtiveChat(Uint8List audio) {
+  static void reAtiveChat() {
     fistChat = true;
+  }
+
+  static void unableNotifier(Uint8List audio) {
+    playNotifier = false;
   }
 }

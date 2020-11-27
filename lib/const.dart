@@ -40,6 +40,7 @@ Color iconButtonColor = Colors.white;
 Color greyColor = Color(0xffaeaeae);
 Color greyColor2 = Color(0xffE8E8E8);
 
+bool playNotifier = false;
 bool chatActive = false;
 bool expandedChat = false;
 bool agentOnline = true;
