@@ -228,8 +228,7 @@ class _WidgetChatState extends State<WidgetChat> {
           return StreamBuilder(
             stream: blocRooms.stream,
             builder: (context, snapshot) {
-              print(rooms != snapshot.data);
-              if (playNotifier && snapshot.hasData) {
+              if (playNotifier && snapshot.hasData && (snapshot.data != null)) {
                 for (int n = 0; n < rooms.length; n++) {
                   if (snapshot.data.length == rooms.length) {
                     if ((rooms[n].lastMessage.sId != snapshot.data[n].lastMessage.sId) &&

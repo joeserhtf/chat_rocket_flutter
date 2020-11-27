@@ -63,7 +63,7 @@ class RocketChatApi {
       return liveRooms;
     } catch (error) {
       print(error);
-      return null;
+      return [];
     }
   }
 
