@@ -224,29 +224,34 @@ class _WidgetChatState extends State<WidgetChat> {
       child: StreamBuilder(
         stream: meteor.collections['stream-room-messages'],
         builder: (context, snapshot) {
-          loadRooms();
+          loadRooms(data: snapshot.data);
           return StreamBuilder(
             stream: blocRooms.stream,
             builder: (context, snapshot) {
-              if (playNotifier && snapshot.hasData && (snapshot.data != null)) {
-                for (int n = 0; n < rooms.length; n++) {
-                  if (snapshot.data.length == rooms.length) {
-                    if ((rooms[n].lastMessage.sId != snapshot.data[n].lastMessage.sId) &&
-                        rooms[n].lastMessage.alias != rooms[n].servedBy.username) {
+              if (playNotifier && snapshot.hasData) {
+                if (rooms != null) {
+                  for (int n = 0; n < rooms.length; n++) {
+                    if (snapshot.data.length == rooms.length) {
+                      if ((rooms[n].lastMessage.sId != snapshot.data[n].lastMessage.sId) &&
+                          rooms[n].lastMessage.alias != rooms[n].servedBy.username) {
+                        notificationSound.seek(Duration.zero, index: 0);
+                        notificationSound.pause();
+                        notificationSound.play();
+                        break;
+                      }
+                    } else if (snapshot.data.length > rooms.length) {
                       notificationSound.seek(Duration.zero, index: 0);
                       notificationSound.pause();
                       notificationSound.play();
                       break;
                     }
-                  } else if (snapshot.data.length > rooms.length) {
-                    notificationSound.seek(Duration.zero, index: 0);
-                    notificationSound.pause();
-                    notificationSound.play();
-                    break;
                   }
                 }
               }
-              rooms = snapshot.data;
+              if (snapshot.hasData) {
+                rooms = snapshot.data;
+              }
+
               if (snapshot.hasData) {
                 playNotifier = true;
                 if (waitingRooms == 0) {
@@ -352,8 +357,8 @@ class _WidgetChatState extends State<WidgetChat> {
               return StreamBuilder(
                 stream: blocMensagens.stream,
                 builder: (context, snapshot) {
-                  ClassMensagem mensagens = snapshot.data;
                   if (snapshot.hasData) {
+                    ClassMensagem mensagens = snapshot.data;
                     return ListView.builder(
                       itemCount: mensagens.messages.length,
                       reverse: true,

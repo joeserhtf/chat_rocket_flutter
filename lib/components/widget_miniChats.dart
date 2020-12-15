@@ -231,7 +231,7 @@ class _MiniChatsState extends State<MiniChats> {
   }
 }
 
-loadRooms() async {
+loadRooms({data = ''}) async {
   List<Update> preRooms;
   if (rocketUser != null) {
     preRooms = await RocketChatApi.getLiveRooms(rocketUser.data.userId, rocketUser.data.authToken);
@@ -245,6 +245,8 @@ loadRooms() async {
     } else if (fistChat) {
       blocRooms.add(preRooms);
       fistChat = false;
+    } else if (data == null) {
+      blocRooms.add(preRooms);
     }
   }
 }
