@@ -41,6 +41,9 @@ class _PageTestState extends State<PageTest> {
                 print(a);
               }),
         ],
+        onTransfer: (a){
+          print('as');
+        },
       ),
     );
   }

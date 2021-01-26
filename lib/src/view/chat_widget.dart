@@ -1256,8 +1256,9 @@ class _WidgetChatState extends State<WidgetChat> {
   }
 
   _closeRoom() async {
-    if (widget.onClose != null)
-      await widget.onClose(
+    bool isConfirmed = true;
+    if (widget.onClose != null) {
+      isConfirmed = await widget.onClose(
         CallbackData(
           roomId: rooms[selectedRoom]?.sId ?? "",
           number: "",
@@ -1269,19 +1270,25 @@ class _WidgetChatState extends State<WidgetChat> {
           guestId: "",
         ),
       );
-    await RocketChatApi.closeRoom(
-      rooms[selectedRoom].sId,
-      rooms[selectedRoom].v.token,
-    );
-    await loadRooms();
-    setState(() {
-      selectedRoom = 0;
-    });
+    }
+    if (isConfirmed ?? true) {
+      await RocketChatApi.closeRoom(
+        rooms[selectedRoom].sId,
+        rooms[selectedRoom].v.token,
+      );
+      await loadRooms();
+      setState(() {
+        selectedRoom = 0;
+      });
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   _chatTransfer() async {
-    if (widget.onTransfer != null)
-      await widget.onTransfer(
+    bool isConfirmed = true;
+    if (widget.onTransfer != null) {
+      isConfirmed = await widget.onTransfer(
         CallbackData(
           roomId: rooms[selectedRoom]?.sId ?? "",
           number: "",
@@ -1293,17 +1300,22 @@ class _WidgetChatState extends State<WidgetChat> {
           guestId: "",
         ),
       );
-    await RocketChatApi.transferRoom(
-      rooms[selectedRoom].sId,
-      destinyAgents.sId,
-      department: '',
-    );
-    await loadRooms();
-    setState(() {
-      transferring = false;
-      destinyAgents = null;
-      selectedRoom = 0;
-    });
+    }
+    if (isConfirmed ?? true) {
+      await RocketChatApi.transferRoom(
+        rooms[selectedRoom].sId,
+        destinyAgents.sId,
+        department: '',
+      );
+      await loadRooms();
+      setState(() {
+        transferring = false;
+        destinyAgents = null;
+        selectedRoom = 0;
+      });
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   _playAudio(int index, String url) {
