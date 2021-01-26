@@ -1,5 +1,6 @@
 class CallbackData {
   String roomId;
+  String contactName;
   String agentName;
   String destinyAgentName;
   String department;
@@ -11,6 +12,7 @@ class CallbackData {
 
   CallbackData({
     this.roomId = "",
+    this.contactName = "",
     this.agentName = "",
     this.destinyAgentName = "",
     this.department = "",

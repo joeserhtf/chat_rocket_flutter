@@ -1261,6 +1261,7 @@ class _WidgetChatState extends State<WidgetChat> {
       isConfirmed = await widget.onClose(
         CallbackData(
           roomId: rooms[selectedRoom]?.sId ?? "",
+          contactName: rooms[selectedRoom]?.fName ?? "Contato",
           number: "",
           token: rooms[selectedRoom]?.v?.token ?? "",
           agentName: rooms[selectedRoom]?.servedBy?.username ?? "",
@@ -1289,6 +1290,7 @@ class _WidgetChatState extends State<WidgetChat> {
       isConfirmed = await widget.onTransfer(
         CallbackData(
           roomId: rooms[selectedRoom]?.sId ?? "",
+          contactName: rooms[selectedRoom]?.fName ?? "Contato",
           number: "",
           token: rooms[selectedRoom]?.v?.token ?? "",
           agentName: rooms[selectedRoom]?.servedBy?.username ?? "",
@@ -1954,6 +1956,7 @@ class _WidgetChatState extends State<WidgetChat> {
                 e.function(
                   CallbackData(
                     roomId: rooms[selectedRoom]?.sId ?? "",
+                    contactName: rooms[selectedRoom]?.fName ?? "Contato",
                     number: "",
                     token: rooms[selectedRoom]?.v?.token ?? "",
                     agentName: rooms[selectedRoom]?.servedBy?.username ?? "",
@@ -1999,6 +2002,7 @@ class _WidgetChatState extends State<WidgetChat> {
           await widget.onUpdate(
             CallbackData(
               roomId: rooms[selectedRoom]?.sId ?? "",
+              contactName: rooms[selectedRoom]?.fName ?? "Contato",
               number:
                   guestInfo?.visitor?.liveChatData?.whatsApp?.substring(2) ??
                       "",
