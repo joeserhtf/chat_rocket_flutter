@@ -1256,18 +1256,19 @@ class _WidgetChatState extends State<WidgetChat> {
   }
 
   _closeRoom() async {
-    await widget.onClose(
-      CallbackData(
-        roomId: rooms[selectedRoom]?.sId ?? "",
-        number: "",
-        token: rooms[selectedRoom]?.v?.token ?? "",
-        agentName: rooms[selectedRoom]?.servedBy?.username == null ?? "",
-        department: rooms[selectedRoom]?.departmentId ?? "",
-        destinyAgentName: destinyAgents?.username ?? "",
-        destinyDepartment: department?.sId ?? "",
-        guestId: "",
-      ),
-    );
+    if (widget.onClose != null)
+      await widget.onClose(
+        CallbackData(
+          roomId: rooms[selectedRoom]?.sId ?? "",
+          number: "",
+          token: rooms[selectedRoom]?.v?.token ?? "",
+          agentName: rooms[selectedRoom]?.servedBy?.username ?? "",
+          department: rooms[selectedRoom]?.departmentId ?? "",
+          destinyAgentName: destinyAgents?.username ?? "",
+          destinyDepartment: department?.sId ?? "",
+          guestId: "",
+        ),
+      );
     await RocketChatApi.closeRoom(
       rooms[selectedRoom].sId,
       rooms[selectedRoom].v.token,
@@ -1279,18 +1280,19 @@ class _WidgetChatState extends State<WidgetChat> {
   }
 
   _chatTransfer() async {
-    await widget.onTransfer(
-      CallbackData(
-        roomId: rooms[selectedRoom]?.sId ?? "",
-        number: "",
-        token: rooms[selectedRoom]?.v?.token ?? "",
-        agentName: rooms[selectedRoom]?.servedBy?.username == null ?? "",
-        department: rooms[selectedRoom]?.departmentId ?? "",
-        destinyAgentName: destinyAgents?.username ?? "",
-        destinyDepartment: department?.sId ?? "",
-        guestId: "",
-      ),
-    );
+    if (widget.onTransfer != null)
+      await widget.onTransfer(
+        CallbackData(
+          roomId: rooms[selectedRoom]?.sId ?? "",
+          number: "",
+          token: rooms[selectedRoom]?.v?.token ?? "",
+          agentName: rooms[selectedRoom]?.servedBy?.username ?? "",
+          department: rooms[selectedRoom]?.departmentId ?? "",
+          destinyAgentName: destinyAgents?.username ?? "",
+          destinyDepartment: department?.sId ?? "",
+          guestId: "",
+        ),
+      );
     await RocketChatApi.transferRoom(
       rooms[selectedRoom].sId,
       destinyAgents.sId,
@@ -1944,14 +1946,14 @@ class _WidgetChatState extends State<WidgetChat> {
                     roomId: rooms[selectedRoom]?.sId ?? "",
                     number: "",
                     token: rooms[selectedRoom]?.v?.token ?? "",
-                    agentName:
-                        rooms[selectedRoom]?.servedBy?.username == null ?? "",
+                    agentName: rooms[selectedRoom]?.servedBy?.username ?? "",
                     department: rooms[selectedRoom]?.departmentId ?? "",
                     destinyAgentName: destinyAgents?.username ?? "",
                     destinyDepartment: department?.sId ?? "",
                     guestId: "",
                   ),
                 );
+                Navigator.pop(context);
               },
               title: Text(e.name),
             ),
@@ -1965,19 +1967,21 @@ class _WidgetChatState extends State<WidgetChat> {
       globalRooms = rooms;
       for (int k = 0; k < rooms.length; k++) {
         Guest guestInfo = await RocketChatApi.getDataGuest(rooms[k].v.token);
-        await widget.onUpdate(
-          CallbackData(
-            roomId: rooms[selectedRoom]?.sId ?? "",
-            number:
-                guestInfo?.visitor?.liveChatData?.whatsApp?.substring(2) ?? "",
-            token: rooms[selectedRoom]?.v?.token ?? "",
-            agentName: rooms[selectedRoom]?.servedBy?.username == null ?? "",
-            department: rooms[selectedRoom]?.departmentId ?? "",
-            destinyAgentName: destinyAgents?.username ?? "",
-            destinyDepartment: department?.sId ?? "",
-            guestId: guestInfo?.visitor?.sId ?? "",
-          ),
-        );
+        if (widget.onUpdate != null)
+          await widget.onUpdate(
+            CallbackData(
+              roomId: rooms[selectedRoom]?.sId ?? "",
+              number:
+                  guestInfo?.visitor?.liveChatData?.whatsApp?.substring(2) ??
+                      "",
+              token: rooms[selectedRoom]?.v?.token ?? "",
+              agentName: rooms[selectedRoom]?.servedBy?.username ?? "",
+              department: rooms[selectedRoom]?.departmentId ?? "",
+              destinyAgentName: destinyAgents?.username ?? "",
+              destinyDepartment: department?.sId ?? "",
+              guestId: guestInfo?.visitor?.sId ?? "",
+            ),
+          );
       }
     }
   }
