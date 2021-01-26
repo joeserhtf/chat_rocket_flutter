@@ -1280,8 +1280,6 @@ class _WidgetChatState extends State<WidgetChat> {
       setState(() {
         selectedRoom = 0;
       });
-    } else {
-      Navigator.pop(context);
     }
   }
 
