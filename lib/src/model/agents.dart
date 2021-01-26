@@ -5,13 +5,19 @@ class AgentsOnline {
   int total;
   bool success;
 
-  AgentsOnline({this.users, this.count, this.offset, this.total, this.success});
+  AgentsOnline({
+    this.users,
+    this.count,
+    this.offset,
+    this.total,
+    this.success,
+  });
 
   AgentsOnline.fromJson(Map<String, dynamic> json) {
     if (json['users'] != null) {
-      users = new List<Users>();
+      users = List<Users>();
       json['users'].forEach((v) {
-        users.add(new Users.fromJson(v));
+        users.add(Users.fromJson(v));
       });
     }
     count = json['count'];
@@ -21,7 +27,7 @@ class AgentsOnline {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.users != null) {
       data['users'] = this.users.map((v) => v.toJson()).toList();
     }
@@ -39,28 +45,38 @@ class Users {
   String status;
   String name;
   String username;
-  String statusLivechat;
-  Livechat livechat;
+  String statusLiveChat;
+  LiveChat liveChat;
 
-  Users({this.sId, this.emails, this.status, this.name, this.username, this.statusLivechat, this.livechat});
+  Users({
+    this.sId,
+    this.emails,
+    this.status,
+    this.name,
+    this.username,
+    this.statusLiveChat,
+    this.liveChat,
+  });
 
   Users.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     if (json['emails'] != null) {
-      emails = new List<Emails>();
+      emails = List<Emails>();
       json['emails'].forEach((v) {
-        emails.add(new Emails.fromJson(v));
+        emails.add(Emails.fromJson(v));
       });
     }
     status = json['status'];
     name = json['name'];
     username = json['username'];
-    statusLivechat = json['statusLivechat'];
-    livechat = json['livechat'] != null ? new Livechat.fromJson(json['livechat']) : null;
+    statusLiveChat = json['statusLivechat'];
+    liveChat = json['livechat'] != null
+        ? LiveChat.fromJson(json['livechat'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     if (this.emails != null) {
       data['emails'] = this.emails.map((v) => v.toJson()).toList();
@@ -68,9 +84,9 @@ class Users {
     data['status'] = this.status;
     data['name'] = this.name;
     data['username'] = this.username;
-    data['statusLivechat'] = this.statusLivechat;
-    if (this.livechat != null) {
-      data['livechat'] = this.livechat.toJson();
+    data['statusLivechat'] = this.statusLiveChat;
+    if (this.liveChat != null) {
+      data['livechat'] = this.liveChat.toJson();
     }
     return data;
   }
@@ -80,7 +96,10 @@ class Emails {
   String address;
   bool verified;
 
-  Emails({this.address, this.verified});
+  Emails({
+    this.address,
+    this.verified,
+  });
 
   Emails.fromJson(Map<String, dynamic> json) {
     address = json['address'];
@@ -88,24 +107,26 @@ class Emails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['address'] = this.address;
     data['verified'] = this.verified;
     return data;
   }
 }
 
-class Livechat {
+class LiveChat {
   String maxNumberSimultaneousChat;
 
-  Livechat({this.maxNumberSimultaneousChat});
+  LiveChat({
+    this.maxNumberSimultaneousChat,
+  });
 
-  Livechat.fromJson(Map<String, dynamic> json) {
+  LiveChat.fromJson(Map<String, dynamic> json) {
     maxNumberSimultaneousChat = json['maxNumberSimultaneousChat'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['maxNumberSimultaneousChat'] = this.maxNumberSimultaneousChat;
     return data;
   }

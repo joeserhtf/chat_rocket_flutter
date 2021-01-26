@@ -2,15 +2,19 @@ class Guest {
   Visitor visitor;
   bool success;
 
-  Guest({this.visitor, this.success});
+  Guest({
+    this.visitor,
+    this.success,
+  });
 
   Guest.fromJson(Map<String, dynamic> json) {
-    visitor = json['visitor'] != null ? new Visitor.fromJson(json['visitor']) : null;
+    visitor =
+        json['visitor'] != null ? Visitor.fromJson(json['visitor']) : null;
     success = json['success'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.visitor != null) {
       data['visitor'] = this.visitor.toJson();
     }
@@ -26,10 +30,19 @@ class Visitor {
   String department;
   String name;
   String token;
-  LivechatData livechatData;
+  LiveChatData liveChatData;
   List<Phone> phone;
 
-  Visitor({this.sId, this.username, this.sUpdatedAt, this.department, this.name, this.token, this.livechatData, this.phone});
+  Visitor({
+    this.sId,
+    this.username,
+    this.sUpdatedAt,
+    this.department,
+    this.name,
+    this.token,
+    this.liveChatData,
+    this.phone,
+  });
 
   Visitor.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -38,25 +51,27 @@ class Visitor {
     department = json['department'];
     name = json['name'];
     token = json['token'];
-    livechatData = json['livechatData'] != null ? new LivechatData.fromJson(json['livechatData']) : null;
+    liveChatData = json['livechatData'] != null
+        ? LiveChatData.fromJson(json['livechatData'])
+        : null;
     if (json['phone'] != null) {
-      phone = new List<Phone>();
+      phone = List<Phone>();
       json['phone'].forEach((v) {
-        phone.add(new Phone.fromJson(v));
+        phone.add(Phone.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['username'] = this.username;
     data['_updatedAt'] = this.sUpdatedAt;
     data['department'] = this.department;
     data['name'] = this.name;
     data['token'] = this.token;
-    if (this.livechatData != null) {
-      data['livechatData'] = this.livechatData.toJson();
+    if (this.liveChatData != null) {
+      data['livechatData'] = this.liveChatData.toJson();
     }
     if (this.phone != null) {
       data['phone'] = this.phone.map((v) => v.toJson()).toList();
@@ -65,21 +80,24 @@ class Visitor {
   }
 }
 
-class LivechatData {
+class LiveChatData {
   String orgId;
-  String whatsapp;
+  String whatsApp;
 
-  LivechatData({this.orgId, this.whatsapp});
+  LiveChatData({
+    this.orgId,
+    this.whatsApp,
+  });
 
-  LivechatData.fromJson(Map<String, dynamic> json) {
+  LiveChatData.fromJson(Map<String, dynamic> json) {
     orgId = json['orgId'];
-    whatsapp = json['whatsapp'];
+    whatsApp = json['whatsapp'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['orgId'] = this.orgId;
-    data['whatsapp'] = this.whatsapp;
+    data['whatsapp'] = this.whatsApp;
     return data;
   }
 }
@@ -87,14 +105,16 @@ class LivechatData {
 class Phone {
   String phoneNumber;
 
-  Phone({this.phoneNumber});
+  Phone({
+    this.phoneNumber,
+  });
 
   Phone.fromJson(Map<String, dynamic> json) {
     phoneNumber = json['phoneNumber'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['phoneNumber'] = this.phoneNumber;
     return data;
   }

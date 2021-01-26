@@ -1,5 +1,5 @@
-import 'package:chat_rocket_flutter/components/chat_api.dart';
 import 'package:chat_rocket_flutter/const.dart';
+import 'package:chat_rocket_flutter/src/controller/chat_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker_web/file_picker_web.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -79,7 +79,7 @@ class _InputBarState extends State<InputBar> {
           Visibility(
             visible: recording,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.symmetric(horizontal: 8),
               child: Row(
                 children: [
                   StreamBuilder<int>(
@@ -89,7 +89,7 @@ class _InputBarState extends State<InputBar> {
                       final value = snap.data;
                       return Text(
                         value.toString().padLeft(2, '0') + ":",
-                        style: const TextStyle(fontSize: 18, fontFamily: 'Helvetica', fontWeight: FontWeight.w600),
+                        style: TextStyle(fontSize: 18, fontFamily: 'Helvetica', fontWeight: FontWeight.w600),
                       );
                     },
                   ),
@@ -142,7 +142,7 @@ class _InputBarState extends State<InputBar> {
                     var pickfile = await FilePicker.getMultiFile();
                     if (pickfile.isNotEmpty) {
                       pickfile.forEach((element) async {
-                        var r = new html.FileReader();
+                        var r = html.FileReader();
                         r.readAsArrayBuffer(element.slice());
                         r.onLoadEnd.listen((e) {
                           var data = r.result;
@@ -226,11 +226,11 @@ class _InputBarState extends State<InputBar> {
     try {
       await microphoneRecorder.stop();
       final recordingUrl = microphoneRecorder.value.recording.url;
-      var request = new html.HttpRequest();
+      var request = html.HttpRequest();
       request.responseType = "blob";
       request.open('GET', '$recordingUrl');
       request.onLoad.listen((event) {
-        var r = new html.FileReader();
+        var r = html.FileReader();
         r.readAsArrayBuffer(request.response.slice());
         r.onLoadEnd.listen((e) {
           var data = r.result;

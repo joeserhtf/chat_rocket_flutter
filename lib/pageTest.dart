@@ -1,5 +1,6 @@
-import 'package:chat_rocket_flutter/chat.dart';
 import 'package:flutter/material.dart';
+
+import 'chat.dart';
 
 class PageTest extends StatefulWidget {
   @override
@@ -25,13 +26,20 @@ class _PageTestState extends State<PageTest> {
         ),
       ),
       floatingActionButton: WidgetChat(
-        url: "https://carajas.rocket.chat",
-        urlLogo: "https://carajas.rocket.chat/images/logo/logo.svg",
-        urlSound: "https://carjas-s3-travel.s3.amazonaws.com/sac/assets/new_mensage.mp3",
+        url: "",
+        urlLogo: "",
+        urlSound: "",
         iconsColor: Colors.orange[600],
         baseColor: Colors.orange[600],
         audioColor: Colors.orange,
         textColor: Colors.black,
+        options: [
+          ChatOption(
+              name: "Test",
+              function: (a) {
+                print(a);
+              }),
+        ],
       ),
     );
   }

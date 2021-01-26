@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'package:chat_rocket_flutter/classes/class_login.dart';
-import 'package:chat_rocket_flutter/classes/class_socketRoom.dart';
 import 'package:dart_meteor_web/dart_meteor_web.dart';
 import 'package:flutter/material.dart';
+
+import 'src/model/login.dart';
+import 'src/model/socket_room.dart';
 
 //Variavel Api
 String globalurl = "";
@@ -18,6 +19,7 @@ LoginClass rocketUser;
 SubscriptionHandler subscriptionHandler;
 List<Update> rooms;
 List<Update> liveRooms;
+List<Update> globalRooms;
 
 //Blocs
 StreamController blocRooms = StreamController<dynamic>.broadcast();

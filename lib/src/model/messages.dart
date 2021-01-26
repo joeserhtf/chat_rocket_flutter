@@ -1,21 +1,24 @@
-class ClassMensagem {
+class Message {
   List<Messages> messages;
   dynamic unreadNotLoaded;
 
-  ClassMensagem({this.messages, this.unreadNotLoaded});
+  Message({
+    this.messages,
+    this.unreadNotLoaded,
+  });
 
-  ClassMensagem.fromJson(Map<String, dynamic> json) {
+  Message.fromJson(Map<String, dynamic> json) {
     if (json['messages'] != null) {
-      messages = new List<Messages>();
+      messages = List<Messages>();
       json['messages'].forEach((v) {
-        messages.add(new Messages.fromJson(v));
+        messages.add(Messages.fromJson(v));
       });
     }
     unreadNotLoaded = json['unreadNotLoaded'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.messages != null) {
       data['messages'] = this.messages.map((v) => v.toJson()).toList();
     }
@@ -27,7 +30,7 @@ class ClassMensagem {
 class Messages {
   String sId;
   String rid;
-  String msg;
+  String message;
   String token;
   String alias;
   Ts ts;
@@ -41,56 +44,60 @@ class Messages {
   String t;
   TransferData transferData;
 
-  Messages(
-      {this.sId,
-      this.rid,
-      this.msg,
-      this.token,
-      this.alias,
-      this.ts,
-      this.u,
-      this.tUpdatedAt,
-      this.urls,
-      this.file,
-      this.groupable,
-      this.attachments,
-      this.parseUrls,
-      this.t,
-      this.transferData});
+  Messages({
+    this.sId,
+    this.rid,
+    this.message,
+    this.token,
+    this.alias,
+    this.ts,
+    this.u,
+    this.tUpdatedAt,
+    this.urls,
+    this.file,
+    this.groupable,
+    this.attachments,
+    this.parseUrls,
+    this.t,
+    this.transferData,
+  });
 
   Messages.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     rid = json['rid'];
-    msg = json['msg'];
+    message = json['msg'];
     token = json['token'];
     alias = json['alias'];
-    ts = json['ts'] != null ? new Ts.fromJson(json['ts']) : null;
-    u = json['u'] != null ? new U.fromJson(json['u']) : null;
-    tUpdatedAt = json['_updatedAt'] != null ? new Ts.fromJson(json['_updatedAt']) : null;
+    ts = json['ts'] != null ? Ts.fromJson(json['ts']) : null;
+    u = json['u'] != null ? U.fromJson(json['u']) : null;
+    tUpdatedAt =
+        json['_updatedAt'] != null ? Ts.fromJson(json['_updatedAt']) : null;
     if (json['urls'] != null) {
-      urls = new List<Urls>();
+      urls = List<Urls>();
       json['urls'].forEach((v) {
-        urls.add(new Urls.fromJson(v));
+        urls.add(Urls.fromJson(v));
       });
     }
-    file = json['file'] != null ? new File.fromJson(json['file']) : null;
+    file = json['file'] != null ? File.fromJson(json['file']) : null;
     groupable = json['groupable'];
     if (json['attachments'] != null) {
-      attachments = new List<Attachments>();
+      attachments = List<Attachments>();
       json['attachments'].forEach((v) {
-        attachments.add(new Attachments.fromJson(v));
+        attachments.add(Attachments.fromJson(v));
       });
     }
     parseUrls = json['parseUrls'];
     t = json['t'];
-    transferData = json['transferData'] != null ? new TransferData.fromJson(json['transferData']) : null;
+    transferData = json['transferData'] != null
+        ? TransferData.fromJson(json['transferData'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['rid'] = this.rid;
-    data['msg'] = this.msg;
+    data['msg'] = this.message;
     data['token'] = this.token;
     data['alias'] = this.alias;
     if (this.ts != null) {
@@ -124,14 +131,16 @@ class Messages {
 class Ts {
   dynamic date;
 
-  Ts({this.date});
+  Ts({
+    this.date,
+  });
 
   Ts.fromJson(Map<String, dynamic> json) {
     date = json['\$date'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['\$date'] = this.date;
     return data;
   }
@@ -142,7 +151,11 @@ class U {
   String username;
   String name;
 
-  U({this.sId, this.username, this.name});
+  U({
+    this.sId,
+    this.username,
+    this.name,
+  });
 
   U.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -151,7 +164,7 @@ class U {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['username'] = this.username;
     data['name'] = this.name;
@@ -164,16 +177,23 @@ class Urls {
   Headers headers;
   ParsedUrl parsedUrl;
 
-  Urls({this.url, this.headers, this.parsedUrl});
+  Urls({
+    this.url,
+    this.headers,
+    this.parsedUrl,
+  });
 
   Urls.fromJson(Map<String, dynamic> json) {
     url = json['url'];
-    headers = json['headers'] != null ? new Headers.fromJson(json['headers']) : null;
-    parsedUrl = json['parsedUrl'] != null ? new ParsedUrl.fromJson(json['parsedUrl']) : null;
+    headers =
+        json['headers'] != null ? Headers.fromJson(json['headers']) : null;
+    parsedUrl = json['parsedUrl'] != null
+        ? ParsedUrl.fromJson(json['parsedUrl'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['url'] = this.url;
     if (this.headers != null) {
       data['headers'] = this.headers.toJson();
@@ -189,7 +209,10 @@ class Headers {
   String contentType;
   dynamic contentLength;
 
-  Headers({this.contentType, this.contentLength});
+  Headers({
+    this.contentType,
+    this.contentLength,
+  });
 
   Headers.fromJson(Map<String, dynamic> json) {
     contentType = json['contentType'];
@@ -197,7 +220,7 @@ class Headers {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['contentType'] = this.contentType;
     data['contentLength'] = this.contentLength;
     return data;
@@ -214,7 +237,16 @@ class ParsedUrl {
   dynamic search;
   String hostname;
 
-  ParsedUrl({this.host, this.hash, this.pathname, this.protocol, this.port, this.query, this.search, this.hostname});
+  ParsedUrl({
+    this.host,
+    this.hash,
+    this.pathname,
+    this.protocol,
+    this.port,
+    this.query,
+    this.search,
+    this.hostname,
+  });
 
   ParsedUrl.fromJson(Map<String, dynamic> json) {
     host = json['host'];
@@ -228,7 +260,7 @@ class ParsedUrl {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['host'] = this.host;
     data['hash'] = this.hash;
     data['pathname'] = this.pathname;
@@ -246,7 +278,11 @@ class File {
   String name;
   String type;
 
-  File({this.sId, this.name, this.type});
+  File({
+    this.sId,
+    this.name,
+    this.type,
+  });
 
   File.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -255,7 +291,7 @@ class File {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
     data['type'] = this.type;
@@ -273,7 +309,16 @@ class Attachments {
   dynamic audioSize;
   String type;
 
-  Attachments({this.ts, this.title, this.titleLink, this.titleLinkDownload, this.audioUrl, this.audioType, this.audioSize, this.type});
+  Attachments({
+    this.ts,
+    this.title,
+    this.titleLink,
+    this.titleLinkDownload,
+    this.audioUrl,
+    this.audioType,
+    this.audioSize,
+    this.type,
+  });
 
   Attachments.fromJson(Map<String, dynamic> json) {
     ts = json['ts'];
@@ -287,7 +332,7 @@ class Attachments {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['ts'] = this.ts;
     data['title'] = this.title;
     data['title_link'] = this.titleLink;
@@ -308,19 +353,30 @@ class TransferData {
   String previousDepartment;
   U transferredTo;
 
-  TransferData({this.transferredBy, this.ts, this.scope, this.comment, this.previousDepartment, this.transferredTo});
+  TransferData({
+    this.transferredBy,
+    this.ts,
+    this.scope,
+    this.comment,
+    this.previousDepartment,
+    this.transferredTo,
+  });
 
   TransferData.fromJson(Map<String, dynamic> json) {
-    transferredBy = json['transferredBy'] != null ? new TransferredBy.fromJson(json['transferredBy']) : null;
-    ts = json['ts'] != null ? new Ts.fromJson(json['ts']) : null;
+    transferredBy = json['transferredBy'] != null
+        ? TransferredBy.fromJson(json['transferredBy'])
+        : null;
+    ts = json['ts'] != null ? Ts.fromJson(json['ts']) : null;
     scope = json['scope'];
     comment = json['comment'];
     previousDepartment = json['previousDepartment'];
-    transferredTo = json['transferredTo'] != null ? new U.fromJson(json['transferredTo']) : null;
+    transferredTo = json['transferredTo'] != null
+        ? U.fromJson(json['transferredTo'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.transferredBy != null) {
       data['transferredBy'] = this.transferredBy.toJson();
     }
@@ -343,7 +399,12 @@ class TransferredBy {
   String name;
   String type;
 
-  TransferredBy({this.sId, this.username, this.name, this.type});
+  TransferredBy({
+    this.sId,
+    this.username,
+    this.name,
+    this.type,
+  });
 
   TransferredBy.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -353,7 +414,7 @@ class TransferredBy {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['username'] = this.username;
     data['name'] = this.name;

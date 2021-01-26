@@ -1,9 +1,9 @@
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_rocket_flutter/classes/class_socketRoom.dart';
-import 'package:chat_rocket_flutter/components/chat_api.dart';
-import 'package:chat_rocket_flutter/components/widgets.dart';
 import 'package:chat_rocket_flutter/const.dart';
+import 'package:chat_rocket_flutter/src/controller/chat_controller.dart';
+import 'package:chat_rocket_flutter/src/model/socket_room.dart';
+import 'package:chat_rocket_flutter/src/view/widgets.dart';
 import 'package:flutter/material.dart';
 
 class MiniChats extends StatefulWidget {
@@ -18,7 +18,7 @@ class MiniChats extends StatefulWidget {
 
 class _MiniChatsState extends State<MiniChats> {
   List<Widget> miniRooms = [];
-  ScrollController _controller = new ScrollController();
+  ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class _MiniChatsState extends State<MiniChats> {
                 child: InkWell(
                   onTap: () {
                     _controller.animateTo((_controller.position.pixels + 50),
-                        duration: const Duration(milliseconds: 200), curve: Curves.easeOut);
+                        duration: Duration(milliseconds: 200), curve: Curves.easeOut);
                   },
                   child: Icon(
                     Icons.arrow_forward_ios,
@@ -155,7 +155,7 @@ class _MiniChatsState extends State<MiniChats> {
                           color: Color((multiplicadorCor(sala.sId, sala.departmentId) * 0xFFFFFF).toInt()).withOpacity(1.0),
                         ),
                         child: Text(
-                          '${sala == null ? '' : sala.fname.substring(0, 1)}',
+                          '${sala == null ? '' : sala.fName.substring(0, 1)}',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
@@ -189,7 +189,7 @@ class _MiniChatsState extends State<MiniChats> {
               Container(),
               Center(
                 child: Text(
-                  allWordsCapitilize(sala.fname).split(' ')[0],
+                  allWordsCapitilize(sala.fName).split(' ')[0],
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: selecionado ? Colors.white : Colors.grey[300],
