@@ -1977,6 +1977,24 @@ class _WidgetChatState extends State<WidgetChat> {
       globalRooms = rooms;
       for (int k = 0; k < rooms.length; k++) {
         Guest guestInfo = await RocketChatApi.getDataGuest(rooms[k].v.token);
+        roomHist.RoomMessages messages = await RocketChatApi.getRoomMessages(
+          rooms[k].sId,
+        );
+
+        String storeAcronym = "";
+        for (int f = 0; f < messages.messages.length; f++) {
+          if (messages.messages[f].message.contains('Log:')) {
+            storeAcronym = messages.messages[f].message.substring(
+                messages.messages[f].message
+                        .lastIndexOf("A opÃ§Ã£o escolhida foi a ") +
+                    26,
+                messages.messages[f].message
+                        .lastIndexOf("A opÃ§Ã£o escolhida foi a ") +
+                    29);
+            break;
+          }
+        }
+
         if (widget.onUpdate != null)
           await widget.onUpdate(
             CallbackData(
@@ -1990,6 +2008,7 @@ class _WidgetChatState extends State<WidgetChat> {
               destinyAgentName: destinyAgents?.username ?? "",
               destinyDepartment: department?.sId ?? "",
               guestId: guestInfo?.visitor?.sId ?? "",
+              storeAcronym: storeAcronym,
             ),
           );
       }

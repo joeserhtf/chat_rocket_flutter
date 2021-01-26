@@ -7,6 +7,7 @@ class CallbackData {
   String token;
   String guestId;
   String number;
+  String storeAcronym;
 
   CallbackData({
     this.roomId = "",
@@ -17,5 +18,6 @@ class CallbackData {
     this.token = "",
     this.guestId = "",
     this.number = "",
+    this.storeAcronym = "",
   });
 }
