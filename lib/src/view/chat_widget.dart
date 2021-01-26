@@ -19,6 +19,7 @@ import 'package:positioned_tap_detector/positioned_tap_detector.dart';
 import '../../const.dart';
 import '../controller/chat_controller.dart';
 import '../model/agents.dart';
+import '../model/callback_data.dart';
 import '../model/chat_option.dart';
 import '../model/department.dart';
 import '../model/guest.dart';
@@ -41,9 +42,9 @@ class WidgetChat extends StatefulWidget {
   Color audioColor;
   Color iconButtonColor;
   List<ChatOption> options;
-  Future<Function> onClose;
-  Future<Function> onTransfer;
-  Future<Function> onUpdate;
+  Function(CallbackData) onClose;
+  Function(CallbackData) onTransfer;
+  Function(CallbackData) onUpdate;
 
   WidgetChat({
     this.baseColor,
@@ -1255,7 +1256,18 @@ class _WidgetChatState extends State<WidgetChat> {
   }
 
   _closeRoom() async {
-    await widget.onClose;
+    await widget.onClose(
+      CallbackData(
+        roomId: rooms[selectedRoom]?.sId ?? "",
+        number: "",
+        token: rooms[selectedRoom]?.v?.token ?? "",
+        agentName: rooms[selectedRoom]?.servedBy?.username == null ?? "",
+        department: rooms[selectedRoom]?.departmentId ?? "",
+        destinyAgentName: destinyAgents?.username ?? "",
+        destinyDepartment: department?.sId ?? "",
+        guestId: "",
+      ),
+    );
     await RocketChatApi.closeRoom(
       rooms[selectedRoom].sId,
       rooms[selectedRoom].v.token,
@@ -1267,7 +1279,18 @@ class _WidgetChatState extends State<WidgetChat> {
   }
 
   _chatTransfer() async {
-    await widget.onTransfer;
+    await widget.onTransfer(
+      CallbackData(
+        roomId: rooms[selectedRoom]?.sId ?? "",
+        number: "",
+        token: rooms[selectedRoom]?.v?.token ?? "",
+        agentName: rooms[selectedRoom]?.servedBy?.username == null ?? "",
+        department: rooms[selectedRoom]?.departmentId ?? "",
+        destinyAgentName: destinyAgents?.username ?? "",
+        destinyDepartment: department?.sId ?? "",
+        guestId: "",
+      ),
+    );
     await RocketChatApi.transferRoom(
       rooms[selectedRoom].sId,
       destinyAgents.sId,
@@ -1910,12 +1933,25 @@ class _WidgetChatState extends State<WidgetChat> {
   }
 
   List<PopupMenuItem> _optionsBuilder() {
+    if (widget.options == null) return [];
     return widget.options
         .map(
           (e) => PopupMenuItem(
             child: ListTile(
               onTap: () {
-                e.function("3");
+                e.function(
+                  CallbackData(
+                    roomId: rooms[selectedRoom]?.sId ?? "",
+                    number: "",
+                    token: rooms[selectedRoom]?.v?.token ?? "",
+                    agentName:
+                        rooms[selectedRoom]?.servedBy?.username == null ?? "",
+                    department: rooms[selectedRoom]?.departmentId ?? "",
+                    destinyAgentName: destinyAgents?.username ?? "",
+                    destinyDepartment: department?.sId ?? "",
+                    guestId: "",
+                  ),
+                );
               },
               title: Text(e.name),
             ),
@@ -1929,7 +1965,19 @@ class _WidgetChatState extends State<WidgetChat> {
       globalRooms = rooms;
       for (int k = 0; k < rooms.length; k++) {
         Guest guestInfo = await RocketChatApi.getDataGuest(rooms[k].v.token);
-        //Todo checkar no sac
+        await widget.onUpdate(
+          CallbackData(
+            roomId: rooms[selectedRoom]?.sId ?? "",
+            number:
+                guestInfo?.visitor?.liveChatData?.whatsApp?.substring(2) ?? "",
+            token: rooms[selectedRoom]?.v?.token ?? "",
+            agentName: rooms[selectedRoom]?.servedBy?.username == null ?? "",
+            department: rooms[selectedRoom]?.departmentId ?? "",
+            destinyAgentName: destinyAgents?.username ?? "",
+            destinyDepartment: department?.sId ?? "",
+            guestId: guestInfo?.visitor?.sId ?? "",
+          ),
+        );
       }
     }
   }

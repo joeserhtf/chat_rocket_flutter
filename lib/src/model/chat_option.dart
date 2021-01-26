@@ -1,6 +1,8 @@
+import 'callback_data.dart';
+
 class ChatOption {
   String name;
-  Function(dynamic) function;
+  Function(CallbackData) function;
 
   ChatOption({
     this.name,

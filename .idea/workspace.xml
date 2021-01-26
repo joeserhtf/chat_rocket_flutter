@@ -4,23 +4,10 @@
     <list default="true" id="546c1898-5bd1-4fe9-9ede-8ecf04ba5ee6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.fvm/flutter_sdk/packages/flutter/lib/src/material/icon_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/.fvm/flutter_sdk/packages/flutter/lib/src/material/icon_button.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.packages" beforeDir="false" afterPath="$PROJECT_DIR$/.packages" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/chat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/chat_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/classes/class_agents.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/agents.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/classes/class_depart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/department.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/classes/class_guest.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/guest.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/classes/class_login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/login.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/classes/class_mensagens.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/messages.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/classes/class_roomMenssages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/room_messages.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/classes/class_seekBar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/seek_bar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/classes/class_socketRoom.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/socket_room.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/chat_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/controller/chat_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/input_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/input_bar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/widget_miniChats.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/widget_mini_chats.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/widgets.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/widgets.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/const.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/const.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pageTest.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pageTest.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/model/callback_data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/callback_data.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/model/chat_option.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/chat_option.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/view/chat_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/chat_widget.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,32 +79,32 @@
     </state>
     <state x="463" y="105" key="FileChooserDialogImpl/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1611669829317" />
     <state x="463" y="105" key="FileChooserDialogImpl/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1607520961593" />
-    <state width="1323" height="189" key="GridCell.Tab.0.bottom" timestamp="1611673489536">
+    <state width="1323" height="189" key="GridCell.Tab.0.bottom" timestamp="1611682503884">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="661" height="189" key="GridCell.Tab.0.bottom/0.0.1366.728/-1366.0.1366.728@-1366.0.1366.728" timestamp="1611664681121" />
-    <state width="1323" height="189" key="GridCell.Tab.0.bottom/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1611673489536" />
+    <state width="1323" height="189" key="GridCell.Tab.0.bottom/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1611682503884" />
     <state width="1323" height="153" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1608062967289" />
     <state width="1323" height="194" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1605198642063" />
-    <state width="1323" height="189" key="GridCell.Tab.0.center" timestamp="1611673489536">
+    <state width="1323" height="189" key="GridCell.Tab.0.center" timestamp="1611682503884">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="661" height="189" key="GridCell.Tab.0.center/0.0.1366.728/-1366.0.1366.728@-1366.0.1366.728" timestamp="1611664681121" />
-    <state width="1323" height="189" key="GridCell.Tab.0.center/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1611673489536" />
+    <state width="1323" height="189" key="GridCell.Tab.0.center/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1611682503884" />
     <state width="1323" height="153" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1608062967289" />
     <state width="1323" height="194" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1605198642062" />
-    <state width="1323" height="189" key="GridCell.Tab.0.left" timestamp="1611673489536">
+    <state width="1323" height="189" key="GridCell.Tab.0.left" timestamp="1611682503884">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="661" height="189" key="GridCell.Tab.0.left/0.0.1366.728/-1366.0.1366.728@-1366.0.1366.728" timestamp="1611664681120" />
-    <state width="1323" height="189" key="GridCell.Tab.0.left/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1611673489536" />
+    <state width="1323" height="189" key="GridCell.Tab.0.left/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1611682503884" />
     <state width="1323" height="153" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1608062967289" />
     <state width="1323" height="194" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1605198642062" />
-    <state width="1323" height="189" key="GridCell.Tab.0.right" timestamp="1611673489536">
+    <state width="1323" height="189" key="GridCell.Tab.0.right" timestamp="1611682503884">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="661" height="189" key="GridCell.Tab.0.right/0.0.1366.728/-1366.0.1366.728@-1366.0.1366.728" timestamp="1611664681121" />
-    <state width="1323" height="189" key="GridCell.Tab.0.right/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1611673489536" />
+    <state width="1323" height="189" key="GridCell.Tab.0.right/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1611682503884" />
     <state width="1323" height="153" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1608062967289" />
     <state width="1323" height="194" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1605198642063" />
     <state x="184" y="6" key="SettingsEditor" timestamp="1607520466677">

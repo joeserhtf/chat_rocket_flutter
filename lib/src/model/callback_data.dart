@@ -4,11 +4,9 @@ class CallbackData {
   String destinyAgentName;
   String department;
   String destinyDepartment;
-  String storeCode;
   String token;
   String guestId;
   String number;
-  bool isNew;
 
   CallbackData({
     this.roomId = "",
@@ -16,10 +14,8 @@ class CallbackData {
     this.destinyAgentName = "",
     this.department = "",
     this.destinyDepartment = "",
-    this.storeCode = "",
     this.token = "",
     this.guestId = "",
     this.number = "",
-    this.isNew = false,
   });
 }
