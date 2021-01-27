@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="546c1898-5bd1-4fe9-9ede-8ecf04ba5ee6" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/src/controller/chat_actions.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.fvm/flutter_sdk/packages/flutter/lib/src/material/icon_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/.fvm/flutter_sdk/packages/flutter/lib/src/material/icon_button.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/model/callback_data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/callback_data.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/chat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/chat.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pageTest.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pageTest.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/view/chat_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/chat_widget.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,13 +38,13 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Projetos\chat_rocket_flutter\lib\classes" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Projetos\chat_rocket_flutter\lib\src\view" />
       <recent name="C:\Projetos\chat_rocket_flutter\lib\src\model" />
       <recent name="C:\Projetos\chat_rocket_flutter\lib\src\controller" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Projetos\chat_rocket_flutter\lib\classes" />
     </key>
   </component>
   <component name="SvnConfiguration">
