@@ -48,6 +48,7 @@ class ChatActions {
   }
 
   static Future<RoomMessages> fetchRoomMessages(String roomId) async {
-    return await RocketChatApi.getRoomMessages(roomId);
+    RoomMessages messages = await RocketChatApi.getRoomMessages(roomId);
+    return messages;
   }
 }
