@@ -1,5 +1,7 @@
-import 'package:chat_rocket_flutter/pageTest.dart';
+
 import 'package:flutter/material.dart';
+
+import 'chat.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,7 +11,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'ChatWidget',
       debugShowCheckedModeBanner: false,
-      home: PageTest(),
+      home: WidgetChat(
+        url: "",
+        urlLogo: "",
+        urlSound: "",
+        iconsColor: Colors.orange[600],
+        baseColor: Colors.orange[600],
+        audioColor: Colors.orange,
+        textColor: Colors.black,
+        options: [
+          ChatOption(name: "Test", function: (a) {}),
+        ],
+        onTransfer: (a) {
+          print('as');
+        },
+      ),
     );
   }
 }
