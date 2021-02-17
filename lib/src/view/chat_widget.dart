@@ -260,9 +260,9 @@ class _WidgetChatState extends State<WidgetChat> {
                 if (rooms != null) {
                   for (int n = 0; n < rooms.length; n++) {
                     if (snapshot.data.length == rooms.length) {
-                      if ((rooms[n].lastMessage.sId !=
-                              snapshot.data[n].lastMessage.sId) &&
-                          rooms[n].lastMessage.alias !=
+                      if ((rooms[n].lastMessage?.sId !=
+                              snapshot.data[n].lastMessage?.sId) &&
+                          rooms[n].lastMessage?.alias !=
                               rooms[n].servedBy.username) {
                         notificationSound.seek(Duration.zero, index: 0);
                         notificationSound.pause();

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'chat.dart';
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
           ChatOption(name: "Test", function: (a) {}),
         ],
         onTransfer: (a) {
-          print('as');
+          print('Test');
         },
       ),
     );
