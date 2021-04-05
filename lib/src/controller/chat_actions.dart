@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import '../../const.dart';
 import '../model/room_messages.dart';
+import '../model/tags.dart';
 import 'chat_controller.dart';
 
 class ChatActions {
@@ -50,5 +51,10 @@ class ChatActions {
   static Future<RoomMessages> fetchRoomMessages(String roomId) async {
     RoomMessages messages = await RocketChatApi.getRoomMessages(roomId);
     return messages;
+  }
+
+  static Future<Tag> fetchTags() async {
+    Tag tags = await RocketChatApi.getListTags();
+    return tags;
   }
 }

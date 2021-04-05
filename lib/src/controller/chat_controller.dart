@@ -11,6 +11,7 @@ import '../model/guest.dart';
 import '../model/login.dart';
 import '../model/room_messages.dart';
 import '../model/socket_room.dart';
+import '../model/tags.dart';
 
 final rocketHeaders = {
   "X-Auth-Token": "${rocketUser.data.authToken}",
@@ -308,6 +309,27 @@ class RocketChatApi {
       );
 
       return messagesRoom;
+    } catch (error) {
+      print(error);
+      return null;
+    }
+  }
+
+  static Future<Tag> getListTags() async {
+    try {
+      String url = '$globalurl'
+          '/api/v1/livechat/tags.list';
+
+      http.Response response = await http.get(
+        url,
+        headers: rocketHeaders,
+      );
+
+      Tag tags = Tag.fromJson(
+        json.decode(response.body),
+      );
+
+      return tags;
     } catch (error) {
       print(error);
       return null;

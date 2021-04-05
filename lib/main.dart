@@ -19,7 +19,11 @@ class MyApp extends StatelessWidget {
         audioColor: Colors.orange,
         textColor: Colors.black,
         options: [
-          ChatOption(name: "Test", function: (a) {}),
+          ChatOption(
+              name: "Tags",
+              function: (a) {
+                ChatActions.fetchTags();
+              }),
         ],
         onTransfer: (a) {
           print('Test');
