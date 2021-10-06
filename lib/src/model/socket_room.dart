@@ -7,7 +7,7 @@ class SocketRoom {
 
   SocketRoom.fromJson(Map<String, dynamic> json) {
     if (json['update'] != null) {
-      update = List<Update>();
+      update = [];
       json['update'].forEach((v) {
         update.add(Update.fromJson(v));
       });

@@ -40,7 +40,7 @@ class RocketChatApi {
           };
 
     http.Response response = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
     );
 
@@ -84,7 +84,7 @@ class RocketChatApi {
     };
 
     http.Response response = await http.post(
-      url,
+      Uri.parse(url),
       body: json.encode(data),
       headers: rocketHeaders,
     );
@@ -153,7 +153,7 @@ class RocketChatApi {
     };
 
     http.Response response = await http.post(
-      url,
+      Uri.parse(url),
       body: json.encode(data),
       headers: rocketHeaders,
     );
@@ -176,7 +176,7 @@ class RocketChatApi {
     };
 
     var response = await http.post(
-      url,
+      Uri.parse(url),
       body: json.encode(data),
       headers: rocketHeaders,
     );
@@ -195,7 +195,7 @@ class RocketChatApi {
     };
 
     http.Response response = await http.post(
-      url,
+      Uri.parse(url),
       body: json.encode(data),
       headers: rocketHeaders,
     );
@@ -208,7 +208,7 @@ class RocketChatApi {
       String url = '$globalurl'
           '/api/v1/livechat/users/agent';
 
-      http.Response response = await http.get(url, headers: rocketHeaders);
+      http.Response response = await http.get(Uri.parse(url), headers: rocketHeaders);
 
       AgentsOnline agents = AgentsOnline.fromJson(json.decode(response.body));
 
@@ -233,7 +233,7 @@ class RocketChatApi {
           '/api/v1/livechat/department';
 
       http.Response response = await http.get(
-        url,
+        Uri.parse(url),
         headers: rocketHeaders,
       );
 
@@ -255,7 +255,7 @@ class RocketChatApi {
           '$tokenGuest';
 
       http.Response response = await http.get(
-        url,
+        Uri.parse(url),
         headers: rocketHeaders,
       );
 
@@ -285,7 +285,7 @@ class RocketChatApi {
           '$guestId';
 
       http.Response response = await http.get(
-        url,
+        Uri.parse(url),
         headers: rocketHeaders,
       );
 
@@ -302,7 +302,7 @@ class RocketChatApi {
           '/api/v1/channels.messages?'
           'roomId=$roomId';
 
-      http.Response response = await http.get(url, headers: rocketHeaders);
+      http.Response response = await http.get(Uri.parse(url), headers: rocketHeaders);
 
       RoomMessages messagesRoom = RoomMessages.fromJson(
         json.decode(response.body),
@@ -321,7 +321,7 @@ class RocketChatApi {
           '/api/v1/livechat/tags.list';
 
       http.Response response = await http.get(
-        url,
+        Uri.parse(url),
         headers: rocketHeaders,
       );
 

@@ -6,7 +6,7 @@ class SeekBar extends StatefulWidget {
   final Duration position;
   final ValueChanged<Duration> onChanged;
   final ValueChanged<Duration> onChangeEnd;
-  Color stateColor;
+  final Color stateColor;
 
   SeekBar({
     @required this.duration,

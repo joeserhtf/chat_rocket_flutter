@@ -55,7 +55,7 @@ class Visitor {
         ? LiveChatData.fromJson(json['livechatData'])
         : null;
     if (json['phone'] != null) {
-      phone = List<Phone>();
+      phone = [];
       json['phone'].forEach((v) {
         phone.add(Phone.fromJson(v));
       });

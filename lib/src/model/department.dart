@@ -15,7 +15,7 @@ class Department {
 
   Department.fromJson(Map<String, dynamic> json) {
     if (json['departments'] != null) {
-      departments = List<Departments>();
+      departments = [];
       json['departments'].forEach((v) {
         departments.add(Departments.fromJson(v));
       });

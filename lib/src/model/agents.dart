@@ -15,7 +15,7 @@ class AgentsOnline {
 
   AgentsOnline.fromJson(Map<String, dynamic> json) {
     if (json['users'] != null) {
-      users = List<Users>();
+      users = [];
       json['users'].forEach((v) {
         users.add(Users.fromJson(v));
       });
@@ -61,7 +61,7 @@ class Users {
   Users.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     if (json['emails'] != null) {
-      emails = List<Emails>();
+      emails = [];
       json['emails'].forEach((v) {
         emails.add(Emails.fromJson(v));
       });

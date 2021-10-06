@@ -15,7 +15,7 @@ class Tag {
 
   Tag.fromJson(Map<String, dynamic> json) {
     if (json['tags'] != null) {
-      tags = new List<Tags>();
+      tags = [];
       json['tags'].forEach((v) {
         tags.add(new Tags.fromJson(v));
       });

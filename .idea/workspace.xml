@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="546c1898-5bd1-4fe9-9ede-8ecf04ba5ee6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/src/model/tags.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.fvm/flutter_sdk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.fvm/fvm_config.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/chat.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/chat.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.packages" beforeDir="false" afterPath="$PROJECT_DIR$/.packages" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/controller/chat_actions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/controller/chat_actions.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/controller/chat_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/controller/chat_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/view/chat_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/chat_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
@@ -23,6 +19,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\joeser.fermiano\.android\avd\Pixel_2_API_30.avd]" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
@@ -31,10 +28,10 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
@@ -56,6 +53,13 @@
       <recent name="C:\Projetos\chat_rocket_flutter\lib\src\controller" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -74,71 +78,5 @@
       <path value="C:" />
       <path value="$PROJECT_DIR$/.fvm/flutter_sdk" />
     </ignored-roots>
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="451" y="167" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1611667890424">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="451" y="167" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1611667890424" />
-    <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser" timestamp="1611666718945">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1611666718945" />
-    <state x="375" y="97" key="#main.dart" timestamp="1613594194389">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="375" y="97" key="#main.dart/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1613594194389" />
-    <state x="337" y="0" key="CommitChangelistDialog2" timestamp="1617627453422">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="337" y="0" key="CommitChangelistDialog2/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1617627453422" />
-    <state x="463" y="105" key="FileChooserDialogImpl" timestamp="1617625588684">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="463" y="105" key="FileChooserDialogImpl/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1611669829317" />
-    <state x="463" y="105" key="FileChooserDialogImpl/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1617625588684" />
-    <state width="1323" height="189" key="GridCell.Tab.0.bottom" timestamp="1617628947449">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="661" height="189" key="GridCell.Tab.0.bottom/0.0.1366.728/-1366.0.1366.728@-1366.0.1366.728" timestamp="1611664681121" />
-    <state width="1323" height="189" key="GridCell.Tab.0.bottom/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1613740080286" />
-    <state width="1323" height="189" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1617628947449" />
-    <state width="1323" height="189" key="GridCell.Tab.0.center" timestamp="1617628947449">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="661" height="189" key="GridCell.Tab.0.center/0.0.1366.728/-1366.0.1366.728@-1366.0.1366.728" timestamp="1611664681121" />
-    <state width="1323" height="189" key="GridCell.Tab.0.center/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1613740080286" />
-    <state width="1323" height="189" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1617628947449" />
-    <state width="1323" height="189" key="GridCell.Tab.0.left" timestamp="1617628947449">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="661" height="189" key="GridCell.Tab.0.left/0.0.1366.728/-1366.0.1366.728@-1366.0.1366.728" timestamp="1611664681120" />
-    <state width="1323" height="189" key="GridCell.Tab.0.left/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1613740080286" />
-    <state width="1323" height="189" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1617628947449" />
-    <state width="1323" height="189" key="GridCell.Tab.0.right" timestamp="1617628947449">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="661" height="189" key="GridCell.Tab.0.right/0.0.1366.728/-1366.0.1366.728@-1366.0.1366.728" timestamp="1611664681121" />
-    <state width="1323" height="189" key="GridCell.Tab.0.right/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1613740080286" />
-    <state width="1323" height="189" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1617628947449" />
-    <state x="184" y="6" key="SettingsEditor" timestamp="1617625854941">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="184" y="6" key="SettingsEditor/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1611686415162" />
-    <state x="184" y="6" key="SettingsEditor/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1617625854941" />
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1617627419506">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1617627419506" />
-    <state x="379" y="96" width="666" height="536" key="find.popup" timestamp="1617628222584">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="-987" y="96" width="666" height="536" key="find.popup/0.0.1366.728/-1366.0.1366.728@-1366.0.1366.728" timestamp="1613417387941" />
-    <state x="379" y="96" width="666" height="536" key="find.popup/0.0.1366.728/-1366.0.1366.728@0.0.1366.728" timestamp="1613739148538" />
-    <state x="379" y="96" width="666" height="536" key="find.popup/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1617628222584" />
-    <state x="-1027" y="162" key="run.anything.popup" timestamp="1611662821677">
-      <screen x="-1366" y="0" width="1366" height="728" />
-    </state>
-    <state x="-1027" y="162" key="run.anything.popup/0.0.1366.728/-1366.0.1366.728@-1366.0.1366.728" timestamp="1611662821677" />
   </component>
 </project>

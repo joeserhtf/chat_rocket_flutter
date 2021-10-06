@@ -9,7 +9,7 @@ import 'dart:html' as html;
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class InputBar extends StatefulWidget {
-  String roomId;
+  final String roomId;
 
   InputBar(this.roomId);
 

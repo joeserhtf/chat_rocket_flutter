@@ -15,7 +15,7 @@ class RoomMessages {
 
   RoomMessages.fromJson(Map<String, dynamic> json) {
     if (json['messages'] != null) {
-      messages = List<Messages>();
+      messages = [];
       json['messages'].forEach((v) {
         messages.add(Messages.fromJson(v));
       });
@@ -90,14 +90,14 @@ class Messages {
     alias = json['alias'];
     file = json['file'] != null ? File.fromJson(json['file']) : null;
     if (json['attachments'] != null) {
-      attachments = List<Attachments>();
+      attachments = [];
       json['attachments'].forEach((v) {
         attachments.add(Attachments.fromJson(v));
       });
     }
     parseUrls = json['parseUrls'];
     if (json['urls'] != null) {
-      urls = List<Urls>();
+      urls = [];
       json['urls'].forEach((v) {
         urls.add(Urls.fromJson(v));
       });

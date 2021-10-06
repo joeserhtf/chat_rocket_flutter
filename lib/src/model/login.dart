@@ -94,7 +94,7 @@ class Me {
     services =
         json['services'] != null ? Services.fromJson(json['services']) : null;
     if (json['emails'] != null) {
-      emails = List<Emails>();
+      emails = [];
       json['emails'].forEach((v) {
         emails.add(Emails.fromJson(v));
       });

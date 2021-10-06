@@ -9,7 +9,7 @@ class Message {
 
   Message.fromJson(Map<String, dynamic> json) {
     if (json['messages'] != null) {
-      messages = List<Messages>();
+      messages = [];
       json['messages'].forEach((v) {
         messages.add(Messages.fromJson(v));
       });
@@ -73,7 +73,7 @@ class Messages {
     tUpdatedAt =
         json['_updatedAt'] != null ? Ts.fromJson(json['_updatedAt']) : null;
     if (json['urls'] != null) {
-      urls = List<Urls>();
+      urls = [];
       json['urls'].forEach((v) {
         urls.add(Urls.fromJson(v));
       });
@@ -81,7 +81,7 @@ class Messages {
     file = json['file'] != null ? File.fromJson(json['file']) : null;
     groupable = json['groupable'];
     if (json['attachments'] != null) {
-      attachments = List<Attachments>();
+      attachments = [];
       json['attachments'].forEach((v) {
         attachments.add(Attachments.fromJson(v));
       });
