@@ -11,8 +11,7 @@ dependencies:
     sdk: flutter
 
   http: ^0.13.4
-  dart_meteor:
-    git: https://github.com/tanutapi/dart_meteor
+  dart_meteor: ^2.0.4
   link: ^1.1.0
   microphone: ^0.1.0
   positioned_tap_detector: ^1.0.3

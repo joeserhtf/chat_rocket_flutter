@@ -88,12 +88,10 @@ packages:
   dart_meteor:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: b54dfee65d8e960f454867397036ac25b5623753
-      url: "https://github.com/tanutapi/dart_meteor"
-    source: git
-    version: "2.0.3"
+      name: dart_meteor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.4"
   fake_async:
     dependency: transitive
     description:
