@@ -56,7 +56,7 @@ class RocketChatApi {
 
   static Future<List<Update>> getLiveRooms(String agent, String token) async {
     try {
-      var resp = await meteor.call('rooms/get', [
+      var resp = await meteor.call('rooms/get', args: [
         {"\$date": 0}
       ]);
 
@@ -208,7 +208,8 @@ class RocketChatApi {
       String url = '$globalurl'
           '/api/v1/livechat/users/agent';
 
-      http.Response response = await http.get(Uri.parse(url), headers: rocketHeaders);
+      http.Response response =
+          await http.get(Uri.parse(url), headers: rocketHeaders);
 
       AgentsOnline agents = AgentsOnline.fromJson(json.decode(response.body));
 
@@ -302,7 +303,8 @@ class RocketChatApi {
           '/api/v1/channels.messages?'
           'roomId=$roomId';
 
-      http.Response response = await http.get(Uri.parse(url), headers: rocketHeaders);
+      http.Response response =
+          await http.get(Uri.parse(url), headers: rocketHeaders);
 
       RoomMessages messagesRoom = RoomMessages.fromJson(
         json.decode(response.body),

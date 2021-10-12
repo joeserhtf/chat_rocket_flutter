@@ -1,7 +1,7 @@
 import 'package:chat_rocket_flutter/const.dart';
 import 'package:chat_rocket_flutter/src/controller/chat_controller.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:file_picker_web/file_picker_web.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:microphone/microphone.dart';
 // ignore: avoid_web_libraries_in_flutter
@@ -89,7 +89,10 @@ class _InputBarState extends State<InputBar> {
                       final value = snap.data;
                       return Text(
                         value.toString().padLeft(2, '0') + ":",
-                        style: TextStyle(fontSize: 18, fontFamily: 'Helvetica', fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'Helvetica',
+                            fontWeight: FontWeight.w600),
                       );
                     },
                   ),
@@ -99,8 +102,13 @@ class _InputBarState extends State<InputBar> {
                     builder: (context, snap) {
                       final value = snap.data;
                       return Text(
-                        value >= 60 ? (value % 60).toString().padLeft(2, '0') : value.toString().padLeft(2, '0'),
-                        style: TextStyle(fontSize: 18, fontFamily: 'Helvetica', fontWeight: FontWeight.w600),
+                        value >= 60
+                            ? (value % 60).toString().padLeft(2, '0')
+                            : value.toString().padLeft(2, '0'),
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'Helvetica',
+                            fontWeight: FontWeight.w600),
                       );
                     },
                   ),
@@ -139,15 +147,21 @@ class _InputBarState extends State<InputBar> {
                 child: IconButton(
                   icon: Icon(MdiIcons.paperclip),
                   onPressed: () async {
-                    var pickfile = await FilePicker.getMultiFile();
-                    if (pickfile.isNotEmpty) {
-                      pickfile.forEach((element) async {
-                        var r = html.FileReader();
-                        r.readAsArrayBuffer(element.slice());
+                    FilePickerResult pickfile = await FilePicker.platform
+                        .pickFiles(allowMultiple: true);
+                    if (pickfile.files.isNotEmpty) {
+                      pickfile.files.forEach((element) async {
+                        /*var r = html.FileReader();
+                        r.readAsArrayBuffer();
                         r.onLoadEnd.listen((e) {
-                          var data = r.result;
-                          RocketChatApi.uploadFile(data, widget.roomId, element.name, element.type);
-                        });
+                          var data = r.result;*/
+                        RocketChatApi.uploadFile(
+                          element.bytes,
+                          widget.roomId,
+                          element.name,
+                          element.extension,
+                        );
+                        // });
                         await Future.delayed(Duration(milliseconds: 500));
                       });
                       await Future.delayed(Duration(seconds: 1));
@@ -200,7 +214,9 @@ class _InputBarState extends State<InputBar> {
       ),
       width: double.infinity,
       height: 50.0,
-      decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.grey[500], width: 0.5)), color: Colors.white),
+      decoration: BoxDecoration(
+          border: Border(top: BorderSide(color: Colors.grey[500], width: 0.5)),
+          color: Colors.white),
     );
   }
 
