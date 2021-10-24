@@ -1838,6 +1838,10 @@ class _WidgetChatState extends State<WidgetChat> {
                       urlLogo,
                       width: 200,
                       height: 75,
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace stackTrace) {
+                        return Container();
+                      },
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
