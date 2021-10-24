@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:dart_meteor/dart_meteor.dart';
+import 'package:dart_meteor_web/dart_meteor_web.dart';
 import 'package:flutter/material.dart';
 
 import 'src/model/login.dart';

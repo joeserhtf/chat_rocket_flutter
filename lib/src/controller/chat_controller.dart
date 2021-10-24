@@ -56,7 +56,7 @@ class RocketChatApi {
 
   static Future<List<Update>> getLiveRooms(String agent, String token) async {
     try {
-      var resp = await meteor.call('rooms/get', args: [
+      var resp = await meteor.call('rooms/get', [
         {"\$date": 0}
       ]);
 

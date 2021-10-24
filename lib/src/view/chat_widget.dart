@@ -4,7 +4,7 @@ import 'dart:html' as html;
 
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dart_meteor/dart_meteor.dart';
+import 'package:dart_meteor_web/dart_meteor_web.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -105,8 +105,8 @@ class _WidgetChatState extends State<WidgetChat> {
     meteor = MeteorClient.connect(
       url: "wss://${globalurl.replaceAll("https://", '')}/websocket",
     );
-    //meteor.prepareCollection('stream-notify-user');
-    //meteor.prepareCollection('stream-room-messages');
+    meteor.prepareCollection('stream-notify-user');
+    meteor.prepareCollection('stream-room-messages');
   }
 
   @override
@@ -144,16 +144,13 @@ class _WidgetChatState extends State<WidgetChat> {
                     if (rocketUser.data != null) {
                       subscriptionHandler = meteor.subscribe(
                         'stream-notify-user',
-                        args: [
-                          "${rocketUser.data.userId}/rooms-changed",
-                          false
-                        ],
+                        ["${rocketUser.data.userId}/rooms-changed", false],
                       );
                     }
                   }
                   subscriptionHandler = meteor.subscribe(
                     'stream-room-messages',
-                    args: ["__my_messages__", false],
+                    ["__my_messages__", false],
                   );
                   return chatActive ? _chat() : _minimizedChat();
                 }
@@ -204,7 +201,7 @@ class _WidgetChatState extends State<WidgetChat> {
 
   _minimizedChat() {
     return StreamBuilder(
-      stream: meteor.collection('stream-notify-user'),
+      stream: meteor.collections['stream-notify-user'],
       builder: (context, snapshot) {
         if ((liveRooms == null || snapshot.hasData)) {
           loadRooms();
@@ -251,7 +248,7 @@ class _WidgetChatState extends State<WidgetChat> {
     return Container(
       width: widthChatBox,
       child: StreamBuilder(
-        stream: meteor.collection('stream-room-messages'),
+        stream: meteor.collections['stream-room-messages'],
         builder: (context, snapshot) {
           loadRooms(data: snapshot.data);
           return StreamBuilder(
@@ -384,7 +381,7 @@ class _WidgetChatState extends State<WidgetChat> {
         Expanded(
           flex: 7,
           child: StreamBuilder(
-            stream: meteor.collection('stream-room-messages'),
+            stream: meteor.collections['stream-room-messages'],
             builder: (context, snapshot) {
               _loadMessages(rooms[selectedRoom].sId);
               return StreamBuilder(
@@ -1209,7 +1206,7 @@ class _WidgetChatState extends State<WidgetChat> {
 
   _loadMessages(String roomID) async {
     if (rooms == null) await Future.delayed(Duration(seconds: 1));
-    var resp = await meteor.call('loadHistory', args: [
+    var resp = await meteor.call('loadHistory', [
       "$roomID",
       null,
       0,
@@ -1234,7 +1231,7 @@ class _WidgetChatState extends State<WidgetChat> {
       rocketUser = apiUser;
       subscriptionHandler = meteor.subscribe(
         'stream-notify-user',
-        args: ["${rocketUser.data.userId}/rooms-changed", false],
+        ["${rocketUser.data.userId}/rooms-changed", false],
       );
       _loginSocketToken(rocketUser.data.authToken);
       RocketChatApi.changeStatus(true);
