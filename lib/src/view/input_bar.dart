@@ -147,10 +147,10 @@ class _InputBarState extends State<InputBar> {
                 child: IconButton(
                   icon: Icon(MdiIcons.paperclip),
                   onPressed: () async {
-                    FilePickerResult pickfile = await FilePicker.platform
+                    FilePickerResult? pickfile = await FilePicker.platform
                         .pickFiles(allowMultiple: true);
-                    if (pickfile.files.isNotEmpty) {
-                      pickfile.files.forEach((element) async {
+                    if (pickfile?.files.isNotEmpty ?? false) {
+                      pickfile?.files.forEach((element) async {
                         /*var r = html.FileReader();
                         r.readAsArrayBuffer();
                         r.onLoadEnd.listen((e) {
@@ -215,13 +215,13 @@ class _InputBarState extends State<InputBar> {
       width: double.infinity,
       height: 50.0,
       decoration: BoxDecoration(
-          border: Border(top: BorderSide(color: Colors.grey[500], width: 0.5)),
+          border: Border(top: BorderSide(color: Colors.grey[500]!, width: 0.5)),
           color: Colors.white),
     );
   }
 
   _sendMessage(text) async {
-    if (_formMessage.currentState.validate()) {
+    if (_formMessage.currentState?.validate() ?? false) {
       await RocketChatApi.sendMessage(widget.roomId, text);
       _messageController.text = '';
     }

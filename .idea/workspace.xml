@@ -5,14 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="546c1898-5bd1-4fe9-9ede-8ecf04ba5ee6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.packages" beforeDir="false" afterPath="$PROJECT_DIR$/.packages" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/const.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/const.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/controller/chat_actions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/controller/chat_actions.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/controller/chat_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/controller/chat_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/model/agents.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/agents.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/model/chat_option.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/chat_option.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/model/department.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/department.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/model/guest.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/guest.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/model/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/model/messages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/messages.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/model/room_messages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/room_messages.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/model/socket_room.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/socket_room.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/model/tags.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/tags.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/view/chat_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/chat_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/view/input_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/input_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/view/seek_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/seek_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/view/widget_mini_chats.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/view/widget_mini_chats.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\joeser.fermiano\.android\avd\Pixel_4_API_30.avd]" />
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
@@ -21,6 +41,14 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1jsmCJei6xV1H3t4VSZV3lgTBrF" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -31,9 +59,10 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
-    <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../dart_meteor" />
     <property name="project.structure.last.edited" value="SDK Location" />

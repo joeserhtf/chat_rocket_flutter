@@ -2,11 +2,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class SeekBar extends StatefulWidget {
-  final Duration duration;
-  final Duration position;
-  final ValueChanged<Duration> onChanged;
-  final ValueChanged<Duration> onChangeEnd;
-  final Color stateColor;
+  final Duration? duration;
+  final Duration? position;
+  final ValueChanged<Duration>? onChanged;
+  final ValueChanged<Duration>? onChangeEnd;
+  final Color? stateColor;
 
   SeekBar({
     @required this.duration,
@@ -21,7 +21,7 @@ class SeekBar extends StatefulWidget {
 }
 
 class _SeekBarState extends State<SeekBar> {
-  double _dragValue;
+  double? _dragValue;
 
   @override
   Widget build(BuildContext context) {
@@ -31,19 +31,19 @@ class _SeekBarState extends State<SeekBar> {
           min: 0.0,
           activeColor: widget.stateColor,
           inactiveColor: widget.stateColor,
-          max: widget.duration.inMilliseconds.toDouble(),
-          value: min(_dragValue ?? widget.position.inMilliseconds.toDouble(), widget.duration.inMilliseconds.toDouble()),
+          max: widget.duration?.inMilliseconds.toDouble() ?? 0,
+          value: min(_dragValue ?? widget.position?.inMilliseconds.toDouble() ?? 0, widget.duration?.inMilliseconds.toDouble() ?? 0),
           onChanged: (value) {
             setState(() {
               _dragValue = value;
             });
             if (widget.onChanged != null) {
-              widget.onChanged(Duration(milliseconds: value.round()));
+              widget.onChanged!(Duration(milliseconds: value.round()));
             }
           },
           onChangeEnd: (value) {
             if (widget.onChangeEnd != null) {
-              widget.onChangeEnd(Duration(milliseconds: value.round()));
+              widget.onChangeEnd!(Duration(milliseconds: value.round()));
             }
             _dragValue = null;
           },

@@ -1,6 +1,6 @@
 class LoginClass {
-  String status;
-  Data data;
+  String? status;
+  Data? data;
 
   LoginClass({
     this.status,
@@ -16,16 +16,16 @@ class LoginClass {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['status'] = this.status;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data?.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  String userId;
-  String authToken;
-  Me me;
+  String? userId;
+  String? authToken;
+  Me? me;
 
   Data({
     this.userId,
@@ -44,30 +44,30 @@ class Data {
     data['userId'] = this.userId;
     data['authToken'] = this.authToken;
     if (this.me != null) {
-      data['me'] = this.me.toJson();
+      data['me'] = this.me?.toJson();
     }
     return data;
   }
 }
 
 class Me {
-  String sId;
-  Services services;
-  List<Emails> emails;
-  String status;
-  bool active;
-  String sUpdatedAt;
-  List<String> roles;
-  String name;
-  String statusConnection;
+  String? sId;
+  Services? services;
+  List<Emails>? emails;
+  String? status;
+  bool? active;
+  String? sUpdatedAt;
+  List<String>? roles;
+  String? name;
+  String? statusConnection;
   dynamic utcOffset;
-  String username;
-  String statusLiveChat;
-  String statusText;
-  bool requirePasswordChange;
-  String email;
-  String avatarUrl;
-  Settings settings;
+  String? username;
+  String? statusLiveChat;
+  String? statusText;
+  bool? requirePasswordChange;
+  String? email;
+  String? avatarUrl;
+  Settings? settings;
 
   Me({
     this.sId,
@@ -91,12 +91,11 @@ class Me {
 
   Me.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
-    services =
-        json['services'] != null ? Services.fromJson(json['services']) : null;
+    services = json['services'] != null ? Services.fromJson(json['services']) : null;
     if (json['emails'] != null) {
       emails = [];
       json['emails'].forEach((v) {
-        emails.add(Emails.fromJson(v));
+        emails?.add(Emails.fromJson(v));
       });
     }
     status = json['status'];
@@ -112,18 +111,17 @@ class Me {
     requirePasswordChange = json['requirePasswordChange'];
     email = json['email'];
     avatarUrl = json['avatarUrl'];
-    settings =
-        json['settings'] != null ? Settings.fromJson(json['settings']) : null;
+    settings = json['settings'] != null ? Settings.fromJson(json['settings']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     if (this.services != null) {
-      data['services'] = this.services.toJson();
+      data['services'] = this.services?.toJson();
     }
     if (this.emails != null) {
-      data['emails'] = this.emails.map((v) => v.toJson()).toList();
+      data['emails'] = this.emails?.map((v) => v.toJson()).toList();
     }
     data['status'] = this.status;
     data['active'] = this.active;
@@ -139,35 +137,34 @@ class Me {
     data['email'] = this.email;
     data['avatarUrl'] = this.avatarUrl;
     if (this.settings != null) {
-      data['settings'] = this.settings.toJson();
+      data['settings'] = this.settings?.toJson();
     }
     return data;
   }
 }
 
 class Services {
-  Password password;
+  Password? password;
 
   Services({
     this.password,
   });
 
   Services.fromJson(Map<String, dynamic> json) {
-    password =
-        json['password'] != null ? Password.fromJson(json['password']) : null;
+    password = json['password'] != null ? Password.fromJson(json['password']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.password != null) {
-      data['password'] = this.password.toJson();
+      data['password'] = this.password?.toJson();
     }
     return data;
   }
 }
 
 class Password {
-  String bcrypt;
+  String? bcrypt;
 
   Password({
     this.bcrypt,
@@ -185,10 +182,13 @@ class Password {
 }
 
 class Emails {
-  String address;
-  bool verified;
+  String? address;
+  bool? verified;
 
-  Emails({this.address, this.verified});
+  Emails({
+    this.address,
+    this.verified,
+  });
 
   Emails.fromJson(Map<String, dynamic> json) {
     address = json['address'];
@@ -204,59 +204,57 @@ class Emails {
 }
 
 class Settings {
-  Preferences preferences;
+  Preferences? preferences;
 
   Settings({
     this.preferences,
   });
 
   Settings.fromJson(Map<String, dynamic> json) {
-    preferences = json['preferences'] != null
-        ? Preferences.fromJson(json['preferences'])
-        : null;
+    preferences = json['preferences'] != null ? Preferences.fromJson(json['preferences']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.preferences != null) {
-      data['preferences'] = this.preferences.toJson();
+      data['preferences'] = this.preferences?.toJson();
     }
     return data;
   }
 }
 
 class Preferences {
-  bool enableAutoAway;
+  bool? enableAutoAway;
   dynamic idleTimeLimit;
-  bool desktopNotificationRequireInteraction;
-  String audioNotifications;
-  String desktopNotifications;
-  String mobileNotifications;
-  bool unreadAlert;
-  bool useEmojis;
-  bool convertAsciiEmoji;
-  bool autoImageLoad;
-  bool saveMobileBandwidth;
-  bool collapseMediaByDefault;
-  bool hideUsernames;
-  bool hideRoles;
-  bool hideFlexTab;
-  bool hideAvatars;
-  bool sidebarGroupByType;
-  String sidebarViewMode;
-  bool sidebarHideAvatar;
-  bool sidebarShowUnread;
-  String sidebarSortby;
-  bool sidebarShowFavorites;
-  String sendOnEnter;
+  bool? desktopNotificationRequireInteraction;
+  String? audioNotifications;
+  String? desktopNotifications;
+  String? mobileNotifications;
+  bool? unreadAlert;
+  bool? useEmojis;
+  bool? convertAsciiEmoji;
+  bool? autoImageLoad;
+  bool? saveMobileBandwidth;
+  bool? collapseMediaByDefault;
+  bool? hideUsernames;
+  bool? hideRoles;
+  bool? hideFlexTab;
+  bool? hideAvatars;
+  bool? sidebarGroupByType;
+  String? sidebarViewMode;
+  bool? sidebarHideAvatar;
+  bool? sidebarShowUnread;
+  String? sidebarSortby;
+  bool? sidebarShowFavorites;
+  String? sendOnEnter;
   dynamic messageViewMode;
-  String emailNotificationMode;
-  String newRoomNotification;
-  String newMessageNotification;
-  bool muteFocusedConversations;
+  String? emailNotificationMode;
+  String? newRoomNotification;
+  String? newMessageNotification;
+  bool? muteFocusedConversations;
   dynamic notificationsSoundVolume;
-  bool sidebarShowDiscussion;
-  bool showMessageInMainThread;
+  bool? sidebarShowDiscussion;
+  bool? showMessageInMainThread;
 
   Preferences({
     this.enableAutoAway,
@@ -295,8 +293,7 @@ class Preferences {
   Preferences.fromJson(Map<String, dynamic> json) {
     enableAutoAway = json['enableAutoAway'];
     idleTimeLimit = json['idleTimeLimit'];
-    desktopNotificationRequireInteraction =
-        json['desktopNotificationRequireInteraction'];
+    desktopNotificationRequireInteraction = json['desktopNotificationRequireInteraction'];
     audioNotifications = json['audioNotifications'];
     desktopNotifications = json['desktopNotifications'];
     mobileNotifications = json['mobileNotifications'];
@@ -331,8 +328,7 @@ class Preferences {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['enableAutoAway'] = this.enableAutoAway;
     data['idleTimeLimit'] = this.idleTimeLimit;
-    data['desktopNotificationRequireInteraction'] =
-        this.desktopNotificationRequireInteraction;
+    data['desktopNotificationRequireInteraction'] = this.desktopNotificationRequireInteraction;
     data['audioNotifications'] = this.audioNotifications;
     data['desktopNotifications'] = this.desktopNotifications;
     data['mobileNotifications'] = this.mobileNotifications;

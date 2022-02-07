@@ -1,9 +1,9 @@
 class Department {
-  List<Departments> departments;
-  int count;
-  int offset;
-  int total;
-  bool success;
+  List<Departments>? departments;
+  int? count;
+  int? offset;
+  int? total;
+  bool? success;
 
   Department({
     this.departments,
@@ -17,7 +17,7 @@ class Department {
     if (json['departments'] != null) {
       departments = [];
       json['departments'].forEach((v) {
-        departments.add(Departments.fromJson(v));
+        departments?.add(Departments.fromJson(v));
       });
     }
     count = json['count'];
@@ -29,7 +29,7 @@ class Department {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.departments != null) {
-      data['departments'] = this.departments.map((v) => v.toJson()).toList();
+      data['departments'] = this.departments?.map((v) => v.toJson()).toList();
     }
     data['count'] = this.count;
     data['offset'] = this.offset;
@@ -40,24 +40,24 @@ class Department {
 }
 
 class Departments {
-  String sId;
-  bool enabled;
-  String name;
-  String description;
-  bool showOnRegistration;
-  bool showOnOfflineForm;
-  bool requestTagBeforeClosingChat;
-  String email;
-  List<String> chatClosingTags;
-  String maxNumberSimultaneousChat;
-  String waitingQueueMessage;
-  String type;
-  int numAgents;
-  String sUpdatedAt;
-  String offlineMessageChannelName;
-  String abandonedRoomsCloseCustomMessage;
-  String departmentsAllowedToForward;
-  String visitorInactivityTimeoutInSeconds;
+  String? sId;
+  bool? enabled;
+  String? name;
+  String? description;
+  bool? showOnRegistration;
+  bool? showOnOfflineForm;
+  bool? requestTagBeforeClosingChat;
+  String? email;
+  List<String>? chatClosingTags;
+  String? maxNumberSimultaneousChat;
+  String? waitingQueueMessage;
+  String? type;
+  int? numAgents;
+  String? sUpdatedAt;
+  String? offlineMessageChannelName;
+  String? abandonedRoomsCloseCustomMessage;
+  String? departmentsAllowedToForward;
+  String? visitorInactivityTimeoutInSeconds;
 
   Departments({
     this.sId,

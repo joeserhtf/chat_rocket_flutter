@@ -9,7 +9,7 @@ class ChatActions {
   static Future<void> sendMessage(String text) async {
     if (chatActive) {
       await RocketChatApi.sendMessage(
-        rooms[selectedRoom].sId ?? '',
+        rooms?[selectedRoom].sId ?? '',
         text,
       );
     }
@@ -23,7 +23,7 @@ class ChatActions {
     if (chatActive) {
       RocketChatApi.uploadFile(
         file,
-        rooms[selectedRoom].sId ?? '',
+        rooms?[selectedRoom].sId ?? '',
         fileName,
         fileType,
       );
@@ -34,7 +34,7 @@ class ChatActions {
     if (chatActive) {
       RocketChatApi.uploadAudio(
         audio,
-        rooms[selectedRoom].sId ?? '',
+        rooms?[selectedRoom].sId ?? '',
         'Audio record.mp3',
       );
     }
@@ -48,13 +48,13 @@ class ChatActions {
     playNotifier = false;
   }
 
-  static Future<RoomMessages> fetchRoomMessages(String roomId) async {
-    RoomMessages messages = await RocketChatApi.getRoomMessages(roomId);
+  static Future<RoomMessages?> fetchRoomMessages(String roomId) async {
+    RoomMessages? messages = await RocketChatApi.getRoomMessages(roomId);
     return messages;
   }
 
-  static Future<Tag> fetchTags() async {
-    Tag tags = await RocketChatApi.getListTags();
+  static Future<Tag?> fetchTags() async {
+    Tag? tags = await RocketChatApi.getListTags();
     return tags;
   }
 }

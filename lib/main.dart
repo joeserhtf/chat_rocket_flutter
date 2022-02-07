@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
         url: "",
         urlLogo: "",
         urlSound: "",
-        iconsColor: Colors.orange[600],
-        baseColor: Colors.orange[600],
+        iconsColor: Colors.orange[600]!,
+        baseColor: Colors.orange[600]!,
         audioColor: Colors.orange,
         textColor: Colors.black,
         options: [

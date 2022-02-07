@@ -1,9 +1,9 @@
 class AgentsOnline {
-  List<Users> users;
-  int count;
-  int offset;
-  int total;
-  bool success;
+  List<Users>? users;
+  int? count;
+  int? offset;
+  int? total;
+  bool? success;
 
   AgentsOnline({
     this.users,
@@ -17,7 +17,7 @@ class AgentsOnline {
     if (json['users'] != null) {
       users = [];
       json['users'].forEach((v) {
-        users.add(Users.fromJson(v));
+        users?.add(Users.fromJson(v));
       });
     }
     count = json['count'];
@@ -29,7 +29,7 @@ class AgentsOnline {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.users != null) {
-      data['users'] = this.users.map((v) => v.toJson()).toList();
+      data['users'] = this.users?.map((v) => v.toJson()).toList();
     }
     data['count'] = this.count;
     data['offset'] = this.offset;
@@ -40,13 +40,13 @@ class AgentsOnline {
 }
 
 class Users {
-  String sId;
-  List<Emails> emails;
-  String status;
-  String name;
-  String username;
-  String statusLiveChat;
-  LiveChat liveChat;
+  String? sId;
+  List<Emails>? emails;
+  String? status;
+  String? name;
+  String? username;
+  String? statusLiveChat;
+  LiveChat? liveChat;
 
   Users({
     this.sId,
@@ -63,38 +63,36 @@ class Users {
     if (json['emails'] != null) {
       emails = [];
       json['emails'].forEach((v) {
-        emails.add(Emails.fromJson(v));
+        emails?.add(Emails.fromJson(v));
       });
     }
     status = json['status'];
     name = json['name'];
     username = json['username'];
     statusLiveChat = json['statusLivechat'];
-    liveChat = json['livechat'] != null
-        ? LiveChat.fromJson(json['livechat'])
-        : null;
+    liveChat = json['livechat'] != null ? LiveChat.fromJson(json['livechat']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     if (this.emails != null) {
-      data['emails'] = this.emails.map((v) => v.toJson()).toList();
+      data['emails'] = this.emails?.map((v) => v.toJson()).toList();
     }
     data['status'] = this.status;
     data['name'] = this.name;
     data['username'] = this.username;
     data['statusLivechat'] = this.statusLiveChat;
     if (this.liveChat != null) {
-      data['livechat'] = this.liveChat.toJson();
+      data['livechat'] = this.liveChat?.toJson();
     }
     return data;
   }
 }
 
 class Emails {
-  String address;
-  bool verified;
+  String? address;
+  bool? verified;
 
   Emails({
     this.address,
@@ -115,7 +113,7 @@ class Emails {
 }
 
 class LiveChat {
-  String maxNumberSimultaneousChat;
+  String? maxNumberSimultaneousChat;
 
   LiveChat({
     this.maxNumberSimultaneousChat,

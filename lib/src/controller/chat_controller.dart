@@ -14,16 +14,16 @@ import '../model/socket_room.dart';
 import '../model/tags.dart';
 
 final rocketHeaders = {
-  "X-Auth-Token": "${rocketUser.data.authToken}",
-  "X-User-Id": "${rocketUser.data.userId}",
+  "X-Auth-Token": "${rocketUser?.data?.authToken}",
+  "X-User-Id": "${rocketUser?.data?.userId}",
   "Content-type": "application/json",
 };
 
 class RocketChatApi {
-  static Future<LoginClass> loginRocket(
+  static Future<LoginClass?> loginRocket(
     String login,
     String password, {
-    String resume = '',
+    String? resume = '',
   }) async {
     String url = '$globalurl'
         '/api/v1/login';
@@ -56,7 +56,7 @@ class RocketChatApi {
 
   static Future<List<Update>> getLiveRooms(String agent, String token) async {
     try {
-      var resp = await meteor.call('rooms/get', [
+      var resp = await meteor?.call('rooms/get', [
         {"\$date": 0}
       ]);
 
@@ -103,8 +103,8 @@ class RocketChatApi {
 
     var splitType = type.split('/');
     var request = http.MultipartRequest('POST', Uri.parse("$url"));
-    request.headers["X-Auth-Token"] = "${rocketUser.data.authToken}";
-    request.headers["X-User-Id"] = "${rocketUser.data.userId}";
+    request.headers["X-Auth-Token"] = "${rocketUser?.data?.authToken}";
+    request.headers["X-User-Id"] = "${rocketUser?.data?.userId}";
     request.files.add(
       http.MultipartFile.fromBytes(
         'file',
@@ -126,8 +126,8 @@ class RocketChatApi {
         '/api/v1/rooms.upload/$room';
 
     var request = http.MultipartRequest('POST', Uri.parse("$url"));
-    request.headers["X-Auth-Token"] = "${rocketUser.data.authToken}";
-    request.headers["X-User-Id"] = "${rocketUser.data.userId}";
+    request.headers["X-Auth-Token"] = "${rocketUser?.data?.authToken}";
+    request.headers["X-User-Id"] = "${rocketUser?.data?.userId}";
     request.files.add(
       http.MultipartFile.fromBytes(
         'file',
@@ -141,8 +141,8 @@ class RocketChatApi {
   }
 
   static Future<dynamic> closeRoom(
-    String roomId,
-    String visitorToken,
+    String? roomId,
+    String? visitorToken,
   ) async {
     String url = '$globalurl'
         '/api/v1/livechat/room.close';
@@ -162,9 +162,9 @@ class RocketChatApi {
   }
 
   static Future<dynamic> transferRoom(
-    String roomId,
-    String userId, {
-    String department = '',
+    String? roomId,
+    String? userId, {
+    String? department = '',
   }) async {
     String url = '$globalurl'
         '/api/v1/livechat/room.forward';
@@ -203,20 +203,18 @@ class RocketChatApi {
     return json.decode(response.body);
   }
 
-  static Future<List<Users>> getAgents() async {
+  static Future<List<Users>?> getAgents() async {
     try {
       String url = '$globalurl'
           '/api/v1/livechat/users/agent';
 
-      http.Response response =
-          await http.get(Uri.parse(url), headers: rocketHeaders);
+      http.Response response = await http.get(Uri.parse(url), headers: rocketHeaders);
 
       AgentsOnline agents = AgentsOnline.fromJson(json.decode(response.body));
 
       List<Users> users = [];
-      agents.users.forEach((element) {
-        if (element.statusLiveChat == "available" &&
-            element.status == "online") {
+      agents.users?.forEach((element) {
+        if (element.statusLiveChat == "available" && element.status == "online") {
           users.add(element);
         }
       });
@@ -228,7 +226,7 @@ class RocketChatApi {
     }
   }
 
-  static Future<Department> getDepartments() async {
+  static Future<Department?> getDepartments() async {
     try {
       String url = '$globalurl'
           '/api/v1/livechat/department';
@@ -249,7 +247,7 @@ class RocketChatApi {
     }
   }
 
-  static Future<Guest> getDataGuest(String tokenGuest) async {
+  static Future<Guest?>? getDataGuest(String? tokenGuest) async {
     try {
       String url = '$globalurl'
           '/api/v1/livechat/visitor/'
@@ -260,7 +258,7 @@ class RocketChatApi {
         headers: rocketHeaders,
       );
 
-      Guest guestInfo;
+      Guest? guestInfo;
       try {
         guestInfo = Guest.fromJson(json.decode(response.body));
       } on Exception catch (e) {
@@ -275,8 +273,8 @@ class RocketChatApi {
   }
 
   static Future<dynamic> getHistGuest(
-    String roomId,
-    String guestId,
+    String? roomId,
+    String? guestId,
   ) async {
     try {
       String url = '$globalurl'
@@ -297,14 +295,13 @@ class RocketChatApi {
     }
   }
 
-  static Future<RoomMessages> getRoomMessages(String roomId) async {
+  static Future<RoomMessages?> getRoomMessages(String roomId) async {
     try {
       String url = '$globalurl'
           '/api/v1/channels.messages?'
           'roomId=$roomId';
 
-      http.Response response =
-          await http.get(Uri.parse(url), headers: rocketHeaders);
+      http.Response response = await http.get(Uri.parse(url), headers: rocketHeaders);
 
       RoomMessages messagesRoom = RoomMessages.fromJson(
         json.decode(response.body),
@@ -317,7 +314,7 @@ class RocketChatApi {
     }
   }
 
-  static Future<Tag> getListTags() async {
+  static Future<Tag?> getListTags() async {
     try {
       String url = '$globalurl'
           '/api/v1/livechat/tags.list';

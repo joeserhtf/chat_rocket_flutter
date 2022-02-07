@@ -7,10 +7,13 @@ import 'package:chat_rocket_flutter/src/view/widgets.dart';
 import 'package:flutter/material.dart';
 
 class MiniChats extends StatefulWidget {
-  List<Update> rooms;
-  Function funcaoT;
+  final List<Update> rooms;
+  final Function funcaoT;
 
-  MiniChats(this.rooms, this.funcaoT);
+  MiniChats(
+    this.rooms,
+    this.funcaoT,
+  );
 
   @override
   _MiniChatsState createState() => _MiniChatsState();
@@ -152,7 +155,8 @@ class _MiniChatsState extends State<MiniChats> {
                               topRight: Radius.circular(32),
                               bottomLeft: Radius.circular(ativo ? 0 : 32),
                               bottomRight: Radius.circular(ativo ? 0 : 32)),
-                          color: Color((multiplicadorCor(sala.sId, sala.departmentId) * 0xFFFFFF).toInt()).withOpacity(1.0),
+                          color: Color((multiplicadorCor(sala.sId, sala.departmentId) * 0xFFFFFF).toInt())
+                              .withOpacity(1.0),
                         ),
                         child: Text(
                           '${sala == null ? '' : sala.fName.substring(0, 1)}',
@@ -256,7 +260,8 @@ checkLM(List<Update> nowLive, List<Update> newLive) {
     return true;
   } else {
     for (int k = 0; k < newLive.length; k++) {
-      if ((nowLive[k].lastMessage?.sId != newLive[k].lastMessage?.sId) && newLive[k].lastMessage?.u?.username?.contains("guest")) {
+      if ((nowLive[k].lastMessage?.sId != newLive[k].lastMessage?.sId) &&
+          newLive[k].lastMessage.u.username.contains("guest")) {
         nowLive = newLive;
         return true;
       }

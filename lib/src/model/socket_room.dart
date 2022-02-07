@@ -24,18 +24,18 @@ class SocketRoom {
 }
 
 class Update {
-  String sId;
-  int usersCount;
-  Lm lm;
-  String fName;
-  String t;
-  String departmentId;
-  V v;
-  bool cl;
-  bool open;
-  Lm lUpdatedAt;
-  ServedBy servedBy;
-  LastMessage lastMessage;
+  String? sId;
+  int? usersCount;
+  Lm? lm;
+  String? fName;
+  String? t;
+  String? departmentId;
+  V? v;
+  bool? cl;
+  bool? open;
+  Lm? lUpdatedAt;
+  ServedBy? servedBy;
+  LastMessage? lastMessage;
 
   Update({
     this.sId,
@@ -100,7 +100,7 @@ class Update {
 }
 
 class Lm {
-  int date;
+  int? date;
 
   Lm({
     this.date,
@@ -118,11 +118,11 @@ class Lm {
 }
 
 class V {
-  String sId;
-  String username;
-  String token;
-  String status;
-  Lm lastMessageTs;
+  String? sId;
+  String? username;
+  String? token;
+  String? status;
+  Lm? lastMessageTs;
 
   V({
     this.sId,
@@ -156,9 +156,9 @@ class V {
 }
 
 class ServedBy {
-  String sId;
-  String username;
-  Lm ts;
+  String? sId;
+  String? username;
+  Lm? ts;
 
   ServedBy({
     this.sId,
@@ -184,16 +184,16 @@ class ServedBy {
 }
 
 class LastMessage {
-  String sId;
-  String rid;
-  String message;
-  String token;
-  String alias;
-  Lm ts;
-  U u;
-  Lm lUpdatedAt;
-  bool newRoom;
-  bool showConnecting;
+  String? sId;
+  String? rid;
+  String? message;
+  String? token;
+  String? alias;
+  Lm? ts;
+  U? u;
+  Lm? lUpdatedAt;
+  bool? newRoom;
+  bool? showConnecting;
 
   LastMessage({
     this.sId,

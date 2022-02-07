@@ -1,5 +1,5 @@
 class Message {
-  List<Messages> messages;
+  List<Messages>? messages;
   dynamic unreadNotLoaded;
 
   Message({
@@ -11,7 +11,7 @@ class Message {
     if (json['messages'] != null) {
       messages = [];
       json['messages'].forEach((v) {
-        messages.add(Messages.fromJson(v));
+        messages?.add(Messages.fromJson(v));
       });
     }
     unreadNotLoaded = json['unreadNotLoaded'];
@@ -20,7 +20,7 @@ class Message {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.messages != null) {
-      data['messages'] = this.messages.map((v) => v.toJson()).toList();
+      data['messages'] = this.messages?.map((v) => v.toJson()).toList();
     }
     data['unreadNotLoaded'] = this.unreadNotLoaded;
     return data;
@@ -28,21 +28,21 @@ class Message {
 }
 
 class Messages {
-  String sId;
-  String rid;
-  String message;
-  String token;
-  String alias;
-  Ts ts;
-  U u;
-  Ts tUpdatedAt;
-  List<Urls> urls;
-  File file;
-  bool groupable;
-  List<Attachments> attachments;
-  bool parseUrls;
-  String t;
-  TransferData transferData;
+  String? sId;
+  String? rid;
+  String? message;
+  String? token;
+  String? alias;
+  Ts? ts;
+  U? u;
+  Ts? tUpdatedAt;
+  List<Urls>? urls;
+  File? file;
+  bool? groupable;
+  List<Attachments>? attachments;
+  bool? parseUrls;
+  String? t;
+  TransferData? transferData;
 
   Messages({
     this.sId,
@@ -75,7 +75,7 @@ class Messages {
     if (json['urls'] != null) {
       urls = [];
       json['urls'].forEach((v) {
-        urls.add(Urls.fromJson(v));
+        urls?.add(Urls.fromJson(v));
       });
     }
     file = json['file'] != null ? File.fromJson(json['file']) : null;
@@ -83,7 +83,7 @@ class Messages {
     if (json['attachments'] != null) {
       attachments = [];
       json['attachments'].forEach((v) {
-        attachments.add(Attachments.fromJson(v));
+        attachments?.add(Attachments.fromJson(v));
       });
     }
     parseUrls = json['parseUrls'];
@@ -101,28 +101,28 @@ class Messages {
     data['token'] = this.token;
     data['alias'] = this.alias;
     if (this.ts != null) {
-      data['ts'] = this.ts.toJson();
+      data['ts'] = this.ts?.toJson();
     }
     if (this.u != null) {
-      data['u'] = this.u.toJson();
+      data['u'] = this.u?.toJson();
     }
     if (this.tUpdatedAt != null) {
-      data['_updatedAt'] = this.tUpdatedAt.toJson();
+      data['_updatedAt'] = this.tUpdatedAt?.toJson();
     }
     if (this.urls != null) {
-      data['urls'] = this.urls.map((v) => v.toJson()).toList();
+      data['urls'] = this.urls?.map((v) => v.toJson()).toList();
     }
     if (this.file != null) {
-      data['file'] = this.file.toJson();
+      data['file'] = this.file?.toJson();
     }
     data['groupable'] = this.groupable;
     if (this.attachments != null) {
-      data['attachments'] = this.attachments.map((v) => v.toJson()).toList();
+      data['attachments'] = this.attachments?.map((v) => v.toJson()).toList();
     }
     data['parseUrls'] = this.parseUrls;
     data['t'] = this.t;
     if (this.transferData != null) {
-      data['transferData'] = this.transferData.toJson();
+      data['transferData'] = this.transferData?.toJson();
     }
     return data;
   }
@@ -147,9 +147,9 @@ class Ts {
 }
 
 class U {
-  String sId;
-  String username;
-  String name;
+  String? sId;
+  String? username;
+  String? name;
 
   U({
     this.sId,
@@ -173,9 +173,9 @@ class U {
 }
 
 class Urls {
-  String url;
-  Headers headers;
-  ParsedUrl parsedUrl;
+  String? url;
+  Headers? headers;
+  ParsedUrl? parsedUrl;
 
   Urls({
     this.url,
@@ -196,17 +196,17 @@ class Urls {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['url'] = this.url;
     if (this.headers != null) {
-      data['headers'] = this.headers.toJson();
+      data['headers'] = this.headers?.toJson();
     }
     if (this.parsedUrl != null) {
-      data['parsedUrl'] = this.parsedUrl.toJson();
+      data['parsedUrl'] = this.parsedUrl?.toJson();
     }
     return data;
   }
 }
 
 class Headers {
-  String contentType;
+  String? contentType;
   dynamic contentLength;
 
   Headers({
@@ -228,14 +228,14 @@ class Headers {
 }
 
 class ParsedUrl {
-  String host;
+  String? host;
   dynamic hash;
-  String pathname;
-  String protocol;
+  String? pathname;
+  String? protocol;
   dynamic port;
   dynamic query;
   dynamic search;
-  String hostname;
+  String? hostname;
 
   ParsedUrl({
     this.host,
@@ -274,9 +274,9 @@ class ParsedUrl {
 }
 
 class File {
-  String sId;
-  String name;
-  String type;
+  String? sId;
+  String? name;
+  String? type;
 
   File({
     this.sId,
@@ -300,14 +300,14 @@ class File {
 }
 
 class Attachments {
-  String ts;
-  String title;
-  String titleLink;
-  bool titleLinkDownload;
-  String audioUrl;
-  String audioType;
+  String? ts;
+  String? title;
+  String? titleLink;
+  bool? titleLinkDownload;
+  String? audioUrl;
+  String? audioType;
   dynamic audioSize;
-  String type;
+  String? type;
 
   Attachments({
     this.ts,
@@ -346,12 +346,12 @@ class Attachments {
 }
 
 class TransferData {
-  TransferredBy transferredBy;
-  Ts ts;
-  String scope;
-  String comment;
-  String previousDepartment;
-  U transferredTo;
+  TransferredBy? transferredBy;
+  Ts? ts;
+  String? scope;
+  String? comment;
+  String? previousDepartment;
+  U? transferredTo;
 
   TransferData({
     this.transferredBy,
@@ -378,26 +378,26 @@ class TransferData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.transferredBy != null) {
-      data['transferredBy'] = this.transferredBy.toJson();
+      data['transferredBy'] = this.transferredBy?.toJson();
     }
     if (this.ts != null) {
-      data['ts'] = this.ts.toJson();
+      data['ts'] = this.ts?.toJson();
     }
     data['scope'] = this.scope;
     data['comment'] = this.comment;
     data['previousDepartment'] = this.previousDepartment;
     if (this.transferredTo != null) {
-      data['transferredTo'] = this.transferredTo.toJson();
+      data['transferredTo'] = this.transferredTo?.toJson();
     }
     return data;
   }
 }
 
 class TransferredBy {
-  String sId;
-  String username;
-  String name;
-  String type;
+  String? sId;
+  String? username;
+  String? name;
+  String? type;
 
   TransferredBy({
     this.sId,

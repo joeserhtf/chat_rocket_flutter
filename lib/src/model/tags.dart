@@ -1,9 +1,9 @@
 class Tag {
-  List<Tags> tags;
-  int count;
-  int offset;
-  int total;
-  bool success;
+  List<Tags>? tags;
+  int? count;
+  int? offset;
+  int? total;
+  bool? success;
 
   Tag({
     this.tags,
@@ -17,7 +17,7 @@ class Tag {
     if (json['tags'] != null) {
       tags = [];
       json['tags'].forEach((v) {
-        tags.add(new Tags.fromJson(v));
+        tags?.add(new Tags.fromJson(v));
       });
     }
     count = json['count'];
@@ -40,20 +40,21 @@ class Tag {
 }
 
 class Tags {
-  String sId;
-  String name;
-  String description;
-  int numDepartments;
-  List<String> departments;
-  String sUpdatedAt;
+  String? sId;
+  String? name;
+  String? description;
+  int? numDepartments;
+  List<String>? departments;
+  String? sUpdatedAt;
 
-  Tags(
-      {this.sId,
-      this.name,
-      this.description,
-      this.numDepartments,
-      this.departments,
-      this.sUpdatedAt});
+  Tags({
+    this.sId,
+    this.name,
+    this.description,
+    this.numDepartments,
+    this.departments,
+    this.sUpdatedAt,
+  });
 
   Tags.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
