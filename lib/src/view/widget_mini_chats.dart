@@ -37,9 +37,9 @@ class _MiniChatsState extends State<MiniChats> {
               controller: _controller,
               padding: EdgeInsets.only(left: 25, right: 35),
               scrollDirection: Axis.horizontal,
-              itemCount: rooms.length,
+              itemCount: rooms?.length ?? 0,
               itemBuilder: (context, index) {
-                return conversasMini(rooms[widget.rooms.length - 1 - index], rooms.length - 1 - index);
+                return conversasMini(rooms![widget.rooms.length - 1 - index], rooms!.length - 1 - index);
               },
             ),
           ),
@@ -114,7 +114,7 @@ class _MiniChatsState extends State<MiniChats> {
           : Padding(
               padding: EdgeInsets.symmetric(horizontal: 4),
               child: Badge(
-                showBadge: !ativo && sala.lastMessage.token != null,
+                showBadge: !ativo && sala.lastMessage?.token != null,
                 badgeContent: Text(
                   '!',
                   style: TextStyle(
@@ -159,7 +159,7 @@ class _MiniChatsState extends State<MiniChats> {
                               .withOpacity(1.0),
                         ),
                         child: Text(
-                          '${sala == null ? '' : sala.fName.substring(0, 1)}',
+                          '${sala == null ? '' : sala.fName?.substring(0, 1)}',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
@@ -193,7 +193,7 @@ class _MiniChatsState extends State<MiniChats> {
               Container(),
               Center(
                 child: Text(
-                  allWordsCapitilize(sala.fName).split(' ')[0],
+                  allWordsCapitilize(sala.fName!).split(' ')[0],
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: selecionado ? Colors.white : Colors.grey[300],
@@ -215,7 +215,7 @@ class _MiniChatsState extends State<MiniChats> {
             child: Padding(
               padding: EdgeInsets.only(right: 2),
               child: Badge(
-                showBadge: sala.lastMessage.token != null && !selecionado,
+                showBadge: sala.lastMessage?.token != null && !selecionado,
                 badgeContent: Text(
                   '!',
                   style: TextStyle(
@@ -238,11 +238,11 @@ class _MiniChatsState extends State<MiniChats> {
 loadRooms({data = ''}) async {
   List<Update> preRooms;
   if (rocketUser != null) {
-    preRooms = await RocketChatApi.getLiveRooms(rocketUser.data.userId, rocketUser.data.authToken);
-    if (liveRooms == null ? true : checkLM(liveRooms, preRooms)) {
+    preRooms = await RocketChatApi.getLiveRooms(rocketUser?.data?.userId, rocketUser?.data?.authToken);
+    if (liveRooms == null ? true : checkLM(liveRooms!, preRooms)) {
       liveRooms = preRooms;
       waitingRooms = 0;
-      liveRooms.forEach((element) {
+      liveRooms?.forEach((element) {
         if (element.t == 'l') waitingRooms++;
       });
       blocRooms.add(liveRooms);
@@ -255,13 +255,13 @@ loadRooms({data = ''}) async {
   }
 }
 
-checkLM(List<Update> nowLive, List<Update> newLive) {
-  if (nowLive.length != newLive.length) {
+checkLM(List<Update>? nowLive, List<Update> newLive) {
+  if (nowLive!.length != newLive.length) {
     return true;
   } else {
     for (int k = 0; k < newLive.length; k++) {
-      if ((nowLive[k].lastMessage?.sId != newLive[k].lastMessage?.sId) &&
-          newLive[k].lastMessage.u.username.contains("guest")) {
+      if ((nowLive![k].lastMessage?.sId != newLive[k].lastMessage?.sId) &&
+          newLive[k].lastMessage!.u!.username!.contains("guest")) {
         nowLive = newLive;
         return true;
       }

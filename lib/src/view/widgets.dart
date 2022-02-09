@@ -11,8 +11,9 @@ String allWordsCapitilize(String str) {
   }).join(' ');
 }
 
-multiplicadorCor(String roomId, String depId) {
-  return "$roomId".codeUnits.reduce((value, element) => value + element) * "$depId".codeUnits.reduce((value, element) => value + element);
+multiplicadorCor(String? roomId, String? depId) {
+  return "$roomId".codeUnits.reduce((value, element) => value + element) *
+      "$depId".codeUnits.reduce((value, element) => value + element);
 }
 
 mediaQuery(BuildContext context, double value) {
@@ -28,12 +29,12 @@ textInputForm(
   String label,
   String hint, {
   bool obscureText = false,
-  TextEditingController controller,
+  TextEditingController? controller,
   bool obscure = false,
-  FocusNode focus,
-  TextInputAction action,
-  Function done,
-  Function next,
+  FocusNode? focus,
+  TextInputAction? action,
+  Function()? done,
+  Function(String)? next,
   bool auto = false,
   Color colorInput = Colors.blue,
 }) {
@@ -51,8 +52,8 @@ textInputForm(
     onEditingComplete: done,
     onFieldSubmitted: next,
     obscureText: obscureText,
-    validator: (String text) {
-      if (text.isEmpty) {
+    validator: (String? text) {
+      if (text?.isEmpty ?? false) {
         return "$label!";
       } else {
         return null;

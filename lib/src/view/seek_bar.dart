@@ -58,5 +58,5 @@ class _SeekBarState extends State<SeekBar> {
     );
   }
 
-  Duration get _remaining => widget.duration - widget.position;
+  Duration get _remaining => widget.duration! - (widget.position ?? Duration());
 }

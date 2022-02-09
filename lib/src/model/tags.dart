@@ -29,7 +29,7 @@ class Tag {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.tags != null) {
-      data['tags'] = this.tags.map((v) => v.toJson()).toList();
+      data['tags'] = this.tags?.map((v) => v.toJson()).toList();
     }
     data['count'] = this.count;
     data['offset'] = this.offset;

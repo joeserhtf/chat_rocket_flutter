@@ -1,17 +1,17 @@
 import 'dart:async';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dart_meteor_web/dart_meteor_web.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:link/link.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:positioned_tap_detector/positioned_tap_detector.dart';
+import 'package:positioned_tap_detector_2/positioned_tap_detector_2.dart';
 
 import '../../const.dart';
 import '../controller/chat_controller.dart';
@@ -30,18 +30,18 @@ import '../view/widgets.dart';
 import 'input_bar.dart';
 
 class WidgetChat extends StatefulWidget {
-  final String url;
-  final String urlLogo;
-  final String urlSound;
-  final Color baseColor;
-  final Color textColor;
-  final Color iconsColor;
-  final Color audioColor;
-  final Color iconButtonColor;
-  final List<ChatOption> options;
-  final Function(CallbackData) onClose;
-  final Function(CallbackData) onTransfer;
-  final Function(CallbackData) onUpdate;
+  final String? url;
+  final String? urlLogo;
+  final String? urlSound;
+  final Color? baseColor;
+  final Color? textColor;
+  final Color? iconsColor;
+  final Color? audioColor;
+  final Color? iconButtonColor;
+  final List<ChatOption>? options;
+  final Function(CallbackData)? onClose;
+  final Function(CallbackData)? onTransfer;
+  final Function(CallbackData)? onUpdate;
 
   WidgetChat({
     this.baseColor,
@@ -90,27 +90,28 @@ class _WidgetChatState extends State<WidgetChat> {
   void initState() {
     super.initState();
     if (widget.baseColor != null) baseColor = widget.baseColor;
-    if (widget.url != null) globalurl = widget.url;
-    if (widget.urlLogo != null) urlLogo = widget.urlLogo;
-    if (widget.urlSound != null) urlSound = widget.urlSound;
-    if (widget.textColor != null) textColor = widget.textColor;
-    if (widget.iconsColor != null) iconsColor = widget.iconsColor;
+    if (widget.url != null) globalurl = widget.url!;
+    if (widget.urlLogo != null) urlLogo = widget.urlLogo!;
+    if (widget.urlSound != null) urlSound = widget.urlSound!;
+    if (widget.textColor != null) textColor = widget.textColor!;
+    if (widget.iconsColor != null) iconsColor = widget.iconsColor!;
     if (widget.audioColor != null) audioColor = widget.audioColor;
-    if (widget.iconButtonColor != null) iconButtonColor = widget.iconButtonColor;
+    if (widget.iconButtonColor != null) iconButtonColor = widget.iconButtonColor!;
 
     notificationSound.setUrl(urlSound);
 
     meteor = MeteorClient.connect(
       url: "wss://${globalurl.replaceAll("https://", '')}/websocket",
     );
-    meteor.prepareCollection('stream-notify-user');
-    meteor.prepareCollection('stream-room-messages');
+
+    meteor?.prepareCollection('stream-notify-user');
+    meteor?.prepareCollection('stream-room-messages');
   }
 
   @override
   void dispose() {
     super.dispose();
-    meteor.disconnect();
+    meteor?.disconnect();
   }
 
   @override
@@ -125,29 +126,35 @@ class _WidgetChatState extends State<WidgetChat> {
   }
 
   _body() {
-    return StreamBuilder<DdpConnectionStatus>(
-      stream: meteor.status(),
+    return StreamBuilder<DdpConnectionStatus?>(
+      stream: meteor?.status(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data.connected) {
+          if (snapshot.data!.connected ?? false) {
             return StreamBuilder<Map<String, dynamic>>(
-              stream: meteor.user(),
+              stream: meteor?.user(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   if (rocketUser == null) {
                     String? savedToken = html.window.localStorage['Meteor.loginToken'];
                     _loginApi(resume: savedToken);
                   } else {
-                    if (rocketUser.data != null) {
-                      subscriptionHandler = meteor.subscribe(
+                    if (rocketUser?.data != null) {
+                      subscriptionHandler = meteor?.subscribe(
                         'stream-notify-user',
-                        ["${rocketUser.data.userId}/rooms-changed", false],
+                        ["${rocketUser?.data?.userId}/rooms-changed", false],
+                        onStop: (error) {
+                          return () {};
+                        },
                       );
                     }
                   }
-                  subscriptionHandler = meteor.subscribe(
+                  subscriptionHandler = meteor?.subscribe(
                     'stream-room-messages',
                     ["__my_messages__", false],
+                    onStop: (error) {
+                      return () {};
+                    },
                   );
                   return chatActive ? _chat() : _minimizedChat();
                 }
@@ -172,7 +179,7 @@ class _WidgetChatState extends State<WidgetChat> {
           color: iconButtonColor,
         ),
         onPressed: () {
-          meteor.reconnect();
+          meteor?.reconnect();
         },
       ),
     );
@@ -198,7 +205,7 @@ class _WidgetChatState extends State<WidgetChat> {
 
   _minimizedChat() {
     return StreamBuilder(
-      stream: meteor.collections['stream-notify-user'],
+      stream: meteor?.collections['stream-notify-user'],
       builder: (context, snapshot) {
         if ((liveRooms == null || snapshot.hasData)) {
           loadRooms();
@@ -245,24 +252,24 @@ class _WidgetChatState extends State<WidgetChat> {
     return Container(
       width: widthChatBox,
       child: StreamBuilder(
-        stream: meteor.collections['stream-room-messages'],
+        stream: meteor?.collections['stream-room-messages'],
         builder: (context, snapshot) {
           loadRooms(data: snapshot.data);
           return StreamBuilder(
             stream: blocRooms.stream,
-            builder: (context, snapshot) {
+            builder: (context, AsyncSnapshot<dynamic> snapshot) {
               if (playNotifier && snapshot.hasData) {
                 if (rooms != null) {
-                  for (int n = 0; n < rooms.length; n++) {
-                    if (snapshot.data.length == rooms.length) {
-                      if ((rooms[n].lastMessage?.sId != snapshot.data[n].lastMessage?.sId) &&
-                          rooms[n].lastMessage?.alias != rooms[n].servedBy.username) {
+                  for (int n = 0; n < rooms!.length; n++) {
+                    if (snapshot.data?.length == rooms?.length) {
+                      if ((rooms?[n].lastMessage?.sId != snapshot.data[n].lastMessage?.sId) &&
+                          rooms?[n].lastMessage?.alias != rooms?[n].servedBy?.username) {
                         notificationSound.seek(Duration.zero, index: 0);
                         notificationSound.pause();
                         notificationSound.play();
                         break;
                       }
-                    } else if (snapshot.data.length > rooms.length) {
+                    } else if (snapshot.data.length > rooms?.length) {
                       notificationSound.seek(Duration.zero, index: 0);
                       notificationSound.pause();
                       notificationSound.play();
@@ -280,16 +287,16 @@ class _WidgetChatState extends State<WidgetChat> {
                 if (waitingRooms == 0) {
                   return _noRoomButton();
                 }
-                if (selectedRoom > rooms.length - 1) {
+                if (selectedRoom > (rooms?.length ?? 1) - 1) {
                   selectedRoom = 0;
                 }
-                _streamRoom(rooms[selectedRoom].sId);
-                _checkUpdate(rooms);
+                _streamRoom(rooms?[selectedRoom].sId);
+                _checkUpdate(rooms!);
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     if (!expandedChat)
-                      MiniChats(rooms, () {
+                      MiniChats(rooms!, () {
                         setState(() {
                           playNotifier = false;
                         });
@@ -313,7 +320,7 @@ class _WidgetChatState extends State<WidgetChat> {
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Expanded(
-                                                child: MiniChats(rooms, () {
+                                                child: MiniChats(rooms!, () {
                                                   setState(() {});
                                                 }),
                                               ),
@@ -325,7 +332,7 @@ class _WidgetChatState extends State<WidgetChat> {
                                 ],
                               ),
                             ),
-                            InputBar(rooms[selectedRoom].sId ?? ''),
+                            InputBar(rooms![selectedRoom].sId ?? ''),
                           ],
                         ),
                       ),
@@ -375,32 +382,32 @@ class _WidgetChatState extends State<WidgetChat> {
         Expanded(
           flex: 7,
           child: StreamBuilder(
-            stream: meteor.collections['stream-room-messages'],
+            stream: meteor?.collections['stream-room-messages'],
             builder: (context, snapshot) {
-              _loadMessages(rooms[selectedRoom].sId);
+              _loadMessages(rooms?[selectedRoom].sId);
               return StreamBuilder(
                 stream: blocMensagens.stream,
-                builder: (context, snapshot) {
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
                   if (snapshot.hasData) {
                     Message messages = snapshot.data;
                     return ListView.builder(
-                      itemCount: messages.messages.length,
+                      itemCount: messages.messages?.length,
                       reverse: true,
                       itemBuilder: (context, index) {
                         return _buildMessage(
                           index == 0,
-                          '${messages.messages[index].message}',
-                          !messages.messages[index].u.username.contains("guest"),
-                          messages.messages[index].ts.date ?? 0,
-                          messages.messages[index].u.name,
-                          messages.messages[index],
-                          messages.messages[index].u.username,
+                          '${messages.messages![index].message}',
+                          !(messages.messages![index].u?.username?.contains("guest") ?? false),
+                          messages.messages![index].ts?.date ?? 0,
+                          messages.messages![index].u?.name,
+                          messages.messages![index],
+                          messages.messages![index].u?.username,
                           index,
                         );
                       },
                     );
                   }
-                  if (rooms == null || rooms.isEmpty) {
+                  if (rooms == null || rooms!.isEmpty) {
                     return Center(
                       child: Text("Nenhuma Conversa Ativa"),
                     );
@@ -428,7 +435,7 @@ class _WidgetChatState extends State<WidgetChat> {
       decoration: BoxDecoration(
         border: Border(
           left: BorderSide(
-            color: Colors.grey[400],
+            color: Colors.grey[400]!,
             width: 0.8,
           ),
         ),
@@ -460,7 +467,7 @@ class _WidgetChatState extends State<WidgetChat> {
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: Colors.grey[400],
+                color: Colors.grey[400]!,
                 width: 0.6,
               ),
             ),
@@ -574,7 +581,7 @@ class _WidgetChatState extends State<WidgetChat> {
         Expanded(
           child: StreamBuilder(
             stream: blocHistoricoMensagens.stream,
-            builder: (context, snapshot) {
+            builder: (context, AsyncSnapshot<dynamic> snapshot) {
               if (!snapshot.hasData) {
                 return Container();
               }
@@ -582,19 +589,19 @@ class _WidgetChatState extends State<WidgetChat> {
               roomHist.RoomMessages messages = snapshot.data;
 
               return ListView.builder(
-                itemCount: messages.messages.length,
+                itemCount: messages.messages?.length ?? 0,
                 reverse: true,
                 itemBuilder: (context, index) {
-                  return messages.messages[index].t == 'command'
+                  return messages.messages![index].t == 'command'
                       ? Container()
                       : _buildHistoricMessage(
                           index == 0,
                           '${messages.messages?[index].message}',
-                          !messages.messages?[index].u.username.contains("guest"),
-                          messages.messages[index].ts,
-                          messages.messages[index].u.name,
-                          messages.messages[index],
-                          messages.messages[index].u.username,
+                          !(messages.messages?[index].u?.username?.contains("guest") ?? false),
+                          messages.messages![index].ts,
+                          messages.messages![index].u?.name,
+                          messages.messages![index],
+                          messages.messages![index].u?.username,
                           index,
                         );
                 },
@@ -769,7 +776,7 @@ class _WidgetChatState extends State<WidgetChat> {
             visible: !transferring,
             child: Tooltip(
               message: "Opções",
-              child: PositionedTapDetector(
+              child: PositionedTapDetector2(
                 onTap: (details) {
                   _showPopupMenu(details.global);
                 },
@@ -831,12 +838,12 @@ class _WidgetChatState extends State<WidgetChat> {
 
   _buildMessage(
     bool isLast,
-    String message,
+    String? message,
     bool send,
     int date,
-    String name,
+    String? name,
     Messages messages,
-    String user,
+    String? user,
     int index,
   ) {
     if (send) {
@@ -866,18 +873,18 @@ class _WidgetChatState extends State<WidgetChat> {
                     maxWidth: sizeChatMensagens,
                   ),
                   child: Container(
-                    child: (messages.attachments != null ? messages.attachments.isNotEmpty : false)
-                        ? messages.file.type.contains("image")
+                    child: (messages.attachments != null ? messages.attachments!.isNotEmpty : false)
+                        ? messages.file?.type?.contains("image") ?? false
                             ? Stack(
                                 children: [
                                   GestureDetector(
                                     onTap: () {
                                       _showImageZoom(
-                                        "$globalurl${messages.attachments[0].titleLink}",
+                                        "$globalurl${messages.attachments![0].titleLink}",
                                       );
                                     },
                                     child: CachedNetworkImage(
-                                      imageUrl: "$globalurl${messages.attachments[0].titleLink}",
+                                      imageUrl: "$globalurl${messages.attachments![0].titleLink}",
                                       progressIndicatorBuilder: (context, url, downloadProgress) =>
                                           CircularProgressIndicator(
                                         value: downloadProgress.progress,
@@ -889,31 +896,41 @@ class _WidgetChatState extends State<WidgetChat> {
                                   Positioned(
                                     top: 8,
                                     right: 8,
-                                    child: Link(
-                                      child: Icon(
+                                    child: IconButton(
+                                      visualDensity: VisualDensity.compact,
+                                      icon: Icon(
                                         MdiIcons.cloudDownloadOutline,
                                         color: iconsColor,
                                       ),
-                                      url: "$globalurl${messages.attachments[0].titleLink}"
-                                          "?download",
+                                      onPressed: () =>
+                                          _launchURL("$globalurl${messages.attachments![0].titleLink}?download"),
                                     ),
                                   ),
                                 ],
                               )
-                            : messages.file.type.contains("audio")
-                                ? _playAudio(index, "$globalurl${messages.attachments[0].titleLink}")
-                                : Link(
-                                    child: Text(
-                                      messages.attachments[0].title,
-                                      style: TextStyle(
+                            : messages.file?.type?.contains("audio") ?? false
+                                ? _playAudio(index, "$globalurl${messages.attachments![0].titleLink}")
+                                : RichText(
+                                    text: TextSpan(
+                                      style: const TextStyle(
                                         color: Colors.blueAccent,
-                                        decoration: TextDecoration.underline,
                                       ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: messages.attachments![0].title ?? "",
+                                          style: TextStyle(
+                                            color: Colors.blueAccent,
+                                            decoration: TextDecoration.underline,
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              _launchURL("$globalurl${messages.attachments![0].titleLink}?download");
+                                            },
+                                        ),
+                                      ],
                                     ),
-                                    url: "$globalurl${messages.attachments[0].titleLink}"
-                                        "?download",
                                   )
-                        : copyText(message, corText: textColor),
+                        : copyText(message!, corText: textColor),
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: greyColor2,
@@ -974,7 +991,7 @@ class _WidgetChatState extends State<WidgetChat> {
                           Radius.circular(16),
                         ),
                         color: Color(
-                          (multiplicadorCor(rooms[selectedRoom].sId, rooms[selectedRoom].departmentId) * 0xFFFFFF)
+                          (multiplicadorCor(rooms?[selectedRoom].sId, rooms?[selectedRoom].departmentId) * 0xFFFFFF)
                               .toInt(),
                         ).withOpacity(1.0),
                       ),
@@ -996,18 +1013,18 @@ class _WidgetChatState extends State<WidgetChat> {
                     maxWidth: sizeChatMensagens,
                   ),
                   child: Container(
-                    child: messages.urls != null && !message.contains("Log:")
-                        ? (messages.urls[messages.urls.length - 1].headers == null
+                    child: messages.urls != null && !(message?.contains("Log:") ?? false)
+                        ? (messages.urls?[messages.urls?.length ?? 1 - 1].headers == null
                                 ? false
-                                : messages.urls[messages.urls.length - 1].headers.contentType.contains("image"))
+                                : messages.urls![messages.urls!.length - 1].headers!.contentType!.contains("image"))
                             ? Stack(
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      _showImageZoom("${message.replaceAll("]", '')}");
+                                      _showImageZoom("${message?.replaceAll("]", '')}");
                                     },
                                     child: CachedNetworkImage(
-                                      imageUrl: "${message.replaceAll("]", '')}",
+                                      imageUrl: "${message?.replaceAll("]", '')}",
                                       progressIndicatorBuilder: (
                                         context,
                                         url,
@@ -1023,32 +1040,42 @@ class _WidgetChatState extends State<WidgetChat> {
                                   Positioned(
                                     top: 8,
                                     right: 8,
-                                    child: Link(
-                                      child: Icon(
+                                    child: IconButton(
+                                      visualDensity: VisualDensity.compact,
+                                      icon: Icon(
                                         MdiIcons.cloudDownloadOutline,
                                         color: iconsColor,
                                       ),
-                                      url: "${message.replaceAll("]", '')}",
+                                      onPressed: () => _launchURL("${message?.replaceAll("]", '')}"),
                                     ),
                                   ),
                                 ],
                               )
-                            : (messages.urls[messages.urls.length - 1].headers == null
+                            : (messages.urls?[messages.urls?.length ?? 1 - 1].headers == null
                                     ? false
-                                    : messages.urls[messages.urls.length - 1].headers.contentType.contains("audio"))
-                                ? _playAudio(index, "${message.replaceAll("]", '')}")
-                                : Link(
-                                    child: Text(
-                                      message.replaceAll("\n", "").replaceAll("]", ""),
-                                      style: TextStyle(
+                                    : messages.urls![messages.urls!.length - 1].headers!.contentType!.contains("audio"))
+                                ? _playAudio(index, "${message?.replaceAll("]", '')}")
+                                : RichText(
+                                    text: TextSpan(
+                                      style: const TextStyle(
                                         color: Colors.blueAccent,
-                                        decoration: TextDecoration.underline,
                                       ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: message?.replaceAll("\n", "").replaceAll("]", "") ?? "",
+                                          style: TextStyle(
+                                            color: Colors.blueAccent,
+                                            decoration: TextDecoration.underline,
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              _launchURL("${message?.replaceAll("]", '')}");
+                                            },
+                                        ),
+                                      ],
                                     ),
-                                    url: "${message.replaceAll("]", '')}",
-                                    //onError: _onErrorCallback
                                   )
-                        : copyText(message, corText: Colors.white),
+                        : copyText(message!, corText: Colors.white),
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: baseColor,
@@ -1087,6 +1114,10 @@ class _WidgetChatState extends State<WidgetChat> {
         margin: EdgeInsets.only(bottom: 10.0),
       );
     }
+  }
+
+  void _launchURL(String url) async {
+    if (!await launch(url)) throw 'Could not launch $url';
   }
 
   _showPopupMenu(Offset offset) async {
@@ -1142,18 +1173,18 @@ class _WidgetChatState extends State<WidgetChat> {
 
   _getLocalHistoric() async {
     Guest? guest = await RocketChatApi.getDataGuest(
-      rooms?[selectedRoom].v.token,
+      rooms?[selectedRoom].v?.token,
     );
     dynamic history = await RocketChatApi.getHistGuest(
-      rooms[selectedRoom].sId,
-      guest.visitor.sId,
+      rooms?[selectedRoom].sId,
+      guest?.visitor?.sId,
     );
     blocHistoricoConversas.add(history);
   }
 
-  _loadMessages(String roomID) async {
+  _loadMessages(String? roomID) async {
     if (rooms == null) await Future.delayed(Duration(seconds: 1));
-    var resp = await meteor.call('loadHistory', [
+    var resp = await meteor?.call('loadHistory', [
       "$roomID",
       null,
       0,
@@ -1179,6 +1210,9 @@ class _WidgetChatState extends State<WidgetChat> {
       subscriptionHandler = meteor?.subscribe(
         'stream-notify-user',
         ["${rocketUser?.data?.userId}/rooms-changed", false],
+        onStop: (error) {
+          return () {};
+        },
       );
       _loginSocketToken(rocketUser?.data?.authToken);
       RocketChatApi.changeStatus(true);
@@ -1196,31 +1230,31 @@ class _WidgetChatState extends State<WidgetChat> {
     meteor?.loginWithToken(token: "$token");
   }
 
-  _streamRoom(String roomId) {
+  _streamRoom(String? roomId) {
     globalRoomId = roomId;
   }
 
   _closeRoom() async {
     bool isConfirmed = true;
     if (widget.onClose != null) {
-      isConfirmed = await widget.onClose(
+      isConfirmed = await widget.onClose!(
         CallbackData(
-          roomId: rooms[selectedRoom]?.sId ?? "",
-          contactName: rooms[selectedRoom]?.fName ?? "Contato",
+          roomId: rooms?[selectedRoom].sId ?? "",
+          contactName: rooms?[selectedRoom].fName ?? "Contato",
           number: "",
-          token: rooms[selectedRoom]?.v?.token ?? "",
-          agentName: rooms[selectedRoom]?.servedBy?.username ?? "",
-          department: rooms[selectedRoom]?.departmentId ?? "",
+          token: rooms?[selectedRoom].v?.token ?? "",
+          agentName: rooms?[selectedRoom].servedBy?.username ?? "",
+          department: rooms?[selectedRoom].departmentId ?? "",
           destinyAgentName: destinyAgents?.username ?? "",
           destinyDepartment: department?.sId ?? "",
           guestId: "",
         ),
       );
     }
-    if (isConfirmed ?? true) {
+    if (isConfirmed) {
       await RocketChatApi.closeRoom(
         rooms?[selectedRoom].sId,
-        rooms?[selectedRoom].v.token,
+        rooms?[selectedRoom].v?.token,
       );
       await loadRooms();
       setState(() {
@@ -1232,24 +1266,24 @@ class _WidgetChatState extends State<WidgetChat> {
   _chatTransfer() async {
     bool isConfirmed = true;
     if (widget.onTransfer != null) {
-      isConfirmed = await widget.onTransfer(
+      isConfirmed = await widget.onTransfer!(
         CallbackData(
-          roomId: rooms[selectedRoom]?.sId ?? "",
-          contactName: rooms[selectedRoom]?.fName ?? "Contato",
+          roomId: rooms?[selectedRoom].sId ?? "",
+          contactName: rooms?[selectedRoom].fName ?? "Contato",
           number: "",
-          token: rooms[selectedRoom]?.v?.token ?? "",
-          agentName: rooms[selectedRoom]?.servedBy?.username ?? "",
-          department: rooms[selectedRoom]?.departmentId ?? "",
+          token: rooms?[selectedRoom].v?.token ?? "",
+          agentName: rooms?[selectedRoom].servedBy?.username ?? "",
+          department: rooms?[selectedRoom].departmentId ?? "",
           destinyAgentName: destinyAgents?.username ?? "",
           destinyDepartment: department?.sId ?? "",
           guestId: "",
         ),
       );
     }
-    if (isConfirmed ?? true) {
+    if (isConfirmed) {
       await RocketChatApi.transferRoom(
-        rooms[selectedRoom].sId,
-        destinyAgents.sId,
+        rooms?[selectedRoom].sId,
+        destinyAgents?.sId,
         department: '',
       );
       await loadRooms();
@@ -1270,7 +1304,7 @@ class _WidgetChatState extends State<WidgetChat> {
     } catch (e) {
       print(e);
     }
-    return StreamBuilder<Duration>(
+    return StreamBuilder<Duration?>(
       stream: player.durationStream,
       builder: (context, snapshot) {
         final duration = snapshot.data ?? Duration.zero;
@@ -1347,7 +1381,7 @@ class _WidgetChatState extends State<WidgetChat> {
   _selectAgents() {
     return StreamBuilder(
       stream: blocAgentes.stream,
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot<dynamic> snapshot) {
         if (!snapshot.hasData) {
           return Container(
             height: 30,
@@ -1365,12 +1399,12 @@ class _WidgetChatState extends State<WidgetChat> {
               color: iconButtonColor,
               fontWeight: FontWeight.bold,
             ),
-            onChanged: (Users value) {
+            onChanged: (Users? value) {
               setState(() {
                 destinyAgents = value;
               });
             },
-            items: snapshot.data.map<DropdownMenuItem<Users>>((Users value) {
+            items: snapshot.data!.map<DropdownMenuItem<Users>>((Users value) {
               return DropdownMenuItem<Users>(
                 value: value,
                 child: Center(
@@ -1390,7 +1424,7 @@ class _WidgetChatState extends State<WidgetChat> {
   }
 
   _nameSizeControl(Users value) {
-    List<String> words = value.name.split(' ');
+    List<String> words = value.name?.split(' ') ?? [];
     if (words.length > 1) return "${words[0]} ${words[1]}";
     return value.name;
   }
@@ -1398,7 +1432,7 @@ class _WidgetChatState extends State<WidgetChat> {
   _selectDepartment() {
     return StreamBuilder(
       stream: blocDepartamentos.stream,
-      builder: (context, AsyncSnapshot<Department?> snapshot) {
+      builder: (context, AsyncSnapshot<dynamic> snapshot) {
         if (!snapshot.hasData) {
           department = null;
           return Container(
@@ -1408,13 +1442,13 @@ class _WidgetChatState extends State<WidgetChat> {
 
         Department? snapDepartments = snapshot.data;
         if (department == null) {
-          snapDepartments.departments.forEach((element) {
-            if (element.sId == rooms[selectedRoom].departmentId) department = element;
+          snapDepartments!.departments!.forEach((element) {
+            if (element.sId == rooms![selectedRoom].departmentId) department = element;
           });
         }
 
-        snapDepartments.departments?.removeWhere(
-          (element) => !element.enabled,
+        snapDepartments!.departments?.removeWhere(
+          (element) => !(element.enabled ?? true),
         );
 
         return Padding(
@@ -1429,17 +1463,17 @@ class _WidgetChatState extends State<WidgetChat> {
               color: iconButtonColor,
               fontWeight: FontWeight.bold,
             ),
-            onChanged: (Departments value) {
+            onChanged: (dynamic value) {
               setState(() {
                 department = value;
               });
             },
-            items: snapDepartments.departments.map<DropdownMenuItem<Departments>>((Departments value) {
+            items: snapDepartments.departments!.map<DropdownMenuItem<Departments>>((Departments value) {
               return DropdownMenuItem<Departments>(
                 value: value,
                 child: Center(
                   child: Text(
-                    allWordsCapitilize(value.name),
+                    allWordsCapitilize(value.name!),
                     style: TextStyle(
                       color: textColor,
                     ),
@@ -1455,12 +1489,12 @@ class _WidgetChatState extends State<WidgetChat> {
 
   _buildHistoricMessage(
     bool isLast,
-    String message,
+    String? message,
     bool send,
-    String date,
-    String name,
+    String? date,
+    String? name,
     roomHist.Messages messages,
-    String user,
+    String? user,
     int index,
   ) {
     if (send) {
@@ -1486,18 +1520,18 @@ class _WidgetChatState extends State<WidgetChat> {
             Row(
               children: <Widget>[
                 Container(
-                  child: (messages.attachments != null ? messages.attachments.isNotEmpty : false)
-                      ? messages.file.type.contains("image")
+                  child: (messages.attachments != null ? messages.attachments!.isNotEmpty : false)
+                      ? messages.file?.type?.contains("image") ?? false
                           ? Stack(
                               children: [
                                 GestureDetector(
                                   onTap: () {
                                     _showImageZoom(
-                                      "$globalurl${messages.attachments[0].titleLink}",
+                                      "$globalurl${messages.attachments![0].titleLink}",
                                     );
                                   },
                                   child: CachedNetworkImage(
-                                    imageUrl: "$globalurl${messages.attachments[0].titleLink}",
+                                    imageUrl: "$globalurl${messages.attachments![0].titleLink}",
                                     progressIndicatorBuilder: (
                                       context,
                                       url,
@@ -1513,35 +1547,45 @@ class _WidgetChatState extends State<WidgetChat> {
                                 Positioned(
                                   top: 8,
                                   right: 8,
-                                  child: Link(
-                                    child: Icon(
+                                  child: IconButton(
+                                    visualDensity: VisualDensity.compact,
+                                    icon: Icon(
                                       MdiIcons.cloudDownloadOutline,
                                       color: iconsColor,
                                     ),
-                                    url: "$globalurl${messages.attachments[0].titleLink}"
-                                        "?download",
+                                    onPressed: () =>
+                                        _launchURL("$globalurl${messages.attachments![0].titleLink}?download"),
                                   ),
                                 ),
                               ],
                             )
-                          : messages.file.type.contains("audio")
+                          : messages.file?.type?.contains("audio") ?? false
                               ? _playAudio(
                                   index,
-                                  "$globalurl${messages.attachments[0].titleLink}",
+                                  "$globalurl${messages.attachments?[0].titleLink}",
                                 )
-                              : Link(
-                                  child: Text(
-                                    messages.attachments[0].title,
-                                    style: TextStyle(
+                              : RichText(
+                                  text: TextSpan(
+                                    style: const TextStyle(
                                       color: Colors.blueAccent,
-                                      decoration: TextDecoration.underline,
                                     ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: messages.attachments![0].title ?? "",
+                                        style: TextStyle(
+                                          color: Colors.blueAccent,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            _launchURL("$globalurl${messages.attachments![0].titleLink}?download");
+                                          },
+                                      ),
+                                    ],
                                   ),
-                                  url: "$globalurl${messages.attachments[0].titleLink}"
-                                      "?download",
                                 )
                       : copyText(
-                          message,
+                          message!,
                           corText: textColor,
                         ),
                   padding: EdgeInsets.all(10),
@@ -1558,7 +1602,7 @@ class _WidgetChatState extends State<WidgetChat> {
                 ? Container(
                     child: Text(
                       DateFormat('dd/MM kk:mm').format(
-                        DateTime.parse(date),
+                        DateTime.parse(date!),
                       ),
                       style: TextStyle(
                         color: greyColor,
@@ -1608,7 +1652,7 @@ class _WidgetChatState extends State<WidgetChat> {
                             Radius.circular(16),
                           ),
                           color: Color(
-                            (multiplicadorCor(rooms[selectedRoom].sId, rooms[selectedRoom].departmentId) * 0xFFFFFF)
+                            (multiplicadorCor(rooms![selectedRoom].sId, rooms![selectedRoom].departmentId) * 0xFFFFFF)
                                 .toInt(),
                           ).withOpacity(1.0),
                         ),
@@ -1626,18 +1670,18 @@ class _WidgetChatState extends State<WidgetChat> {
                   ),
                 ),
                 Container(
-                  child: messages.urls != null && !message.contains("Log:")
-                      ? (messages.urls[messages.urls.length - 1].headers == null
+                  child: messages.urls != null && !(message?.contains("Log:") ?? false)
+                      ? (messages.urls?[messages.urls?.length ?? 1 - 1].headers == null
                               ? false
-                              : messages.urls[messages.urls.length - 1].headers.contentType.contains("image"))
+                              : messages.urls![messages.urls!.length - 1].headers!.contentType!.contains("image"))
                           ? Stack(
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    _showImageZoom("${message.replaceAll("]", '')}");
+                                    _showImageZoom("${message?.replaceAll("]", '')}");
                                   },
                                   child: CachedNetworkImage(
-                                    imageUrl: "${message.replaceAll("]", '')}",
+                                    imageUrl: "${message?.replaceAll("]", '')}",
                                     progressIndicatorBuilder: (
                                       context,
                                       url,
@@ -1651,34 +1695,44 @@ class _WidgetChatState extends State<WidgetChat> {
                                   ),
                                 ),
                                 Positioned(
-                                  top: 8,
-                                  right: 8,
-                                  child: Link(
-                                    child: Icon(
-                                      MdiIcons.cloudDownloadOutline,
-                                      color: iconsColor,
-                                    ),
-                                    url: "${message.replaceAll("]", '')}",
-                                  ),
-                                ),
+                                    top: 8,
+                                    right: 8,
+                                    child: IconButton(
+                                      visualDensity: VisualDensity.compact,
+                                      icon: Icon(
+                                        MdiIcons.cloudDownloadOutline,
+                                        color: iconsColor,
+                                      ),
+                                      onPressed: () => _launchURL("${message?.replaceAll("]", '')}"),
+                                    )),
                               ],
                             )
-                          : (messages.urls[messages.urls.length - 1].headers == null
+                          : (messages.urls?[messages.urls?.length ?? 1 - 1].headers == null
                                   ? false
-                                  : messages.urls[messages.urls.length - 1].headers.contentType.contains("audio"))
-                              ? _playAudio(index, "${message.replaceAll("]", '')}")
-                              : Link(
-                                  child: Text(
-                                    message.replaceAll("\n", "").replaceAll("]", ""),
-                                    style: TextStyle(
+                                  : messages.urls![messages.urls!.length - 1].headers!.contentType!.contains("audio"))
+                              ? _playAudio(index, "${message?.replaceAll("]", '')}")
+                              : RichText(
+                                  text: TextSpan(
+                                    style: const TextStyle(
                                       color: Colors.blueAccent,
-                                      decoration: TextDecoration.underline,
                                     ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: message?.replaceAll("\n", "").replaceAll("]", "") ?? "",
+                                        style: TextStyle(
+                                          color: Colors.blueAccent,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            _launchURL("${message?.replaceAll("]", '')}");
+                                          },
+                                      ),
+                                    ],
                                   ),
-                                  url: "${message.replaceAll("]", '')}",
                                 )
                       : copyText(
-                          message,
+                          message!,
                           corText: textColor,
                         ),
                   padding: EdgeInsets.all(10),
@@ -1695,7 +1749,7 @@ class _WidgetChatState extends State<WidgetChat> {
                 ? Container(
                     child: Text(
                       DateFormat('dd/MM kk:mm').format(
-                        DateTime.parse(date),
+                        DateTime.parse(date!),
                       ),
                       style: TextStyle(
                         color: greyColor,
@@ -1764,7 +1818,7 @@ class _WidgetChatState extends State<WidgetChat> {
                       urlLogo,
                       width: 200,
                       height: 75,
-                      errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
+                      errorBuilder: (context, error, stackTrace) {
                         return Container();
                       },
                     ),
@@ -1780,7 +1834,7 @@ class _WidgetChatState extends State<WidgetChat> {
                             auto: true,
                             focus: _userFocus,
                             action: TextInputAction.go,
-                            colorInput: baseColor,
+                            colorInput: baseColor!,
                             next: (term) {
                               fieldFocusChange(context, _userFocus, _passwordFocus);
                             },
@@ -1793,10 +1847,10 @@ class _WidgetChatState extends State<WidgetChat> {
                               controller: _passwordChatController,
                               obscure: true,
                               focus: _passwordFocus,
-                              colorInput: baseColor,
+                              colorInput: baseColor!,
                               action: TextInputAction.done, done: () {
-                            if (_formValidator.currentState.validate()) {
-                              _formValidator.currentState.save();
+                            if (_formValidator.currentState?.validate() ?? false) {
+                              _formValidator.currentState?.save();
                               _loginApi();
                             }
                           }),
@@ -1819,8 +1873,8 @@ class _WidgetChatState extends State<WidgetChat> {
                               ),
                             ),
                             onPressed: () {
-                              if (_formValidator.currentState.validate()) {
-                                _formValidator.currentState.save();
+                              if (_formValidator.currentState?.validate() ?? false) {
+                                _formValidator.currentState?.save();
                                 _loginApi();
                               }
                             },
@@ -1876,30 +1930,28 @@ class _WidgetChatState extends State<WidgetChat> {
 
   List<PopupMenuItem> _optionsBuilder() {
     if (widget.options == null) return [];
-    return widget.options
-        .map(
-          (e) => PopupMenuItem(
-            child: ListTile(
-              onTap: () {
-                e.function(
-                  CallbackData(
-                    roomId: rooms[selectedRoom]?.sId ?? "",
-                    contactName: rooms[selectedRoom]?.fName ?? "Contato",
-                    number: "",
-                    token: rooms[selectedRoom]?.v?.token ?? "",
-                    agentName: rooms[selectedRoom]?.servedBy?.username ?? "",
-                    department: rooms[selectedRoom]?.departmentId ?? "",
-                    destinyAgentName: destinyAgents?.username ?? "",
-                    destinyDepartment: department?.sId ?? "",
-                    guestId: "",
-                  ),
-                );
-                Navigator.pop(context);
-              },
-              title: Text(e.name),
-            ),
-          ),
-        )
+    return widget.options!
+        .map((e) => PopupMenuItem(
+              child: ListTile(
+                onTap: () {
+                  e.function!(
+                    CallbackData(
+                      roomId: rooms?[selectedRoom].sId ?? "",
+                      contactName: rooms?[selectedRoom].fName ?? "Contato",
+                      number: "",
+                      token: rooms?[selectedRoom].v?.token ?? "",
+                      agentName: rooms?[selectedRoom].servedBy?.username ?? "",
+                      department: rooms?[selectedRoom].departmentId ?? "",
+                      destinyAgentName: destinyAgents?.username ?? "",
+                      destinyDepartment: department?.sId ?? "",
+                      guestId: "",
+                    ),
+                  );
+                  Navigator.pop(context);
+                },
+                title: Text(e.name ?? ""),
+              ),
+            ))
         .toList();
   }
 
@@ -1907,7 +1959,7 @@ class _WidgetChatState extends State<WidgetChat> {
     if (globalRooms == null || globalRooms?.length != rooms.length) {
       globalRooms = rooms;
       for (int k = 0; k < rooms.length; k++) {
-        Guest? guestInfo = await RocketChatApi.getDataGuest(rooms[k].v.token);
+        Guest? guestInfo = await RocketChatApi.getDataGuest(rooms[k].v?.token);
         roomHist.RoomMessages? messages = await RocketChatApi.getRoomMessages(
           rooms[k].sId,
         );
@@ -1923,14 +1975,14 @@ class _WidgetChatState extends State<WidgetChat> {
         }
 
         if (widget.onUpdate != null)
-          await widget.onUpdate(
+          await widget.onUpdate!(
             CallbackData(
-              roomId: rooms[selectedRoom]?.sId ?? "",
-              contactName: rooms[selectedRoom]?.fName ?? "Contato",
+              roomId: rooms[selectedRoom].sId ?? "",
+              contactName: rooms[selectedRoom].fName ?? "Contato",
               number: guestInfo?.visitor?.liveChatData?.whatsApp?.substring(2) ?? "",
-              token: rooms[selectedRoom]?.v?.token ?? "",
-              agentName: rooms[selectedRoom]?.servedBy?.username ?? "",
-              department: rooms[selectedRoom]?.departmentId ?? "",
+              token: rooms[selectedRoom].v?.token ?? "",
+              agentName: rooms[selectedRoom].servedBy?.username ?? "",
+              department: rooms[selectedRoom].departmentId ?? "",
               destinyAgentName: destinyAgents?.username ?? "",
               destinyDepartment: department?.sId ?? "",
               guestId: guestInfo?.visitor?.sId ?? "",

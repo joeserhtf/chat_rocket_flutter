@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:chat_rocket_flutter/const.dart';
 import 'package:chat_rocket_flutter/src/controller/chat_controller.dart';
 import 'package:file_picker/file_picker.dart';
@@ -18,7 +20,7 @@ class InputBar extends StatefulWidget {
 }
 
 class _InputBarState extends State<InputBar> {
-  MicrophoneRecorder microphoneRecorder;
+  MicrophoneRecorder? microphoneRecorder;
   bool recording = false;
   TextEditingController _messageController = TextEditingController();
   var _formMessage = GlobalKey<FormState>();
@@ -89,10 +91,7 @@ class _InputBarState extends State<InputBar> {
                       final value = snap.data;
                       return Text(
                         value.toString().padLeft(2, '0') + ":",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'Helvetica',
-                            fontWeight: FontWeight.w600),
+                        style: TextStyle(fontSize: 18, fontFamily: 'Helvetica', fontWeight: FontWeight.w600),
                       );
                     },
                   ),
@@ -100,15 +99,10 @@ class _InputBarState extends State<InputBar> {
                     stream: _stopWatchTimer.secondTime,
                     initialData: _stopWatchTimer.secondTime.value,
                     builder: (context, snap) {
-                      final value = snap.data;
+                      final value = snap.data ?? 0;
                       return Text(
-                        value >= 60
-                            ? (value % 60).toString().padLeft(2, '0')
-                            : value.toString().padLeft(2, '0'),
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'Helvetica',
-                            fontWeight: FontWeight.w600),
+                        value >= 60 ? (value % 60).toString().padLeft(2, '0') : value.toString().padLeft(2, '0'),
+                        style: TextStyle(fontSize: 18, fontFamily: 'Helvetica', fontWeight: FontWeight.w600),
                       );
                     },
                   ),
@@ -126,8 +120,8 @@ class _InputBarState extends State<InputBar> {
                   onPressed: () async {
                     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
                     _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
-                    await microphoneRecorder.stop();
-                    microphoneRecorder.dispose();
+                    await microphoneRecorder?.stop();
+                    microphoneRecorder?.dispose();
                     setState(() {
                       recording = false;
                     });
@@ -147,8 +141,7 @@ class _InputBarState extends State<InputBar> {
                 child: IconButton(
                   icon: Icon(MdiIcons.paperclip),
                   onPressed: () async {
-                    FilePickerResult? pickfile = await FilePicker.platform
-                        .pickFiles(allowMultiple: true);
+                    FilePickerResult? pickfile = await FilePicker.platform.pickFiles(allowMultiple: true);
                     if (pickfile?.files.isNotEmpty ?? false) {
                       pickfile?.files.forEach((element) async {
                         /*var r = html.FileReader();
@@ -156,10 +149,10 @@ class _InputBarState extends State<InputBar> {
                         r.onLoadEnd.listen((e) {
                           var data = r.result;*/
                         RocketChatApi.uploadFile(
-                          element.bytes,
+                          element.bytes!,
                           widget.roomId,
                           element.name,
-                          element.extension,
+                          element.extension!,
                         );
                         // });
                         await Future.delayed(Duration(milliseconds: 500));
@@ -189,7 +182,7 @@ class _InputBarState extends State<InputBar> {
                     hintStyle: TextStyle(color: greyColor),
                   ),
                   validator: (text) {
-                    if (text.isEmpty) {
+                    if (text?.isEmpty ?? false) {
                       return '';
                     }
                     return null;
@@ -214,9 +207,8 @@ class _InputBarState extends State<InputBar> {
       ),
       width: double.infinity,
       height: 50.0,
-      decoration: BoxDecoration(
-          border: Border(top: BorderSide(color: Colors.grey[500]!, width: 0.5)),
-          color: Colors.white),
+      decoration:
+          BoxDecoration(border: Border(top: BorderSide(color: Colors.grey[500]!, width: 0.5)), color: Colors.white),
     );
   }
 
@@ -234,22 +226,22 @@ class _InputBarState extends State<InputBar> {
       print(e);
     }
     await Future.delayed(Duration(milliseconds: 500));
-    microphoneRecorder.start();
+    microphoneRecorder?.start();
     _stopWatchTimer.onExecute.add(StopWatchExecute.start);
   }
 
   _sendAudio() async {
     try {
-      await microphoneRecorder.stop();
-      final recordingUrl = microphoneRecorder.value.recording.url;
+      await microphoneRecorder?.stop();
+      final recordingUrl = microphoneRecorder?.value.recording?.url;
       var request = html.HttpRequest();
       request.responseType = "blob";
       request.open('GET', '$recordingUrl');
       request.onLoad.listen((event) {
-        var r = html.FileReader();
+        html.FileReader r = html.FileReader();
         r.readAsArrayBuffer(request.response.slice());
         r.onLoadEnd.listen((e) {
-          var data = r.result;
+          Uint8List data = r.result as Uint8List; //TODO check this
           RocketChatApi.uploadAudio(data, widget.roomId, 'Audio record.mp3');
         });
       });
@@ -258,6 +250,6 @@ class _InputBarState extends State<InputBar> {
       print(e);
     }
 
-    microphoneRecorder.dispose();
+    microphoneRecorder?.dispose();
   }
 }

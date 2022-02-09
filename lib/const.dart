@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:chat_rocket_flutter/src/model/department.dart';
 import 'package:dart_meteor_web/dart_meteor_web.dart';
 import 'package:flutter/material.dart';
 

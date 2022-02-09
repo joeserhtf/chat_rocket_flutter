@@ -54,7 +54,7 @@ class RocketChatApi {
     }
   }
 
-  static Future<List<Update>> getLiveRooms(String agent, String token) async {
+  static Future<List<Update>> getLiveRooms(String? agent, String? token) async {
     try {
       var resp = await meteor?.call('rooms/get', [
         {"\$date": 0}
@@ -63,7 +63,7 @@ class RocketChatApi {
       SocketRoom chats = SocketRoom.fromJson(resp);
 
       List<Update> liveRooms = [];
-      chats.update.forEach((element) {
+      chats.update?.forEach((element) {
         if (element.t == 'l') liveRooms.add(element);
       });
 
@@ -295,7 +295,7 @@ class RocketChatApi {
     }
   }
 
-  static Future<RoomMessages?> getRoomMessages(String roomId) async {
+  static Future<RoomMessages?> getRoomMessages(String? roomId) async {
     try {
       String url = '$globalurl'
           '/api/v1/channels.messages?'

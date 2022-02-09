@@ -1,14 +1,14 @@
 class CallbackData {
-  String roomId;
-  String contactName;
-  String agentName;
-  String destinyAgentName;
-  String department;
-  String destinyDepartment;
-  String token;
-  String guestId;
-  String number;
-  String storeAcronym;
+  String? roomId;
+  String? contactName;
+  String? agentName;
+  String? destinyAgentName;
+  String? department;
+  String? destinyDepartment;
+  String? token;
+  String? guestId;
+  String? number;
+  String? storeAcronym;
 
   CallbackData({
     this.roomId = "",

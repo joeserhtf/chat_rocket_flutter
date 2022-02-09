@@ -1,4 +1,4 @@
-library chat;
+library chat_rocket_flutter;
 
 export 'src/controller/chat_actions.dart';
 export 'src/model/callback_data.dart';
