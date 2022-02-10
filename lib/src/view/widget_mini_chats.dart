@@ -5,6 +5,8 @@ import 'package:chat_rocket_flutter/src/controller/chat_controller.dart';
 import 'package:chat_rocket_flutter/src/model/socket_room.dart';
 import 'package:chat_rocket_flutter/src/view/widgets.dart';
 import 'package:flutter/material.dart';
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
 
 class MiniChats extends StatefulWidget {
   final List<Update> rooms;
@@ -54,6 +56,11 @@ class _MiniChatsState extends State<MiniChats> {
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
+                    onLongPress: () {
+                      html.window.localStorage.remove('Meteor.loginToken');
+                      //meteor?.logout();
+                      html.window.location.reload();
+                    },
                     onTap: () async {
                       await RocketChatApi.changeStatus(!agentOnline);
                       setState(() {
