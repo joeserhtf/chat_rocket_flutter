@@ -27,14 +27,13 @@ class _MiniChatsState extends State<MiniChats> {
 
   @override
   Widget build(BuildContext context) {
-    //print('Rebuild mini');
-    return Container(
+    return SizedBox(
       width: expandedChat ? null : widthChatBox,
       child: Stack(
         children: [
           Container(
             height: expandedChat ? 50 : 40,
-            padding: EdgeInsets.only(right: 8),
+            padding: const EdgeInsets.only(right: 8),
             child: ListView.builder(
               controller: _controller,
               padding: EdgeInsets.only(left: 25, right: 35),
@@ -118,62 +117,65 @@ class _MiniChatsState extends State<MiniChats> {
       },
       child: expandedChat
           ? _conversasExpandido(sala, ativo)
-          : Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4),
-              child: Badge(
-                showBadge: !ativo && sala.lastMessage?.token != null,
-                badgeContent: Text(
-                  '!',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
+          : Tooltip(
+              message: "${sala == null ? '' : sala.fName}",
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4),
+                child: Badge(
+                  showBadge: !ativo && sala.lastMessage?.token != null,
+                  badgeContent: const Text(
+                    '!',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-                shape: BadgeShape.circle,
-                animationType: BadgeAnimationType.scale,
-                child: Card(
-                  elevation: 5,
-                  margin: ativo ? EdgeInsets.only(right: 0, left: 4) : EdgeInsets.all(4),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(32),
-                        topRight: Radius.circular(32),
-                        bottomLeft: Radius.circular(ativo ? 0 : 32),
-                        bottomRight: Radius.circular(ativo ? 0 : 32)),
-                  ),
-                  child: Container(
-                    height: ativo ? 40 : 30,
-                    width: ativo ? 40 : 30,
-                    alignment: Alignment.center,
-                    child: CachedNetworkImage(
-                      imageUrl: "",
-                      placeholder: (context, url) => Container(
-                        child: CircularProgressIndicator(),
-                        padding: EdgeInsets.all(10.0),
-                      ),
-                      errorWidget: (context, url, error) => Container(
-                        width: ativo ? 40 : 30,
-                        height: ativo ? 40 : 30,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(32),
-                              topRight: Radius.circular(32),
-                              bottomLeft: Radius.circular(ativo ? 0 : 32),
-                              bottomRight: Radius.circular(ativo ? 0 : 32)),
-                          color: Color((multiplicadorCor(sala.sId, sala.departmentId) * 0xFFFFFF).toInt())
-                              .withOpacity(1.0),
+                  shape: BadgeShape.circle,
+                  animationType: BadgeAnimationType.scale,
+                  child: Card(
+                    elevation: 5,
+                    margin: ativo ? EdgeInsets.only(right: 0, left: 4) : EdgeInsets.all(4),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(32),
+                          topRight: Radius.circular(32),
+                          bottomLeft: Radius.circular(ativo ? 0 : 32),
+                          bottomRight: Radius.circular(ativo ? 0 : 32)),
+                    ),
+                    child: Container(
+                      height: ativo ? 40 : 30,
+                      width: ativo ? 40 : 30,
+                      alignment: Alignment.center,
+                      child: CachedNetworkImage(
+                        imageUrl: "",
+                        placeholder: (context, url) => Container(
+                          child: CircularProgressIndicator(),
+                          padding: EdgeInsets.all(10.0),
                         ),
-                        child: Text(
-                          '${sala == null ? '' : sala.fName?.substring(0, 1)}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                        errorWidget: (context, url, error) => Container(
+                          width: ativo ? 40 : 30,
+                          height: ativo ? 40 : 30,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(32),
+                                topRight: Radius.circular(32),
+                                bottomLeft: Radius.circular(ativo ? 0 : 32),
+                                bottomRight: Radius.circular(ativo ? 0 : 32)),
+                            color: Color((multiplicadorCor(sala.sId, sala.departmentId) * 0xFFFFFF).toInt())
+                                .withOpacity(1.0),
+                          ),
+                          child: Text(
+                            '${sala == null ? '' : sala.fName?.substring(0, 1)}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
+                        fit: BoxFit.cover,
                       ),
-                      fit: BoxFit.cover,
                     ),
                   ),
                 ),

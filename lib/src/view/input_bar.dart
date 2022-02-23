@@ -4,7 +4,6 @@ import 'package:chat_rocket_flutter/const.dart';
 import 'package:chat_rocket_flutter/src/controller/chat_controller.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:microphone/microphone.dart';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
@@ -54,9 +53,9 @@ class _InputBarState extends State<InputBar> {
         children: <Widget>[
           Material(
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 1.0),
+              margin: const EdgeInsets.symmetric(horizontal: 1.0),
               child: IconButton(
-                icon: Icon(recording ? MdiIcons.check : MdiIcons.microphone),
+                icon: Icon(recording ? Icons.check : Icons.mic),
                 onPressed: () async {
                   if (recording) {
                     _sendAudio();
@@ -116,7 +115,7 @@ class _InputBarState extends State<InputBar> {
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 1.0),
                 child: IconButton(
-                  icon: Icon(MdiIcons.close),
+                  icon: const Icon(Icons.close),
                   onPressed: () async {
                     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
                     _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
@@ -137,9 +136,9 @@ class _InputBarState extends State<InputBar> {
             visible: !recording,
             child: Material(
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 1.0),
+                margin: const EdgeInsets.symmetric(horizontal: 1.0),
                 child: IconButton(
-                  icon: Icon(MdiIcons.paperclip),
+                  icon: const Icon(Icons.attach_file),
                   onPressed: () async {
                     FilePickerResult? pickfile = await FilePicker.platform.pickFiles(allowMultiple: true);
                     if (pickfile?.files.isNotEmpty ?? false) {
@@ -155,9 +154,9 @@ class _InputBarState extends State<InputBar> {
                           element.extension!,
                         );
                         // });
-                        await Future.delayed(Duration(milliseconds: 500));
+                        await Future.delayed(const Duration(milliseconds: 500));
                       });
-                      await Future.delayed(Duration(seconds: 1));
+                      await Future.delayed(const Duration(seconds: 1));
                     }
                   },
                   color: iconsColor,

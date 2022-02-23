@@ -308,8 +308,9 @@ class RocketChatApi {
       );
 
       return messagesRoom;
-    } catch (error) {
+    } catch (error, e) {
       print(error);
+      print(e);
       return null;
     }
   }

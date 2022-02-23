@@ -9,7 +9,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:positioned_tap_detector_2/positioned_tap_detector_2.dart';
 
@@ -191,7 +190,7 @@ class _WidgetChatState extends State<WidgetChat> {
       child: FloatingActionButton(
         backgroundColor: baseColor,
         child: Icon(
-          MdiIcons.loginVariant,
+          Icons.login,
           color: iconButtonColor,
         ),
         onPressed: () {
@@ -219,7 +218,7 @@ class _WidgetChatState extends State<WidgetChat> {
                 showBadge: true,
                 badgeContent: Text(
                   "$waitingRooms",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
@@ -236,7 +235,7 @@ class _WidgetChatState extends State<WidgetChat> {
                     });
                   },
                   child: Icon(
-                    MdiIcons.chat,
+                    Icons.chat_bubble,
                     color: iconButtonColor,
                   ),
                 ),
@@ -249,7 +248,7 @@ class _WidgetChatState extends State<WidgetChat> {
   }
 
   _chat() {
-    return Container(
+    return SizedBox(
       width: widthChatBox,
       child: StreamBuilder(
         stream: meteor?.collections['stream-room-messages'],
@@ -368,7 +367,7 @@ class _WidgetChatState extends State<WidgetChat> {
           backgroundColor: baseColor,
           onPressed: () {},
           child: Icon(
-            MdiIcons.chat,
+            Icons.chat_bubble,
             color: iconButtonColor,
           ),
         ),
@@ -700,8 +699,8 @@ class _WidgetChatState extends State<WidgetChat> {
                                   tooltip: "Cancelar",
                                   iconSize: 22,
                                   color: Colors.red,
-                                  icon: Icon(
-                                    MdiIcons.close,
+                                  icon: const Icon(
+                                    Icons.close,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -716,8 +715,8 @@ class _WidgetChatState extends State<WidgetChat> {
                                 tooltip: "Transferir",
                                 iconSize: 22,
                                 color: Colors.green,
-                                icon: Icon(
-                                  MdiIcons.check,
+                                icon: const Icon(
+                                  Icons.check,
                                 ),
                                 onPressed: () {
                                   _chatTransfer();
@@ -741,8 +740,8 @@ class _WidgetChatState extends State<WidgetChat> {
                                   tooltip: "Cancelar",
                                   iconSize: 22,
                                   color: Colors.red,
-                                  icon: Icon(
-                                    MdiIcons.close,
+                                  icon: const Icon(
+                                    Icons.close,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -757,8 +756,8 @@ class _WidgetChatState extends State<WidgetChat> {
                                 tooltip: "Transferir",
                                 iconSize: 22,
                                 color: Colors.green,
-                                icon: Icon(
-                                  MdiIcons.check,
+                                icon: const Icon(
+                                  Icons.check,
                                 ),
                                 onPressed: () {
                                   _chatTransfer();
@@ -783,7 +782,7 @@ class _WidgetChatState extends State<WidgetChat> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Icon(
-                    MdiIcons.dotsHorizontal,
+                    Icons.more_horiz,
                     color: expandedChat ? Colors.white : iconsColor,
                   ),
                 ),
@@ -799,7 +798,7 @@ class _WidgetChatState extends State<WidgetChat> {
                   iconSize: 22,
                   color: expandedChat ? Colors.white : iconsColor,
                   icon: Icon(
-                    expandedChat ? MdiIcons.arrowCollapse : MdiIcons.arrowExpand,
+                    expandedChat ? Icons.fullscreen_exit : Icons.fullscreen,
                   ),
                   onPressed: () {
                     setState(() {
@@ -816,8 +815,8 @@ class _WidgetChatState extends State<WidgetChat> {
                     tooltip: 'Minimizar',
                     iconSize: 22,
                     color: expandedChat ? Colors.white : iconsColor,
-                    icon: Icon(
-                      MdiIcons.arrowBottomRight,
+                    icon: const Icon(
+                      Icons.arrow_downward_rounded,
                     ),
                     onPressed: () {
                       setState(() {
@@ -899,7 +898,7 @@ class _WidgetChatState extends State<WidgetChat> {
                                     child: IconButton(
                                       visualDensity: VisualDensity.compact,
                                       icon: Icon(
-                                        MdiIcons.cloudDownloadOutline,
+                                        Icons.cloud_download,
                                         color: iconsColor,
                                       ),
                                       onPressed: () =>
@@ -1014,7 +1013,7 @@ class _WidgetChatState extends State<WidgetChat> {
                   ),
                   child: Container(
                     child: messages.urls != null && !(message?.contains("Log:") ?? false)
-                        ? (messages.urls?[messages.urls?.length ?? 1 - 1].headers == null
+                        ? (messages.urls?[(messages.urls?.length ?? 1) - 1].headers == null
                                 ? false
                                 : messages.urls![messages.urls!.length - 1].headers!.contentType!.contains("image"))
                             ? Stack(
@@ -1043,7 +1042,7 @@ class _WidgetChatState extends State<WidgetChat> {
                                     child: IconButton(
                                       visualDensity: VisualDensity.compact,
                                       icon: Icon(
-                                        MdiIcons.cloudDownloadOutline,
+                                        Icons.cloud_download,
                                         color: iconsColor,
                                       ),
                                       onPressed: () => _launchURL("${message?.replaceAll("]", '')}"),
@@ -1051,7 +1050,7 @@ class _WidgetChatState extends State<WidgetChat> {
                                   ),
                                 ],
                               )
-                            : (messages.urls?[messages.urls?.length ?? 1 - 1].headers == null
+                            : (messages.urls?[(messages.urls?.length ?? 1) - 1].headers == null
                                     ? false
                                     : messages.urls![messages.urls!.length - 1].headers!.contentType!.contains("audio"))
                                 ? _playAudio(index, "${message?.replaceAll("]", '')}")
@@ -1063,7 +1062,7 @@ class _WidgetChatState extends State<WidgetChat> {
                                       children: <TextSpan>[
                                         TextSpan(
                                           text: message?.replaceAll("\n", "").replaceAll("]", "") ?? "",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.blueAccent,
                                             decoration: TextDecoration.underline,
                                           ),
@@ -1302,6 +1301,7 @@ class _WidgetChatState extends State<WidgetChat> {
     try {
       player.setUrl(url);
     } catch (e) {
+      print("Erro Audio");
       print(e);
     }
     return StreamBuilder<Duration?>(
@@ -1550,7 +1550,7 @@ class _WidgetChatState extends State<WidgetChat> {
                                   child: IconButton(
                                     visualDensity: VisualDensity.compact,
                                     icon: Icon(
-                                      MdiIcons.cloudDownloadOutline,
+                                      Icons.cloud_download,
                                       color: iconsColor,
                                     ),
                                     onPressed: () =>
@@ -1700,7 +1700,7 @@ class _WidgetChatState extends State<WidgetChat> {
                                     child: IconButton(
                                       visualDensity: VisualDensity.compact,
                                       icon: Icon(
-                                        MdiIcons.cloudDownloadOutline,
+                                        Icons.cloud_download,
                                         color: iconsColor,
                                       ),
                                       onPressed: () => _launchURL("${message?.replaceAll("]", '')}"),
@@ -1782,7 +1782,7 @@ class _WidgetChatState extends State<WidgetChat> {
   }
 
   _formLogin() {
-    return Container(
+    return SizedBox(
       height: heightChatBox,
       width: widthChatBox,
       child: Scaffold(
@@ -1804,7 +1804,7 @@ class _WidgetChatState extends State<WidgetChat> {
                             showLoginForm = false;
                           });
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.close,
                         ),
                       ),
@@ -1839,7 +1839,7 @@ class _WidgetChatState extends State<WidgetChat> {
                               fieldFocusChange(context, _userFocus, _passwordFocus);
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 12,
                           ),
                           textInputForm(context, "Senha", "Digite Senha",
@@ -1854,7 +1854,7 @@ class _WidgetChatState extends State<WidgetChat> {
                               _loginApi();
                             }
                           }),
-                          SizedBox(
+                          const SizedBox(
                             height: 24,
                           ),
                           ElevatedButton(
@@ -1913,7 +1913,7 @@ class _WidgetChatState extends State<WidgetChat> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.close,
                       ),
                       color: iconsColor,
@@ -1956,40 +1956,46 @@ class _WidgetChatState extends State<WidgetChat> {
   }
 
   _checkUpdate(List<Update> rooms) async {
-    if (globalRooms == null || globalRooms?.length != rooms.length) {
-      globalRooms = rooms;
-      for (int k = 0; k < rooms.length; k++) {
-        Guest? guestInfo = await RocketChatApi.getDataGuest(rooms[k].v?.token);
-        roomHist.RoomMessages? messages = await RocketChatApi.getRoomMessages(
-          rooms[k].sId,
-        );
+    try {
+      if (globalRooms == null || globalRooms?.length != rooms.length) {
+        globalRooms = rooms;
+        for (int k = 0; k < rooms.length; k++) {
+          Guest? guestInfo = await RocketChatApi.getDataGuest(rooms[k].v?.token);
+          roomHist.RoomMessages? messages = await RocketChatApi.getRoomMessages(
+            rooms[k].sId,
+          );
 
-        String storeAcronym = "";
-        for (int f = 0; f < messages!.messages!.length; f++) {
-          if (messages.messages![f].message?.contains('Log:') ?? false) {
-            storeAcronym = messages.messages![f].message!.substring(
-                messages.messages![f].message!.lastIndexOf("A opÃ§Ã£o escolhida foi a ") + 26,
-                messages.messages![f].message!.lastIndexOf("A opÃ§Ã£o escolhida foi a ") + 29);
-            break;
+          String storeAcronym = "";
+          for (int f = 0; f < (messages?.messages?.length ?? 0); f++) {
+            if (messages?.messages?[f].message?.contains('Log:') ?? false) {
+              storeAcronym = messages!.messages![f].message!.substring(
+                  messages.messages![f].message!.lastIndexOf("A opÃ§Ã£o escolhida foi a ") + 26,
+                  messages.messages![f].message!.lastIndexOf("A opÃ§Ã£o escolhida foi a ") + 29);
+              break;
+            }
+          }
+
+          if (widget.onUpdate != null) {
+            await widget.onUpdate!(
+              CallbackData(
+                roomId: rooms[selectedRoom].sId ?? "",
+                contactName: rooms[selectedRoom].fName ?? "Contato",
+                number: guestInfo?.visitor?.liveChatData?.whatsApp?.substring(2) ?? "",
+                token: rooms[selectedRoom].v?.token ?? "",
+                agentName: rooms[selectedRoom].servedBy?.username ?? "",
+                department: rooms[selectedRoom].departmentId ?? "",
+                destinyAgentName: destinyAgents?.username ?? "",
+                destinyDepartment: department?.sId ?? "",
+                guestId: guestInfo?.visitor?.sId ?? "",
+                storeAcronym: storeAcronym,
+              ),
+            );
           }
         }
-
-        if (widget.onUpdate != null)
-          await widget.onUpdate!(
-            CallbackData(
-              roomId: rooms[selectedRoom].sId ?? "",
-              contactName: rooms[selectedRoom].fName ?? "Contato",
-              number: guestInfo?.visitor?.liveChatData?.whatsApp?.substring(2) ?? "",
-              token: rooms[selectedRoom].v?.token ?? "",
-              agentName: rooms[selectedRoom].servedBy?.username ?? "",
-              department: rooms[selectedRoom].departmentId ?? "",
-              destinyAgentName: destinyAgents?.username ?? "",
-              destinyDepartment: department?.sId ?? "",
-              guestId: guestInfo?.visitor?.sId ?? "",
-              storeAcronym: storeAcronym,
-            ),
-          );
       }
+    } catch (e, t) {
+      print(e);
+      print(t);
     }
   }
 }

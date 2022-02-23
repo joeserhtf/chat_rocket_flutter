@@ -340,12 +340,12 @@ class Headers {
 
 class ParsedUrl {
   String? host;
-  Null hash;
+  String? hash;
   String? pathname;
   String? protocol;
-  Null port;
-  Null query;
-  Null search;
+  String? port;
+  String? query;
+  String? search;
   String? hostname;
 
   ParsedUrl({
