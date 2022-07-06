@@ -55,14 +55,14 @@ class Update {
   Update.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     usersCount = json['usersCount'];
-    lm = json['lm'] != null ? Lm.fromJson(json['lm']) : null;
+    //lm = json['lm'] != null ? Lm.fromJson(json['lm']) : null;
     fName = json['fname'];
     t = json['t'];
     departmentId = json['departmentId'];
     v = json['v'] != null ? V.fromJson(json['v']) : null;
     cl = json['cl'];
     open = json['open'];
-    lUpdatedAt = json['_updatedAt'] != null ? Lm.fromJson(json['_updatedAt']) : null;
+    //lUpdatedAt = json['_updatedAt'] != null ? Lm.fromJson(json['_updatedAt']) : null;
     servedBy = json['servedBy'] != null ? ServedBy.fromJson(json['servedBy']) : null;
     lastMessage = json['lastMessage'] != null ? LastMessage.fromJson(json['lastMessage']) : null;
   }
@@ -133,7 +133,7 @@ class V {
     username = json['username'];
     token = json['token'];
     status = json['status'];
-    lastMessageTs = json['lastMessageTs'] != null ? Lm.fromJson(json['lastMessageTs']) : null;
+    //lastMessageTs = json['lastMessageTs'] != null ? Lm.fromJson(json['lastMessageTs']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -163,7 +163,7 @@ class ServedBy {
   ServedBy.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     username = json['username'];
-    ts = json['ts'] != null ? Lm.fromJson(json['ts']) : null;
+    //ts = json['ts'] != null ? Lm.fromJson(json['ts']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -208,9 +208,9 @@ class LastMessage {
     message = json['msg'];
     token = json['token'];
     alias = json['alias'];
-    ts = json['ts'] != null ? Lm.fromJson(json['ts']) : null;
+    //ts = json['ts'] != null ? Lm.fromJson(json['ts']) : null;
     u = json['u'] != null ? U.fromJson(json['u']) : null;
-    lUpdatedAt = json['_updatedAt'] != null ? Lm.fromJson(json['_updatedAt']) : null;
+    //lUpdatedAt = json['_updatedAt'] != null ? Lm.fromJson(json['_updatedAt']) : null;
     newRoom = json['newRoom'];
     showConnecting = json['showConnecting'];
   }

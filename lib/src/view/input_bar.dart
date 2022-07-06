@@ -4,7 +4,7 @@ import 'package:chat_rocket_flutter/const.dart';
 import 'package:chat_rocket_flutter/src/controller/chat_controller.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:microphone/microphone.dart';
+import 'package:record/record.dart';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 import 'package:stop_watch_timer/stop_watch_timer.dart';
@@ -19,7 +19,9 @@ class InputBar extends StatefulWidget {
 }
 
 class _InputBarState extends State<InputBar> {
-  MicrophoneRecorder? microphoneRecorder;
+  final record = Record();
+  String? recordingUrl;
+  //MicrophoneRecorder? microphoneRecorder;
   bool recording = false;
   TextEditingController _messageController = TextEditingController();
   var _formMessage = GlobalKey<FormState>();
@@ -65,10 +67,12 @@ class _InputBarState extends State<InputBar> {
                       recording = false;
                     });
                   } else {
-                    _recordAudio();
-                    setState(() {
-                      recording = true;
-                    });
+                    if (await record.hasPermission()) {
+                      _recordAudio();
+                      setState(() {
+                        recording = true;
+                      });
+                    }
                   }
                 },
                 color: recording ? Colors.green : iconsColor,
@@ -119,8 +123,10 @@ class _InputBarState extends State<InputBar> {
                   onPressed: () async {
                     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
                     _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
-                    await microphoneRecorder?.stop();
-                    microphoneRecorder?.dispose();
+                    bool isRecording = await record.isRecording();
+                    recordingUrl = await record.stop();
+                    //await microphoneRecorder?.stop();
+                    //microphoneRecorder?.dispose();
                     setState(() {
                       recording = false;
                     });
@@ -220,19 +226,30 @@ class _InputBarState extends State<InputBar> {
 
   Future<void> _recordAudio() async {
     try {
-      microphoneRecorder = MicrophoneRecorder()..init();
+      // Start recording
+      await record.start(
+        // path: 'aFullPath/myFile.m4a',
+        //encoder: AudioEncoder.aacLc, // by default
+        bitRate: 128000, // by default
+        samplingRate: 44100, // by default
+      );
+      //microphoneRecorder = MicrophoneRecorder()..init();
     } on Exception catch (e) {
       print(e);
     }
-    await Future.delayed(Duration(milliseconds: 500));
-    microphoneRecorder?.start();
+    //await Future.delayed(Duration(milliseconds: 500));
+    //microphoneRecorder?.start();
     _stopWatchTimer.onExecute.add(StopWatchExecute.start);
   }
 
   _sendAudio() async {
     try {
-      await microphoneRecorder?.stop();
-      final recordingUrl = microphoneRecorder?.value.recording?.url;
+      bool isRecording = await record.isRecording();
+      if (isRecording) {
+        recordingUrl = await record.stop();
+      }
+      //await microphoneRecorder?.stop();
+      // final recordingUrl = microphoneRecorder?.value.recording?.url;
       var request = html.HttpRequest();
       request.responseType = "blob";
       request.open('GET', '$recordingUrl');
@@ -249,6 +266,6 @@ class _InputBarState extends State<InputBar> {
       print(e);
     }
 
-    microphoneRecorder?.dispose();
+    //microphoneRecorder?.dispose();
   }
 }

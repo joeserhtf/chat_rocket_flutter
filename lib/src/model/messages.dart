@@ -68,10 +68,9 @@ class Messages {
     message = json['msg'];
     token = json['token'];
     alias = json['alias'];
-    ts = json['ts'] != null ? Ts.fromJson(json['ts']) : null;
+    //ts = json['ts'] != null ? Ts.fromJson(json['ts']) : null;
     u = json['u'] != null ? U.fromJson(json['u']) : null;
-    tUpdatedAt =
-        json['_updatedAt'] != null ? Ts.fromJson(json['_updatedAt']) : null;
+    //tUpdatedAt = json['_updatedAt'] != null ? Ts.fromJson(json['_updatedAt']) : null;
     if (json['urls'] != null) {
       urls = [];
       json['urls'].forEach((v) {
@@ -88,9 +87,7 @@ class Messages {
     }
     parseUrls = json['parseUrls'];
     t = json['t'];
-    transferData = json['transferData'] != null
-        ? TransferData.fromJson(json['transferData'])
-        : null;
+    transferData = json['transferData'] != null ? TransferData.fromJson(json['transferData']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -185,11 +182,8 @@ class Urls {
 
   Urls.fromJson(Map<String, dynamic> json) {
     url = json['url'];
-    headers =
-        json['headers'] != null ? Headers.fromJson(json['headers']) : null;
-    parsedUrl = json['parsedUrl'] != null
-        ? ParsedUrl.fromJson(json['parsedUrl'])
-        : null;
+    headers = json['headers'] != null ? Headers.fromJson(json['headers']) : null;
+    parsedUrl = json['parsedUrl'] != null ? ParsedUrl.fromJson(json['parsedUrl']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -363,16 +357,12 @@ class TransferData {
   });
 
   TransferData.fromJson(Map<String, dynamic> json) {
-    transferredBy = json['transferredBy'] != null
-        ? TransferredBy.fromJson(json['transferredBy'])
-        : null;
-    ts = json['ts'] != null ? Ts.fromJson(json['ts']) : null;
+    transferredBy = json['transferredBy'] != null ? TransferredBy.fromJson(json['transferredBy']) : null;
+    //ts = json['ts'] != null ? Ts.fromJson(json['ts']) : null;
     scope = json['scope'];
     comment = json['comment'];
     previousDepartment = json['previousDepartment'];
-    transferredTo = json['transferredTo'] != null
-        ? U.fromJson(json['transferredTo'])
-        : null;
+    transferredTo = json['transferredTo'] != null ? U.fromJson(json['transferredTo']) : null;
   }
 
   Map<String, dynamic> toJson() {

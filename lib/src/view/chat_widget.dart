@@ -103,8 +103,8 @@ class _WidgetChatState extends State<WidgetChat> {
       url: "wss://${globalurl.replaceAll("https://", '')}/websocket",
     );
 
-    meteor?.prepareCollection('stream-notify-user');
-    meteor?.prepareCollection('stream-room-messages');
+    //meteor?.prepareCollection('stream-notify-user');
+    //meteor?.prepareCollection('stream-room-messages');
   }
 
   @override
@@ -129,8 +129,8 @@ class _WidgetChatState extends State<WidgetChat> {
       stream: meteor?.status(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data!.connected ?? false) {
-            return StreamBuilder<Map<String, dynamic>>(
+          if (snapshot.data!.connected) {
+            return StreamBuilder<Map<String, dynamic>?>(
               stream: meteor?.user(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
@@ -141,7 +141,7 @@ class _WidgetChatState extends State<WidgetChat> {
                     if (rocketUser?.data != null) {
                       subscriptionHandler = meteor?.subscribe(
                         'stream-notify-user',
-                        ["${rocketUser?.data?.userId}/rooms-changed", false],
+                        args: ["${rocketUser?.data?.userId}/rooms-changed", false],
                         onStop: (error) {
                           return () {};
                         },
@@ -150,7 +150,7 @@ class _WidgetChatState extends State<WidgetChat> {
                   }
                   subscriptionHandler = meteor?.subscribe(
                     'stream-room-messages',
-                    ["__my_messages__", false],
+                    args: ["__my_messages__", false],
                     onStop: (error) {
                       return () {};
                     },
@@ -204,7 +204,7 @@ class _WidgetChatState extends State<WidgetChat> {
 
   _minimizedChat() {
     return StreamBuilder(
-      stream: meteor?.collections['stream-notify-user'],
+      stream: meteor?.collection('stream-notify-user'),
       builder: (context, snapshot) {
         if ((liveRooms == null || snapshot.hasData)) {
           loadRooms();
@@ -251,7 +251,7 @@ class _WidgetChatState extends State<WidgetChat> {
     return SizedBox(
       width: widthChatBox,
       child: StreamBuilder(
-        stream: meteor?.collections['stream-room-messages'],
+        stream: meteor?.collection('stream-room-messages'), //meteor?.collections['stream-room-messages'],
         builder: (context, snapshot) {
           loadRooms(data: snapshot.data);
           return StreamBuilder(
@@ -381,7 +381,7 @@ class _WidgetChatState extends State<WidgetChat> {
         Expanded(
           flex: 7,
           child: StreamBuilder(
-            stream: meteor?.collections['stream-room-messages'],
+            stream: meteor?.collection('stream-room-messages'),
             builder: (context, snapshot) {
               _loadMessages(rooms?[selectedRoom].sId);
               return StreamBuilder(
@@ -888,7 +888,11 @@ class _WidgetChatState extends State<WidgetChat> {
                                           CircularProgressIndicator(
                                         value: downloadProgress.progress,
                                       ),
-                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                                      errorWidget: (context, url, error) {
+                                        print(url);
+                                        print(error);
+                                        return Icon(Icons.error);
+                                      },
                                       width: 200,
                                     ),
                                   ),
@@ -1012,10 +1016,13 @@ class _WidgetChatState extends State<WidgetChat> {
                     maxWidth: sizeChatMensagens,
                   ),
                   child: Container(
-                    child: messages.urls != null && !(message?.contains("Log:") ?? false)
-                        ? (messages.urls?[(messages.urls?.length ?? 1) - 1].headers == null
-                                ? false
-                                : messages.urls![messages.urls!.length - 1].headers!.contentType!.contains("image"))
+                    child: messages.urls != null && messages.urls?.length != 0 && !(message?.contains("Log:") ?? false)
+                        ? messages.urls?.length != 0 &&
+                                (messages.urls?[(messages.urls?.length ?? 1) - 1].headers == null
+                                    ? false
+                                    : messages.urls?.length != 0 &&
+                                        messages.urls![messages.urls!.length - 1].headers!.contentType!
+                                            .contains("image"))
                             ? Stack(
                                 children: [
                                   GestureDetector(
@@ -1050,9 +1057,12 @@ class _WidgetChatState extends State<WidgetChat> {
                                   ),
                                 ],
                               )
-                            : (messages.urls?[(messages.urls?.length ?? 1) - 1].headers == null
-                                    ? false
-                                    : messages.urls![messages.urls!.length - 1].headers!.contentType!.contains("audio"))
+                            : messages.urls?.length != 0 &&
+                                    (messages.urls?[(messages.urls?.length ?? 1) - 1].headers == null
+                                        ? false
+                                        : messages.urls?.length != 0 &&
+                                            messages.urls![messages.urls!.length - 1].headers!.contentType!
+                                                .contains("audio"))
                                 ? _playAudio(index, "${message?.replaceAll("]", '')}")
                                 : RichText(
                                     text: TextSpan(
@@ -1183,7 +1193,7 @@ class _WidgetChatState extends State<WidgetChat> {
 
   _loadMessages(String? roomID) async {
     if (rooms == null) await Future.delayed(Duration(seconds: 1));
-    var resp = await meteor?.call('loadHistory', [
+    var resp = await meteor?.call('loadHistory', args: [
       "$roomID",
       null,
       0,
@@ -1208,7 +1218,7 @@ class _WidgetChatState extends State<WidgetChat> {
       rocketUser = apiUser;
       subscriptionHandler = meteor?.subscribe(
         'stream-notify-user',
-        ["${rocketUser?.data?.userId}/rooms-changed", false],
+        args: ["${rocketUser?.data?.userId}/rooms-changed", false],
         onStop: (error) {
           return () {};
         },
